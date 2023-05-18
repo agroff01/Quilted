@@ -3,10 +3,6 @@ class Menu extends Phaser.Scene {
         super('menuScene')
     }
 
-    preload() {
-
-    }
-
     create() {
         this.testPhysicsObject = this.physics.add.body(game.config.width/2, game.config.height/2, 50,50);
 
