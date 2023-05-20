@@ -1,18 +1,20 @@
 class Dialog extends Phaser.GameObjects.Sprite {
     constructor(scene, side, bodyText) {
 
-        const box = scene.textures.addDynamicTexture('box', 512, 512)
+        let boxWidth = (side == 'center' ? game.config.width : game.config.width - 100), boxHeight = game.config.height/3;
 
-        box.stamp('speechBubble')
+        const box = scene.textures.addDynamicTexture('box', boxWidth, boxHeight)
 
+        box.stamp('speechBubble', null, boxWidth/2, boxHeight/2)
+
+        // change this out for bitmapText!!!!!!!!!!!!
+        
         const text = scene.make.text({
             add: false,
-            x: 0,
-            y: 0,
             text: bodyText,
             style: {
                 fontSize: '64px',
-                fontFamily: 'Arial',
+                fontFamily: 'CraftyGirls24',
                 color: '#ffffff',
                 align: 'center',
                 backgroundColor: '#ff00ff'
@@ -21,17 +23,17 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         scene.textures.addCanvas('text', text.canvas);
 
-        box.stamp('text', null, 40, 40)
+        box.stamp('text')
 
 
         if (side == 'left') {
-            super(scene, game.config.width/2, game.config.height/2, 'box')
+            super(scene, boxWidth/2, game.config.height/2, 'box')
 
         } else if (side == 'right') {
-            super(scene, game.config.width/2, game.config.height/2, 'box')
+            super(scene, game.config.width, game.config.height, 'box')
 
         } else if (side == 'center'){
-            super(scene, game.config.width/2, game.config.height/2, 'box')
+            super(scene, game.config.width * 3/4, game.config.height, 'box')
 
         } else 
             console.log('Undifined Side on Dialog Box with :' + text)

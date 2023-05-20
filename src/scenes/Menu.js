@@ -10,7 +10,7 @@ class Menu extends Phaser.Scene {
             this.testPhysicsObject.setCircle(25);
         }, null, this);
 
-        this.box = new Dialog(this, 'left', 'Hello');
+        this.box = new Dialog(this, 'left', 'This is a testing text for the text box text');
     }
 
     update() {}

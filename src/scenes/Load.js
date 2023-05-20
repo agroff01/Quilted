@@ -16,7 +16,8 @@ class Load extends Phaser.Scene {
 
         this.load.path = './assets/';
         this.load.image('speechBubble', 'speechbubble.png')
-    }
+
+        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_24.png", "./fonts/dialog_24.xml");    }
 
     create() {
         this.scene.start('menuScene');
