@@ -23,7 +23,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         super(scene, x, y, 'speechBubble').setOrigin(.5);
         scene.add.existing(this);
 
-        let btext = scene.add.bitmapText(x,y, "CraftyGirls24", bodyText).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        this.boxText = scene.add.bitmapText(x,y, "CraftyGirls24", bodyText).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         
         this.x = x;
         this.y = y;
