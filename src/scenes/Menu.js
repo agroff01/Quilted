@@ -6,7 +6,6 @@ class Menu extends Phaser.Scene {
     startDrag() {}
 
     create() {
-        //this.graphics = this.add.graphics();
         graphics = this.add.graphics();
 
         this.isDragging = false;
@@ -14,14 +13,10 @@ class Menu extends Phaser.Scene {
         stitch.setLineWidth(2);
         stitch.visible = false;
 
-//        this.currDot = 0;
         currDot = 0;
         finishedConnecting = false;
-//        this.points = [];
 
-//        this.testPhysicsObject = this.physics.add.body(game.config.width/2, game.config.height/2, 50,50);
         this.point1 = this.add.image(game.config.width / 2, game.config.width / 2, 'circle').setOrigin(0.5, 0.5).setInteractive();
-//        this.points.push(this.point1);
         points.push(this.point1);
 //        this.point1.on('pointerdown', (pointer) => {
 //            this.startDrag(pointer, this.points, this.currDot, this.isDragging, this.point1);
@@ -90,48 +85,16 @@ class Menu extends Phaser.Scene {
 //        });
 
 
-//        const graphic = this.add.graphics();
-//        stitch.fillStyle(0xed9bae);
-//        stitch.moveTo(this.point1.x, this.point1.y);
-//        stitch.beginPath();
-//        stitch.lineTo(this.point2.x, this.point2.y);
-//        stitch.fillPath();
-
-
-//        this.line = new Phaser.Geom.Line(this.point1.x, this.point1.y, this.point2.x, this.point2.y);
-//        graphic.strokeLineShape(this.line);
-
-
-//        stitch.fillCircle(this.point1.x, this.point1.y, 20);
-//        stitch.fillCircle(this.point2.x, this.point2.y, 20);
-
-//        this.time.delayedCall(2000, () => {
-//            this.testPhysicsObject.setCircle(25);
-//        }, null, this);
-//        console.log(this.points.length);
         this.input.on('pointerdown', startDrag);
         this.input.on('pointerup', endDrag);
         this.input.on('pointermove', drag);
 
-        
-
         this.box = new Dialog(this, 'left', 'This is a testing text for the text box text.');
         console.log(this.box.textWidth)
 
-        this.doneLooping = false;
     }
 
-    update() {
-        if (this.doneLooping == false && finishedConnecting == true) {
-            for (let i = 0; i < connections.length; ++i) {
-                console.log('connections[', i, ']: ', connections[i]);
-                //this.graphics.fillCircle(connections[i].getPointB());
-                graphics.lineStyle(5, 0x8bc34a);
-                graphics.strokeLineShape(connections[i]);
-            }
-            this.doneLooping = true;
-        }
-    }
+    update() { }
 
 }
 
@@ -181,6 +144,13 @@ function endDrag(pointer, gameObject) {
         console.log('currpoint after update: ', currDot);
 
         stitch.visible = false;
+
+        for (let i = 0; i < connections.length; ++i) {
+            connections[i].destroy();
+        }
+
+        connections = [];
+
         return;
     }
 
@@ -194,16 +164,25 @@ function endDrag(pointer, gameObject) {
 
     this.isDragging = false;
 
-    connections.push(newLine = new Phaser.Geom.Line(linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y));
+    // CAN'T DESTROY
+    //connections.push(new Phaser.Geom.Line(linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y));
     //this.graphics.lineStyle(5, 0x8bc34a);
     //this.graphics.strokeLineShape(connections[connections.length - 1]);
 
+    // Uncaught TypeError: Cannot read properties of undefined (reading 'queueDepthSort')
+    //connections.push(newline = new Phaser.GameObjects.Line(this, 0, 0, linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y, 0x8bc34a, 1));
+
+    let newline = this.scene.add.line(0, 0, linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y, 0x8bc34a, 1).setOrigin(0);
+    connections.push(newline);
+
     console.log('pushed to connection, size: ', connections.length);
+
     // finished connecting when wrapped back to first point
     if (currDot == 0) {
         finishedConnecting = true;
-        stitch.visible = false;
     }
+
+    stitch.visible = false;
 
     console.log('currDot loc: ', currDot, 'finished conencting: ', finishedConnecting);
 }
