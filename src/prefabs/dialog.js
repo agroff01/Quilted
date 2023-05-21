@@ -29,4 +29,9 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.textWidth = textWidth;
     }
+
+
+    changeText(newText) {
+        this.boxText.setText(newText)
+    }
 }
