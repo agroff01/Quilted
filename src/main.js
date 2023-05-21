@@ -13,4 +13,9 @@ let config = {
 
 let game = new Phaser.Game(config);
 let linePosition = {x: 0, y: 0}
-let line;
+let stitch;
+let currDot;
+let points = [];
+let connections = [];
+let finishedConnecting;
+let graphics;
