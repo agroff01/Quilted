@@ -277,7 +277,6 @@ class FirstMeeting extends Phaser.Scene {
 
         // line graphics from point to point
         this.isDragging = false;
-        //this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0xed9bae).setOrigin(0);
         this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
@@ -323,6 +322,19 @@ class FirstMeeting extends Phaser.Scene {
 
         this.placedPoints = false;
         this.placedImage = false;
+        //this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
+        let bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
+
+//        const tween = this.tweens.add({
+//            target: bike,
+//            alpha: 0,
+//            alpha: {from: 0, to: 1},
+//            ease: 'Sine.InOut',
+//            duration: 500,
+//            repeat: -1,
+//        });
+
+
     }
 
     update() { 
@@ -336,7 +348,14 @@ class FirstMeeting extends Phaser.Scene {
                 this.points[i].destroy();
             }
 
-            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
+//            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
+//
+//            let tween = this.tweens.add({
+//                target: this.bike,
+//                ease: 'Sine.InOut',
+//                duration: 500,
+//                repeat: -1,
+//            });
 
             this.placedImage = true;
         }
@@ -453,7 +472,6 @@ function endDrag(pointer, gameObject) {
         console.log(this.scene.currDot);
 
         for (let i = 0; i < this.scene.connections.length; ++i) {
-           // this.scene.points[i].setFrame('circle 1');
             this.scene.connections[i].destroy();
         }
 
