@@ -1,0 +1,42 @@
+{ "frames": {
+   "hole 0": {
+    "frame": { "x": 0, "y": 0, "w": 1750, "h": 1750 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1750, "h": 1750 },
+    "sourceSize": { "w": 1750, "h": 1750 },
+    "duration": 100
+   },
+   "hole 1": {
+    "frame": { "x": 1750, "y": 0, "w": 1750, "h": 1750 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1750, "h": 1750 },
+    "sourceSize": { "w": 1750, "h": 1750 },
+    "duration": 100
+   },
+   "hole 2": {
+    "frame": { "x": 3500, "y": 0, "w": 1750, "h": 1750 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1750, "h": 1750 },
+    "sourceSize": { "w": 1750, "h": 1750 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.40",
+  "image": "Frabric_Scene_1_Hole_Sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 5250, "h": 1750 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
