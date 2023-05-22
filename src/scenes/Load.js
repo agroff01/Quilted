@@ -19,7 +19,7 @@ class Load extends Phaser.Scene {
         this.load.image('grandBubble', './Scene1/Textbox_Temp_Grandma_Smol.png');
         this.load.atlas('circle', 'circle.png', 'circle.json');
 
-        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_24.png", "./fonts/dialog_24.xml");
+        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_26.png", "./fonts/dialog_26.xml");
     }
 
     create() {
