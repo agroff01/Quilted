@@ -15,11 +15,23 @@ class Load extends Phaser.Scene {
         });
 
         this.load.path = './assets/';
+
+        // backgrounds
+        this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1.png');
+
+        // speech bubbles
         this.load.image('playerBubble', './Scene1/Textbox_Temp_Player_Smol.png');
         this.load.image('grandBubble', './Scene1/Textbox_Temp_Grandma_Smol.png');
-        this.load.atlas('circle', 'circle.png', 'circle.json');
 
-        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_26.png", "./fonts/dialog_26.xml");
+        // dialog choice images
+        this.load.image('bike', './Scene1/Bike_Temp.png');
+
+        // holes
+        this.load.atlas('circle', 'circle.png', 'circle.json');
+        this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
+
+        // fonts
+        this.load.bitmapFont("CraftyGirls24", "./Fonts/dialog_26.png", "./Fonts/dialog_26.xml");
     }
 
     create() {
