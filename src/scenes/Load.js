@@ -31,7 +31,7 @@ class Load extends Phaser.Scene {
         this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
 
         // fonts
-        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_24.png", "./fonts/dialog_24.xml");
+        this.load.bitmapFont("CraftyGirls24", "./fonts/dialog_26.png", "./fonts/dialog_26.xml");
     }
 
     create() {
