@@ -368,7 +368,7 @@ class FirstMeeting extends Phaser.Scene {
         // go to next scene once finished dialog and drawing 
         if (this.finishedConnecting && this.finishedDialog) {
             //this.input.on('pointerup', () => {this.scene.start('scene2')});
-            this.time.delayedCall(2000, () => {this.scene.start('scene2')})
+            this.time.delayedCall(5000, () => {this.scene.start('scene2')})
         }
 
     }
