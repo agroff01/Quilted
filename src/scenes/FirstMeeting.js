@@ -290,7 +290,7 @@ class FirstMeeting extends Phaser.Scene {
         this.finishedConnecting = false;
 
         // image choices
-        this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
+        this.bike;
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
@@ -317,20 +317,10 @@ class FirstMeeting extends Phaser.Scene {
         this.rightBox = new Dialog(this, 'right');
         this.leftBox.hide();
         this.rightBox.hide();
-        //this.startDialog();
-        this.dialogStory();
+        this.startDialog();
 
         this.placedPoints = false;
         this.placedImage = false;
-
-        this.tween = this.tweens.add({
-            targets: this.bike,
-            alpha: {from: 0, to: 1},
-            ease: 'Sine.InOut',
-            duration: 5000,
-        });
-
-
     }
 
     update() { 
@@ -344,14 +334,18 @@ class FirstMeeting extends Phaser.Scene {
                 this.points[i].destroy();
             }
 
-//            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
-//
-//            let tween = this.tweens.add({
-//                target: this.bike,
-//                ease: 'Sine.InOut',
-//                duration: 500,
-//                repeat: -1,
-//            });
+            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+
+            // delay bike to initially show on screen
+            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
+
+            this.tween = this.tweens.add({
+                targets: this.bike,
+                alpha: {from: 0, to: 1},
+                ease: 'Sine.InOut',
+                duration: 3000,
+
+            });
 
             this.placedImage = true;
         }
