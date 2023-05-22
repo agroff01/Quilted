@@ -290,7 +290,7 @@ class FirstMeeting extends Phaser.Scene {
         this.finishedConnecting = false;
 
         // image choices
-        this.bike;
+        this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
@@ -322,17 +322,13 @@ class FirstMeeting extends Phaser.Scene {
 
         this.placedPoints = false;
         this.placedImage = false;
-        //this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
-        let bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setOrigin(0.5, 0.5).setScale(0.45);
 
-//        const tween = this.tweens.add({
-//            target: bike,
-//            alpha: 0,
-//            alpha: {from: 0, to: 1},
-//            ease: 'Sine.InOut',
-//            duration: 500,
-//            repeat: -1,
-//        });
+        this.tween = this.tweens.add({
+            targets: this.bike,
+            alpha: {from: 0, to: 1},
+            ease: 'Sine.InOut',
+            duration: 5000,
+        });
 
 
     }
