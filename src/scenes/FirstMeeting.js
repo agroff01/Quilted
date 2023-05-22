@@ -252,6 +252,8 @@ class FirstMeeting extends Phaser.Scene {
                                             this.time.delayedCall(4000, () => {
                                                 this.leftBox.hide();
                                                 this.rightBox.hide();
+
+                                                this.finishedDialog = true;
                 
                                             }, null, this);
                                         }, null, this);
@@ -267,6 +269,9 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     create() {
+        this.puzzleIsActive = false;
+        this.finishedDialog = false;
+
         this.graphics = this.add.graphics();
 
         // line graphics from point to point
@@ -283,15 +288,19 @@ class FirstMeeting extends Phaser.Scene {
 
         this.finishedConnecting = false;
 
-        // points
-        this.point1 = this.add.sprite(game.config.width / 2, game.config.width / 2, 'circle', 'circle 2').setOrigin(0.5, 0.5).setInteractive();//this.add.image(game.config.width / 2, game.config.width / 2, 'circle').setOrigin(0.5, 0.5).setInteractive();
-        this.points.push(this.point1);
+        // image choices
+        this.bike;
 
-        this.point2 = this.add.sprite(game.config.width / 4, game.config.width / 3, 'circle', 0).setOrigin(0.5, 0.5).setInteractive();
-        this.points.push(this.point2);
-
-        this.point3 = this.add.sprite(game.config.width / 4, game.config.width / 6, 'circle', 0).setOrigin(0.5, 0.5).setInteractive();
-        this.points.push(this.point3);
+        this.coords = [
+            465, 95,
+            345, 95,
+            255, 300,
+            45, 445,
+            445, 430,
+            685, 570,
+            825, 390,
+            595, 210
+       ]
 
         // mouse input to make lines
         this.input.on('pointerdown', startDrag);
@@ -304,17 +313,57 @@ class FirstMeeting extends Phaser.Scene {
         this.rightBox.hide();
         this.startDialog();
 
+        this.placedPoints = false;
+        this.placedImage = false;
     }
 
     update() { 
-        if (this.finishedConnecting == true) {
-            this.scene.start('scene2');
+        // remove all points and lines, show bike when finished 
+        if (!this.placedImage && this.finishedConnecting == true) {
+            for (let i = 0; i < this.connections.length; ++i) {
+                this.connections[i].destroy();
+            }
+
+            for (let i = 0; i < this.points.length; ++i) {
+                this.points[i].destroy();
+            }
+
+            this.bike = this.add.image(game.config.width / 2, game.config.height / 3, 'bike').setOrigin(0.5, 0.5).setScale(0.5);
+
+            this.placedImage = true;
         }
+
+        // add points to scene
+        if (!this.placedPoints && this.puzzleIsActive) {
+            for (let i = 0; i < this.coords.length; i += 2) {
+                if (i == 0) {
+                    this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 1').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));//.setScale(0.025));
+                    continue;
+                }
+
+                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));
+            }
+
+            this.placedPoints = true;
+        }
+
+        // TODO: check if finished connecting lines before dialog
+        // go to next scene once finished dialog and drawing 
+        if (this.finishedConnecting && this.finishedDialog) {
+            //this.input.on('pointerup', () => {this.scene.start('scene2')});
+            this.time.delayedCall(2000, () => {this.scene.start('scene2')})
+        }
+
     }
 
 }
 
 function startDrag(pointer, gameObject) {
+    // return if puzzle isn't active
+    if (!this.scene.puzzleIsActive) {
+        return;
+    }
+
     console.log('starting: ', this.scene.currDot);
     // don't connect anymore once connected all dots
     if (this.scene.finishedConnecting) {
@@ -326,8 +375,6 @@ function startDrag(pointer, gameObject) {
         console.log('didn\'t start at point');
         return;
     }
-
-    this.scene.points[this.scene.currDot].setFrame('circle 1');
 
     // set the starting of the line at the game object's x and y axis
     this.scene.linePosition.x = gameObject[0].x;
@@ -344,10 +391,16 @@ function startDrag(pointer, gameObject) {
 
     this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
 
-    this.scene.points[this.scene.currDot].setFrame('circle 2');
+    this.scene.points[this.scene.currDot].setFrame('hole 1');
+    console.log('next dot: ', this.scene.points[this.scene.currDot].x, this.scene.points[this.scene.currDot].y);
 }
 
 function drag(pointer) {
+    // return if puzzle isn't active
+    if (!this.scene.puzzleIsActive) {
+        return;
+    }
+
     // stop checking for mouse drag once done connecting
     if (this.scene.finishedConnecting) {
         return;
@@ -362,7 +415,14 @@ function drag(pointer) {
 }
 
 function endDrag(pointer, gameObject) {
+    // return if puzzle isn't active
+    if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
+        return;
+    }
+
     console.log('ending: ', this.scene.currDot);
+
+    // return if already finished connection
     if (this.scene.finishedConnecting) {
         return;
     }
@@ -370,9 +430,13 @@ function endDrag(pointer, gameObject) {
     // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
     if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
         console.log('not on point');
+        console.log('nextpoint.x: ', this.scene.points[this.scene.currDot].x, 'nextpoint.y: ', this.scene.points[this.scene.currDot].y);
 
-        this.scene.points[this.scene.currDot].setFrame('circle 1');
-        this.scene.points[0].setFrame('circle 2');
+        for (let i = 1; i < this.scene.points.length; ++i) {
+            this.scene.points[i].setFrame('hole 0');
+        }
+
+        this.scene.points[0].setFrame('hole 1');
 
         this.scene.currDot = 0;
 
@@ -389,6 +453,8 @@ function endDrag(pointer, gameObject) {
 
         return;
     }
+
+    this.scene.points[this.scene.currDot].setFrame('hole 2');
 
     console.log('gameobject.x: ', gameObject[0].x, ' gameboejct.y: ', gameObject[0].y);
     console.log('stitch.x: ', this.scene.stitch.x, ' stitch.y: ', this.scene.stitch.y);
