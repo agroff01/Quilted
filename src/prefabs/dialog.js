@@ -6,15 +6,20 @@ class Dialog extends Phaser.GameObjects.Sprite {
         let x, y;
         let textWidth = (side != 'center' ? 300 : 900)
         let bubbleType = '';
+        let offset = 0;
+
         if (side == 'left') {
             x = game.config.width / 5
             y = game.config.height * 5/6
             bubbleType = 'playerBubble';
+            offset = 20 
 
         } else if (side == 'right') {
             x = game.config.width * 3/4
             y = game.config.height * 5/6
             bubbleType = 'grandBubble'
+            offset = -10
+
         } else if (side == 'center'){
             x = game.config.width / 2 
             y = game.config.height * 5/6
@@ -27,7 +32,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
 
         // if this is not a slow text box, display all text
-        this.boxText = scene.add.bitmapText(x,y, "CraftyGirls24", (isSlowText ? '' : bodyText)).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        this.boxText = scene.add.bitmapText(x + offset,y, "CraftyGirls24", (isSlowText ? '' : bodyText)).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         
 
         this.x = x;
@@ -35,6 +40,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.textWidth = textWidth;
         this.scene = scene;
         this.textSpeed = textSpeed;
+        this.offset = offset;
     }
 
 
@@ -49,7 +55,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         this.scene.time.delayedCall(textSpeeeeeed, () => {
             this.displaySlowText(fullText, textSpeeeeeed, textIndex+1)
-            this.boxText.setPosition(this.x, this.y)
+            this.boxText.setPosition(this.x + this.offset, this.y)
         }, null, this.scene);
     }
 
