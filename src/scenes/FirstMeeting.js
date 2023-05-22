@@ -269,6 +269,8 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     create() {
+        this.background = this.add.image(0, 0, 'firstMeetingBackground').setOrigin(0, 0).setScale(0.235);
+
         this.puzzleIsActive = false;
         this.finishedDialog = false;
 
@@ -291,6 +293,7 @@ class FirstMeeting extends Phaser.Scene {
         // image choices
         this.bike;
 
+        // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
             465, 95,
             345, 95,
