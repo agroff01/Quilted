@@ -10,8 +10,6 @@ class Menu extends Phaser.Scene {
         .setMaxWidth(game.config.width)
         .setTintFill();
      
-        this.box = new Dialog(this, 'right', 'This is some example default text on the right box', false, 100)
-        this.box.displaySlowText('Heeeeeeeeeyyyyyyyy')
     } 
 
     update() {
