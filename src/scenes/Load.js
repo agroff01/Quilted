@@ -15,8 +15,8 @@ class Load extends Phaser.Scene {
         });
 
         this.load.path = './assets/';
-//        this.load.path = './assets/Scene1';
-        this.load.image('speechBubble', 'speechbubble.png')
+        this.load.image('playerBubble', './Scene1/Textbox_Temp_Player_Smol.png');
+        this.load.image('grandBubble', './Scene1/Textbox_Temp_Grandma_Smol.png');
         this.load.atlas('circle', 'circle.png', 'circle.json');
         this.load.atlas('hole', 'Scene1/Fabric_Scene_1_Hole_Sheet.png', 'Scene1/Fabric_Scene_1_Hole_Sheet.json');
 
