@@ -4,14 +4,9 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        this.testPhysicsObject = this.physics.add.body(game.config.width/2, game.config.height/2, 50,50);
-
-        this.time.delayedCall(2000, () => {
-            this.testPhysicsObject.setCircle(25);
-        }, null, this);
-
-        this.box = new Dialog(this, 'left', 'This is a testing text for the text box text.');
-        console.log(this.box.textWidth)
+     
+        this.box = new Dialog(this, 'right', 'This is some example default text on the right box', false, 50)
+        this.box.displaySlowText('Heeeeeeeeeyyyyyyyy')
     }
 
     update() {}
