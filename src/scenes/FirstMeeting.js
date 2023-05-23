@@ -1,4 +1,3 @@
-
 class FirstMeeting extends Phaser.Scene {
     constructor(){
         super('firstMeeting')
@@ -269,7 +268,7 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     create() {
-        this.background = this.add.image(0, 0, 'firstMeetingBackground').setOrigin(0, 0).setScale(0.235);
+        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;
@@ -278,7 +277,7 @@ class FirstMeeting extends Phaser.Scene {
 
         // line graphics from point to point
         this.isDragging = false;
-        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0xed9bae).setOrigin(0);
+        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
         this.linePosition = {x: 0, y:0};
@@ -295,15 +294,19 @@ class FirstMeeting extends Phaser.Scene {
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
-            465, 95,
-            345, 95,
-            255, 300,
-            45, 445,
-            445, 430,
-            685, 570,
-            825, 390,
-            595, 210
-       ]
+            460, 50,
+            350, 60,
+            275, 245,
+            110, 275,
+            160, 465,
+            300, 385,
+            445, 350, 
+            555, 390,
+            695, 485,
+            795, 335,
+            660, 250,
+            585, 150
+        ]
 
         // mouse input to make lines
         this.input.on('pointerdown', startDrag);
@@ -331,7 +334,18 @@ class FirstMeeting extends Phaser.Scene {
                 this.points[i].destroy();
             }
 
-            this.bike = this.add.image(game.config.width / 2, game.config.height / 3, 'bike').setOrigin(0.5, 0.5).setScale(0.5);
+            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+
+            // delay bike to initially show on screen
+            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
+
+            this.tween = this.tweens.add({
+                targets: this.bike,
+                alpha: {from: 0, to: 1},
+                ease: 'Sine.InOut',
+                duration: 3000,
+
+            });
 
             this.placedImage = true;
         }
@@ -354,7 +368,7 @@ class FirstMeeting extends Phaser.Scene {
         // go to next scene once finished dialog and drawing 
         if (this.finishedConnecting && this.finishedDialog) {
             //this.input.on('pointerup', () => {this.scene.start('scene2')});
-            this.time.delayedCall(2000, () => {this.scene.start('scene2')})
+            this.time.delayedCall(5000, () => {this.scene.start('scene2')})
         }
 
     }
@@ -448,7 +462,6 @@ function endDrag(pointer, gameObject) {
         console.log(this.scene.currDot);
 
         for (let i = 0; i < this.scene.connections.length; ++i) {
-           // this.scene.points[i].setFrame('circle 1');
             this.scene.connections[i].destroy();
         }
 
@@ -469,7 +482,7 @@ function endDrag(pointer, gameObject) {
 
     this.isDragging = false;
 
-    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0x8bc34a, 1).setOrigin(0));
+    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
 
     // this also works
