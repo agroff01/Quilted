@@ -230,10 +230,10 @@ class FirstMeeting extends Phaser.Scene {
                         this.time.delayedCall(62000, () => {
                             this.rightBox.displaySlowText("He told your grandpa that if he ever tried to do that again, he would kick the shit out of him.", 50)                        
                         }, null, this);
-                        this.time.delayedCall(68000, () => {
+                        this.time.delayedCall(70000, () => {
                             this.rightBox.displaySlowText("Your grandpa never tried it again.", 50)                        
                         }, null, this);
-                        this.time.delayedCall(73000, () => {
+                        this.time.delayedCall(75000, () => {
                             this.leftBox.show()
                             this.leftBox.displaySlowText("Haha! That’s a great story Grandma, my class is going to think that’s a funny story.", 40)
                             
