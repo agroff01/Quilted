@@ -4,7 +4,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     create() {
-        this.add.bitmapText(game.config.width / 2, game.config.height / 2, "CraftyGirls24", 'You\'ve finished the tutorial, click on the screen again to restart')
+        this.add.bitmapText(game.config.width / 2, game.config.height / 2, "CraftyGirls24", 'Thank you for playing our demo!\nClick on the screen again to restart')
         .setOrigin(0.5)
         .setCenterAlign()
         .setMaxWidth(game.config.width)
