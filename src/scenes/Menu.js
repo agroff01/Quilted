@@ -9,7 +9,6 @@ class Menu extends Phaser.Scene {
         .setCenterAlign()
         .setMaxWidth(game.config.width / 1.1)
         .setTintFill();
-     
     } 
 
     update() {
