@@ -4,16 +4,16 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-     
-        this.box = new Dialog(this, 'right', 'This is some example default text on the right box', false, 50)
-        this.box.displaySlowText('Heeeeeeeeeyyyyyyyy')
+        this.add.bitmapText(game.config.width / 2, game.config.height / 2, "CraftyGirls24", 'Quilted\n\nYou come by your grandma\'s house to create a quilt for a school project. Unsure of what to create, your grandma gives you the idea to create a quilt of your family. And so, you sew the memories your grandma shared with your grandpa.\n\nControls:\nClick and drag to from one point to another.\n\nClick on the screen to play')
+        .setOrigin(0.5)
+        .setCenterAlign()
+        .setMaxWidth(game.config.width / 1.1)
+        .setTintFill();
+    } 
 
-        this.time.delayedCall(2500, () => {
-            this.box.addText("This is text to test if thisgs can run quickly and efficiently with words")
-            this.box.addText("This is text to test if thisgs can run quickly and efficiently with words")
-
-        }, null, this);
+    update() {
+        this.input.on('pointerup', () => {this.scene.start('firstMeeting')});
     }
 
-    update() {}
 }
+

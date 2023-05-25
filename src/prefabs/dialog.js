@@ -8,11 +8,12 @@ class Dialog extends Phaser.GameObjects.Sprite {
         let bubbleType = '';
         let textOffset = 0;
 
+
         if (side == 'left') {
             x = game.config.width / 5
             y = game.config.height * 5/6
             bubbleType = 'playerBubble';
-            textOffset = 20 
+            textOffset = 20
 
         } else if (side == 'right') {
             x = game.config.width * 3/4
@@ -22,18 +23,18 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         } else if (side == 'center'){
             x = game.config.width / 2 
-            y = game.config.height * 4/5
+            y = game.config.height * 5/6
 
         } else {
             console.log('Undifined Side on Dialog Box with :' + bodyText)
         }
         
-        super(scene, x, y, 'speechBubble').setOrigin(.5);
+        super(scene, x, y, bubbleType).setOrigin(.5);
         scene.add.existing(this);
 
         // if this is not a slow text box, display all text
         this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", (isSlowText ? '' : bodyText)).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
-        
+
 
         this.x = x;
         this.y = y;
@@ -44,6 +45,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.isWaiting = false;
         this.isWriting = false;
         this.DialogToDisplayQ = new Queue();
+
     }
 
 
@@ -129,4 +131,5 @@ class Queue {
     get isEmpty() {
       return this.length === 0;
     }
-  }
+}
+
