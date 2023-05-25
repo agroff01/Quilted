@@ -43,7 +43,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.textSpeed = textSpeed;
         this.textOffset = textOffset;
         this.isWaiting = false;
-        this.isWriting = false;
+        this.isTyping = false;
         this.DialogToDisplayQ = new Queue();
 
     }
@@ -54,7 +54,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
     }
 
     addText(body, speed = this.textSpeed) {
-        if (this.isWaiting || this.isWriting) {
+        if (this.isWaiting || this.isTyping) {
             this.DialogToDisplayQ.enqueue(body)
         } else {
             this.displaySlowText(body, speed)
@@ -62,10 +62,10 @@ class Dialog extends Phaser.GameObjects.Sprite {
     }
 
     displaySlowText(fullText, textSpeeeeeed = this.textSpeed) {
-        this.isWriting = true;
+        this.isTyping = true;
         this.displaySlowTextR(fullText, textSpeeeeeed, 0)
         let timeToType = fullText.length * textSpeeeeeed * 1.18;
-        this.typingTimer = this.scene.time.delayedCall(timeToType, () => {console.log('done writing'); this.isWaiting = true; this.isWriting = false}, null, this.scene)
+        this.typingTimer = this.scene.time.delayedCall(timeToType, () => {console.log('done writing'); this.isWaiting = true; this.isTyping = false}, null, this.scene)
         this.textdelay = this.scene.time.delayedCall(timeToType + 3000, () => {
             this.isWaiting = false
             if (!this.DialogToDisplayQ.isEmpty) this.displaySlowText(this.DialogToDisplayQ.dequeue(), this.textSpeed) 
@@ -95,14 +95,14 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
     // when a box is clicked
     click() {
-        if (!this.isWriting){
+        if (!this.isTyping){
             if (this.DialogToDisplayQ.isEmpty) this.hide()
             else this.displaySlowText(this.DialogToDisplayQ.dequeue())
         }
     }
 
     get finished (){
-        return this.DialogToDisplayQ.isEmpty && !this.isWriting
+        return this.DialogToDisplayQ.isEmpty && !this.isTyping && !this.isWaiting
     }
 }
 
