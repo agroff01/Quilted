@@ -313,11 +313,17 @@ class FirstMeeting extends Phaser.Scene {
         this.input.on('pointerup', endDrag);
         this.input.on('pointermove', drag);
 
+
+        // create the dialog boxes
         this.leftBox = new Dialog(this, 'left', '', true, 25);
         this.rightBox = new Dialog(this, 'right', '', true, 40);
+        this.centerBox = new Dialog(this, 'center', '', true, 30);
+        this.centerBox.hide();
         this.leftBox.hide();
         this.rightBox.hide();
         this.startDialog();
+
+
 
         this.placedPoints = false;
         this.placedImage = false;
