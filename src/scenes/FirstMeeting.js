@@ -325,8 +325,7 @@ class FirstMeeting extends Phaser.Scene {
         this.centerBox.hide();
         this.leftBox.hide();
         this.rightBox.hide();
-        //this.startDialog();
-        this.dialogStory();
+        this.startDialog();
 
         this.placedPoints = false;
         this.placedImage = false;
@@ -387,23 +386,11 @@ class FirstMeeting extends Phaser.Scene {
         }
 
         // TODO: check if finished connecting lines before dialog
-        // FIXME: song keeps playing even when stopping it, second if statement checking the song is playing is false, but song still plays
         // go to next scene once finished dialog and drawing 
         if (this.placedImage && this.finishedDialog) {
             // check if song is playing to stop it
             if (this.song.isPlaying) {
-                console.log('song is playing');
                 this.song.stop();
-                console.log('stopped song');
-            }
-
-            //this.song.setVolume(0);
-            //this.sound.get('firstMeetingBGMusic').stop();
-            //this.song.setMute(true);
-            console.log('everything done');
-
-            if (this.song.isPlaying) {
-                console.log('song is still playing');
             }
 
             this.time.delayedCall(3000, () => {this.scene.start('scene2');})
