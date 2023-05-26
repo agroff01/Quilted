@@ -64,7 +64,6 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
     displaySlowText(fullText, textSpeeeeeed = this.textSpeed) {
         this.isTyping = true;
-        console.log("BoxText-text: " + this.boxText.text)
         if (this.side == 'center') {
             this.oldText.text = this.boxText.text;
         }
