@@ -1,7 +1,7 @@
 class Dialog extends Phaser.GameObjects.Sprite {
 
 
-    constructor(scene, side, bodyText = '', textSpeed = 30) {
+    constructor(scene, side, textSpeed = 30, waitDelay = 4000, bodyText = '') {
 
         let x, y;
         let textWidth = (side != 'center' ? 300 : game.config.width * 4/5)
@@ -39,6 +39,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         this.x = x;
         this.y = y;
+        this.waitDelay = waitDelay;
         this.textWidth = textWidth;
         this.scene = scene;
         this.textSpeed = textSpeed;
@@ -63,7 +64,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.displaySlowTextR(fullText, textSpeeeeeed, 0)
         let timeToType = fullText.length * textSpeeeeeed * 1.3;
         this.typingTimer = this.scene.time.delayedCall(timeToType, () => {console.log('done writing'); this.isWaiting = true; this.isTyping = false}, null, this.scene)
-        this.textdelay = this.scene.time.delayedCall(timeToType + 3000, () => {
+        this.textdelay = this.scene.time.delayedCall(timeToType + this.waitDelay, () => {
             this.isWaiting = false
             if (!this.DialogToDisplayQ.isEmpty) this.displaySlowText(this.DialogToDisplayQ.dequeue(), this.textSpeed) 
         }, null, this.scene);        

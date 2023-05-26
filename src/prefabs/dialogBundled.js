@@ -1,9 +1,9 @@
 class dialogBoxBundle {
-    constructor(scene, script){
+    constructor(scene, script, waitDelay = 5000){
         this.scene = scene;
-        this.leftBox = new Dialog(scene, 'left', '', 25);
-        this.rightBox = new Dialog(scene, 'right', '', 40);
-        this.centerBox = new Dialog(scene, 'center', '', 30);
+        this.leftBox = new Dialog(scene, 'left', 25, waitDelay);
+        this.rightBox = new Dialog(scene, 'right', 40, waitDelay);
+        this.centerBox = new Dialog(scene, 'center', 30, waitDelay);
         this.centerBox.hide();
         this.leftBox.hide();
         this.rightBox.hide();
@@ -13,31 +13,38 @@ class dialogBoxBundle {
         this.nextInstruction = this.script[0][0];
         this.activeBox = this.leftBox;
         this.scriptIndex = -1;
-    
+        this.unusable = false;
         
     }
 
     update(){
-        let click = false;
-        this.scene.input.on('pointerup', () => {
-            if (this.scene.input.activePointer.upY > 600) 
-                if(this.activeBox.DialogToDisplayQ.isEmpty)this.cycleScript();
-                else this.activeBox.click()
-            click = true;
-            
-        });
+        if (!this.unusable){
+            let click = false;
+            this.scene.input.on('pointerup', () => {
+                if (this.scene.input.activePointer.upY > 600 && this.nextInstruction !== 'end') 
+                    if(this.activeBox.DialogToDisplayQ.isEmpty)this.cycleScript();
+                    else this.activeBox.click()
+                click = true;
+                
+            });
 
-        if (this.activeBox.finished && !click) this.cycleScript();
+            if (this.activeBox.finished && !click) this.cycleScript();
+        }
     }
 
     cycleScript(){
         // do nothing if text is not finished from current box or if we reached the end of the script
+        if (this.nextInstruction === 'end' && this.activeBox.finished){
+            this.leftBox.hide()
+            this.rightBox.hide()
+            this.centerBox.hide()
+        }
         if (this.activeBox.isTyping || this.nextInstruction === 'end') return;
 
         let currentBox = '', boxChosen = false;
 
-        for (let i = this.scriptIndex + 1; i < this.script.length; i++, this.scriptIndex++) {
-            console.log("Checking Script Line " + i + ": " + this.script[i])
+        for (let i = this.scriptIndex + 1; i < this.script.length-1; i++, this.scriptIndex++) {
+            console.log("Checking Script Line " + i + ": " + this.script[i][1])
             if (currentBox != this.nextInstruction && boxChosen) return; // if the next script line is not about giving the current box dialog, then we will come back to it later
 
             if (this.nextInstruction === 'left') { // left is our next dialog sequence
@@ -63,7 +70,13 @@ class dialogBoxBundle {
                 // PLAY THE SOUND AT THE FILE PATH
 
             } else if (this.nextInstruction === 'hide') {  // hide a box
-                // HIDE THE DEFINED BOX
+                script[i][1] === 'left' ? this.leftBox.hide() : 
+                (script[i][1] === 'right' ? this.rightBox.hide() : 
+                (this.script[i][1] === 'center' ? this.centerBox.hide() : false))
+
+            } else if (this.nextInstruction === 'puzzle') { // start the scene's puzzle when this keyword is found
+                this.scene.puzzleIsActive = true;
+
             } else if (this.nextInstruction === 'end') {
                 return; // our script is DONE!
             } else {
@@ -75,6 +88,13 @@ class dialogBoxBundle {
     }
 
     get scriptFinished() {
-        return (this.scriptIndex >= this.script.length) || this.nextInstruction === 'end';
+        return (this.activeBox.finished && ((this.scriptIndex >= this.script.length) || this.nextInstruction === 'end')) ? this.script[this.scriptIndex+1][1] : false;
+    }
+
+    remove() {
+        this.leftBox.hide()
+        this.rightBox.hide()
+        this.centerBox.hide()
+        this.unusable = true;
     }
 }

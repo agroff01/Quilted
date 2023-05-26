@@ -3,48 +3,48 @@ class FirstMeeting extends Phaser.Scene {
         super('firstMeeting')
     }
 
-    startDialog() {
+    // startDialog() {
         
-        this.boxBundle.leftBox.show()
-        this.boxBundle.leftBox.addText("Okay, I think I got everything out of the closet. Is there anything else that you have?")
-        this.time.delayedCall(8000, () => {
-            this.boxBundle.rightBox.show()
-            this.boxBundle.rightBox.addText("It should all be in my sewing kit.")
+    //     this.boxBundle.leftBox.show()
+    //     this.boxBundle.leftBox.addText("Okay, I think I got everything out of the closet. Is there anything else that you have?")
+    //     this.time.delayedCall(8000, () => {
+    //         this.boxBundle.rightBox.show()
+    //         this.boxBundle.rightBox.addText("It should all be in my sewing kit.")
 
-            this.time.delayedCall(7000, () => {
-                this.boxBundle.leftBox.addText("Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles.")
+    //         this.time.delayedCall(7000, () => {
+    //             this.boxBundle.leftBox.addText("Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles.")
                 
-                this.time.delayedCall(7000, () => {
-                    this.boxBundle.rightBox.addText("I can't believe your teacher is expecting everyone to go out and buy a complete set for your project.")
+    //             this.time.delayedCall(7000, () => {
+    //                 this.boxBundle.rightBox.addText("I can't believe your teacher is expecting everyone to go out and buy a complete set for your project.")
                     
-                    this.time.delayedCall(10000, () => {
-                        this.boxBundle.leftBox.addText("She's not, but I figured you would have extra stuff that would make my project look good.")
+    //                 this.time.delayedCall(10000, () => {
+    //                     this.boxBundle.leftBox.addText("She's not, but I figured you would have extra stuff that would make my project look good.")
 
-                        this.time.delayedCall(7000, () => {
-                            this.boxBundle.rightBox.addText("Well, you're certainly not wrong there.")
+    //                     this.time.delayedCall(7000, () => {
+    //                         this.boxBundle.rightBox.addText("Well, you're certainly not wrong there.")
 
-                            this.time.delayedCall(4000, () => {
-                                this.boxBundle.rightBox.addText("I've got just about everything a seamstress could ever want or need crammed into that thing.")
+    //                         this.time.delayedCall(4000, () => {
+    //                             this.boxBundle.rightBox.addText("I've got just about everything a seamstress could ever want or need crammed into that thing.")
 
-                                this.time.delayedCall(8000, () => {
-                                    this.boxBundle.leftBox.addText("I'll say.")
+    //                             this.time.delayedCall(8000, () => {
+    //                                 this.boxBundle.leftBox.addText("I'll say.")
 
-                                    this.time.delayedCall(6000, () => {
-                                        this.boxBundle.leftBox.hide();
-                                        this.boxBundle.rightBox.hide();
+    //                                 this.time.delayedCall(6000, () => {
+    //                                     this.boxBundle.leftBox.hide();
+    //                                     this.boxBundle.rightBox.hide();
 
-                                        this.time.delayedCall(10000, () => {
-                                            this.dialogChoice1();
-                                        }, null, this);
-                                    }, null, this);
-                                }, null, this);
-                            }, null, this);
-                        }, null, this);
-                    }, null, this);
-                }, null, this);
-            }, null, this);
-        }, null, this);
-    }
+    //                                     this.time.delayedCall(10000, () => {
+    //                                         this.dialogChoice1();
+    //                                     }, null, this);
+    //                                 }, null, this);
+    //                             }, null, this);
+    //                         }, null, this);
+    //                     }, null, this);
+    //                 }, null, this);
+    //             }, null, this);
+    //         }, null, this);
+    //     }, null, this);
+    // }
 
     dialogChoice1() {
         this.boxBundle.rightBox.show();
@@ -316,19 +316,19 @@ class FirstMeeting extends Phaser.Scene {
 
 
         // create the dialog boxes
-        
-        this.scriptLines = [
+
+        this.boxBundle = new dialogBoxBundle(this, [
             ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
             ['right', "It should all be in my sewing kit."],
             ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
             ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
-            ['right', "She's not, but I figured you would have extra stuff that would make my project look good."],
+            ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-            ['end', "EndingText"]
-        ]
-        this.boxBundle = new dialogBoxBundle(this, this.scriptLines)
+            ['end', "Intro"]
+        ])
+        this.introTextComplete = false;
 
 
         this.placedPoints = false;
@@ -336,7 +336,48 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     update() { 
+        // Dialog Box Update
         this.boxBundle.update();
+        if (this.boxBundle.scriptFinished === "Intro") {
+            console.log("text finished and about to delete")
+            this.boxBundle.remove();
+            this.boxBundle = new dialogBoxBundle(this, [
+               ['right', "So, tell me a bit more about this project your teacher assigned you."],
+               ['left', "It's pretty simple actually."],
+               ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
+               ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
+               ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
+               ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
+               ['end', "Choice1"]
+            ])
+        } else if (this.boxBundle.scriptFinished === "Choice1") {
+            this.boxBundle.remove();
+            // INSERT TIMER SOUND EFFECT
+            this.boxBundle = new dialogBoxBundle(this, [
+                ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
+                ['hide', 'right'],
+                ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
+                ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
+                ['hide', 'left'],
+                ['pause', 3000],
+                ['right', "I don't see you sewing."],
+                ['left', "I just don't know what to make."],
+                ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
+                ['left', "But honestly, I'm a little stuck on what to do."],
+                ['right', "Lots of things have stories hon, you just gotta pick one that you like."],
+                ['left', "Yeah, but she said they have to be real stories, not made-up ones."],
+                ['right', "Well, you could make something for our family. That's a real story."],
+                ['left', "Yeah, you're right."],
+                ['left', "You know what I could do, I could make something that's about you!"],
+                ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
+                ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
+                ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
+                ['end', "Choice2"]
+            ])
+        } else if (this.boxBundle.scriptFinished === "Choice2") {
+            this.boxBundle.remove()
+            this.dialogStory()
+        }
 
         // remove all points and lines, show bike when finished 
         if (!this.placedImage && this.finishedConnecting == true) {
