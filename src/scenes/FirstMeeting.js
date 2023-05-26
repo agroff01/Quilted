@@ -326,7 +326,7 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-            ['end', "Intro"]
+            ['end', "Choice2"]
         ])
         this.introTextComplete = false;
 
@@ -376,7 +376,44 @@ class FirstMeeting extends Phaser.Scene {
             ])
         } else if (this.boxBundle.scriptFinished === "Choice2") {
             this.boxBundle.remove()
-            this.dialogStory()
+            this.boxBundle = new dialogBoxBundle(this, [
+                ['right', "Hmm… now what would be a good one to tell. . ."],
+                ['right', "Oh, I know, I'll tell you about the time that we first met."],
+                ['left', "Didn't you guys grow up around the corner from each other?"],
+                ['right', "We were always right near each other since the school yard was across the street from my house."],
+                ['right', "And all the kids from the neighborhood would play games together over there."],
+                ['puzzle'],
+                ['center', "But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally."],
+                ['center', "She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do."],
+                ['center', "I distinctly remember that we were on our way back from downtown, and as we were biking, this kid that I'd never met before peeled out with his bike in front of us."],
+                ['center', "We had to brake as quick as we could, otherwise we would have gone barreling into him. We were both scared to death of crashing, but he just left, snickering as he biked away."],
+                ['center', "Sally and I couldn't believe that this kid was being such a jerk!"],
+                ['center', "But I probably wouldn't remember this so well if this wasn't the start of a pattern."],
+                ['center', "Every time Sally and I came biking back from downtown, your grandpa would come flying out from all different spots along the way and nearly make us crash every single time."],
+                ['left', "Did he ever make you crash?"],
+                ['hide', 'left'],
+                ['center', "He did once actually."],
+                ['center', "We were on our way back from the movies, and he misjudged how close he was to my bike."],
+                ['center', "Sally saw him coming and was able to stop in time, but he turned too sharply and sent me flying over my handlebars. I got all kinds of scrapes on my arms and knees."],
+                ['center', "Well, when my older brother saw me in that state, he demanded to know what had happened to me. And when I told him about your grandpa and what he had been doing, he told me to tell him the next time Sally and I wanted to go biking and he would come with us."],
+                ['center', "So we did, and when your grandpa tried to peel out in front of us again, my brother got so mad at him."],
+                ['center', "He told your grandpa that if he ever tried to do that again, he would kick the shit out of him."],
+                ['center', "Your grandpa never tried it again."],
+                ['hide', 'center'],
+                ['left', "Haha! That's a great story Grandma, my class is going to think that's a funny story."],
+                ['right', "I'm glad you think so, and it looks like you got some inspiration for what to embroider."],
+                ['left', "I sure did!"],
+                ['right', "Alright then, I'll be quiet and let you finish. Just let me know when you are done."],
+                ['left', "Will do."],
+                ['end', 'Storytime']
+            ])
+
+            console.log(this.boxBundle.script.length)
+        } else if (this.boxBundle.scriptFinished === 'Storytime') {
+            this.finishedDialog = true;
+            this.time.delayedCall(3000, () => {
+                this.boxBundle.remove()
+            }, null, this)
         }
 
         // remove all points and lines, show bike when finished 

@@ -44,7 +44,7 @@ class dialogBoxBundle {
         let currentBox = '', boxChosen = false;
 
         for (let i = this.scriptIndex + 1; i < this.script.length-1; i++, this.scriptIndex++) {
-            console.log("Checking Script Line " + i + ": " + this.script[i][1])
+            console.log("Checking Script Line " + i + ": " + this.script[i])
             if (currentBox != this.nextInstruction && boxChosen) return; // if the next script line is not about giving the current box dialog, then we will come back to it later
 
             if (this.nextInstruction === 'left') { // left is our next dialog sequence
@@ -72,8 +72,8 @@ class dialogBoxBundle {
                 // PLAY THE SOUND AT THE FILE PATH
 
             } else if (this.nextInstruction === 'hide') {  // hide a box
-                script[i][1] === 'left' ? this.leftBox.hide() : 
-                (script[i][1] === 'right' ? this.rightBox.hide() : 
+                this.script[i][1] === 'left' ? this.leftBox.hide() : 
+                (this.script[i][1] === 'right' ? this.rightBox.hide() : 
                 (this.script[i][1] === 'center' ? this.centerBox.hide() : false))
 
             } else if (this.nextInstruction === 'puzzle') { // start the scene's puzzle when this keyword is found
@@ -84,6 +84,9 @@ class dialogBoxBundle {
             } else {
                 console.log("UNDEFINED INSTRUCTION ON LINE " + i + ":  " + this.script[i][0])
             }
+            console.log(i);
+            console.log(i+1);
+            console.log(this.script.length)
             this.nextInstruction = this.script[i+1][0];
         }
 

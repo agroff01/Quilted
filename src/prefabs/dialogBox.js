@@ -35,8 +35,8 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         else {
-            this.boxText = scene.add.bitmapText(x, y + 100, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
-            this.oldText = scene.add.bitmapText(x, y - 100, "CraftyGirls24", 'Starting Text').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+            this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", 'Starting Text').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         }
 
         this.x = x;
@@ -66,7 +66,6 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.isTyping = true;
         console.log("BoxText-text: " + this.boxText.text)
         if (this.side == 'center') {
-            console.log("OLD TEXT UPDATED")
             this.oldText.text = this.boxText.text;
         }
         this.displaySlowTextR(fullText, textSpeeeeeed, 0)
@@ -85,7 +84,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         this.scene.time.delayedCall(textSpeeeeeed, () => {
             this.displaySlowTextR(fullText, textSpeeeeeed, textIndex+1)
-            this.side === 'center' ? this.boxText.setPosition(this.x, this.y + 100) : this.boxText.setPosition(this.x + this.textOffset, this.y) 
+            //this.side === 'center' ? this.boxText.setPosition(this.x, this.y + 65) : this.boxText.setPosition(this.x + this.textOffset, this.y) 
         }, null, this.scene);
     }
 
