@@ -62,6 +62,8 @@ class dialogBoxBundle {
 
             } else if (this.nextInstruction === 'center') { // center is our next dialog sequence
                 currentBox = 'center'; 
+                this.leftBox.hide()
+                this.rightBox.hide()
                 boxChosen = true;
                 this.activeBox = this.centerBox;
                 this.activeBox.addText(this.script[i][1])

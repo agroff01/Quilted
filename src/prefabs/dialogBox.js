@@ -23,7 +23,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         } else if (side == 'center'){
             x = game.config.width / 2 
-            y = game.config.height * 5/6
+            y = game.config.height * 4/5
             bubbleType = 'largeGrandBubble'
 
         } else {
@@ -33,9 +33,11 @@ class Dialog extends Phaser.GameObjects.Sprite {
         super(scene, x, y, bubbleType).setOrigin(.5);
         scene.add.existing(this);
 
-        // if this is not a slow text box, display all text
-        this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
-
+        if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        else {
+            this.boxText = scene.add.bitmapText(x, y + 100, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+            this.oldText = scene.add.bitmapText(x, y - 100, "CraftyGirls24", 'Starting Text').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        }
 
         this.x = x;
         this.y = y;
@@ -46,6 +48,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         this.textOffset = textOffset;
         this.isWaiting = false;
         this.isTyping = false;
+        this.side = side;
         this.DialogToDisplayQ = new Queue();
 
     }
@@ -61,6 +64,11 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
     displaySlowText(fullText, textSpeeeeeed = this.textSpeed) {
         this.isTyping = true;
+        console.log("BoxText-text: " + this.boxText.text)
+        if (this.side == 'center') {
+            console.log("OLD TEXT UPDATED")
+            this.oldText.text = this.boxText.text;
+        }
         this.displaySlowTextR(fullText, textSpeeeeeed, 0)
         let timeToType = fullText.length * textSpeeeeeed * 1.3;
         this.typingTimer = this.scene.time.delayedCall(timeToType, () => {console.log('done writing'); this.isWaiting = true; this.isTyping = false}, null, this.scene)
@@ -77,18 +85,20 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
         this.scene.time.delayedCall(textSpeeeeeed, () => {
             this.displaySlowTextR(fullText, textSpeeeeeed, textIndex+1)
-            this.boxText.setPosition(this.x + this.textOffset, this.y)
+            this.side === 'center' ? this.boxText.setPosition(this.x, this.y + 100) : this.boxText.setPosition(this.x + this.textOffset, this.y) 
         }, null, this.scene);
     }
 
     hide() {
         this.removeFromDisplayList();
-        this.boxText.removeFromDisplayList();
+        this.boxText.removeFromDisplayList().setText('');
+        if (this.side == 'center') this.oldText.removeFromDisplayList().setText('') 
     }
 
     show() {
         this.addToDisplayList();
         this.boxText.addToDisplayList();
+        if (this.side == 'center') this.oldText.addToDisplayList() 
     }
 
     // when a box is clicked
