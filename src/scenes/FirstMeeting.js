@@ -3,270 +3,6 @@ class FirstMeeting extends Phaser.Scene {
         super('firstMeeting')
     }
 
-    startDialog() {
-        this.leftBox.show()
-        this.leftBox.addText("Okay, I think I got everything out of the closet. Is there anything else that you have?")
-        this.time.delayedCall(8000, () => {
-            this.rightBox.show()
-            this.rightBox.addText("It should all be in my sewing kit.")
-
-            this.time.delayedCall(7000, () => {
-                this.leftBox.addText("Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles.")
-                
-                this.time.delayedCall(7000, () => {
-                    this.rightBox.addText("I can't believe your teacher is expecting everyone to go out and buy a complete set for your project.")
-                    
-                    this.time.delayedCall(10000, () => {
-                        this.leftBox.addText("She's not, but I figured you would have extra stuff that would make my project look good.")
-
-                        this.time.delayedCall(7000, () => {
-                            this.rightBox.addText("Well, you're certainly not wrong there.")
-
-                            this.time.delayedCall(4000, () => {
-                                this.rightBox.addText("I've got just about everything a seamstress could ever want or need crammed into that thing.")
-
-                                this.time.delayedCall(8000, () => {
-                                    this.leftBox.addText("I'll say.")
-
-                                    this.time.delayedCall(6000, () => {
-                                        this.leftBox.hide();
-                                        this.rightBox.hide();
-
-                                        this.time.delayedCall(10000, () => {
-                                            this.dialogChoice1();
-                                        }, null, this);
-                                    }, null, this);
-                                }, null, this);
-                            }, null, this);
-                        }, null, this);
-                    }, null, this);
-                }, null, this);
-            }, null, this);
-        }, null, this);
-    }
-
-    dialogChoice1() {
-        this.rightBox.show();
-        this.rightBox.addText("So, tell me a bit more about this project your teacher assigned you.")
-        this.time.delayedCall(8000, () => {
-            this.leftBox.show()
-            this.leftBox.addText("It's pretty simple actually.")
-
-            this.time.delayedCall(4000, () => {
-                this.leftBox.addText("I just need to embroider some stuff onto this quilt I've been making in class.")
-                
-                this.time.delayedCall(7000, () => {
-                    this.rightBox.addText("I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art.", 55)
-                    
-                    this.time.delayedCall(11000, () => {
-                        this.leftBox.addText("It is, unfortunately, but at least I had the best teacher in the whole world.")
-
-                        this.time.delayedCall(7000, () => {
-                            this.rightBox.addText(" ~ Your Grandmother chuckles at your praise. ~ ")
-                            
-                            this.time.delayedCall(4000, () => {
-                                this.leftBox.hide();
-                                this.rightBox.hide();
-
-                                this.time.delayedCall(5000, () => {
-                                    this.dialogChoice2();
-                                }, null, this);
-                            }, null, this);
-                        }, null, this);
-                    }, null, this);
-                }, null, this);
-            }, null, this);
-        }, null, this);
-    }
-
-    dialogChoice2(){
-        this.rightBox.show();
-        this.rightBox.addText("Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project.")
-        this.time.delayedCall(10000, () => {this.rightBox.hide()}, null,this);
-        this.time.delayedCall(15000, () => {
-            this.leftBox.show()
-            this.leftBox.addText("Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . .")
-
-            this.time.delayedCall(8000, () => {
-                this.leftBox.addText("But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?")
-                this.time.delayedCall(8000, () => {this.leftBox.hide()}, null,this);
-                this.time.delayedCall(12000, () => {
-                    this.rightBox.show()
-                    this.rightBox.addText("I don't see you sewing.", 55)
-                    
-                    this.time.delayedCall(5000, () => {
-                        this.leftBox.show()
-                        this.leftBox.addText("I just don't know what to make.")
-                        this.time.delayedCall(4000, () => {
-                            this.leftBox.addText("My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in the class")
-                        }, null,this);
-                        this.time.delayedCall(13000, () => {
-                            this.leftBox.addText("but honestly, I'm a little stuck on what to do.")
-                        }, null,this);
-
-                        this.time.delayedCall(18000, () => {
-                            this.rightBox.addText("Lots of things have stories hon, you just gotta pick one that you like.")
-                            
-                            this.time.delayedCall(8000, () => {
-                                this.leftBox.addText("Yeah, but she said they have to be real stories, not made-up ones.")
-
-                                this.time.delayedCall(7000, () => {
-                                    this.rightBox.addText("Well, you could make something for our family. That's a real story.")
-                                    
-                                    this.time.delayedCall(8000, () => {
-                                        this.leftBox.addText("Yeah, you're right.")
-                                        this.time.delayedCall(3000, () => {
-                                            this.leftBox.addText("You know what I could do, I could make something that's about you!")
-                                            
-                                            this.time.delayedCall(7000, () => {
-                                                this.rightBox.addText("Well now that's sweet, are you sure you want to make it about me though?")
-                                                
-                                                this.time.delayedCall(7000, () => {
-                                                    this.leftBox.addText("I'm certain of it. How about you tell me a story about you and Grandpa?")
-                                                    
-                                                    this.time.delayedCall(7000, () => {
-                                                        this.rightBox.addText(" *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready.")
-                                                        
-                                                        this.time.delayedCall(7000, () => {
-                                                            this.leftBox.hide();
-                                                            this.rightBox.hide();
-                            
-                                                            this.time.delayedCall(2000, () => {
-                                                                this.dialogStory();
-                                                            }, null, this);
-                                                        }, null, this);
-                                                    }, null,this);
-                                                }, null,this);
-                                            }, null,this);
-                                        }, null,this);
-                                    }, null,this);
-                                }, null,this);
-                            }, null,this);
-                        }, null, this);
-                    }, null, this);
-                }, null, this);
-            }, null, this);
-        }, null, this);        
-    }
-
-    dialogStory() {
-        this.rightBox.show();
-        this.rightBox.addText("Hmm… now what would be a good one to tell… oh, I know, I'll tell you about the time that we first met.")
-        this.time.delayedCall(8000, () => {
-            this.leftBox.show()
-            this.leftBox.addText("Didn't you guys grow up around the corner from each other?")             
-            this.time.delayedCall(7000, () => {
-                this.rightBox.addText("We certainly did. I actually knew him when he was 7 and I was 6.")
-                    
-                this.time.delayedCall(6000, () => {
-                    this.rightBox.addText("We were always right near each other since the school yard was across the street from my house,")                        
-                }, null, this);
-                this.time.delayedCall(13000, () => {
-                    this.rightBox.addText("and all the kids from the neighborhood would play games together over there.")                        
-                }, null, this);
-                this.time.delayedCall(20000, () => {
-                    this.rightBox.addText("But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally.")                        
-                }, null, this);
-                this.time.delayedCall(27000, () => {
-                    this.leftBox.hide()
-                    // display the puzzle
-                    this.puzzleIsActive = true;
-                    this.rightBox.addText("She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do.")
-
-                    this.time.delayedCall(10000, () => {
-                        this.rightBox.addText("I distinctly remember that we were on our way back from downtown,")                        
-                    }, null, this);
-                    this.time.delayedCall(15000, () => {
-                        this.rightBox.addText("And as we were biking, this kid that I'd never met before peeled out with his bike in front of us.")                        
-                    }, null, this);
-                    this.time.delayedCall(22000, () => {
-                        this.rightBox.addText("We had to brake as quick as we could, otherwise we would have gone barreling into him.")                        
-                    }, null, this);
-                    this.time.delayedCall(29000, () => {
-                        this.rightBox.addText("We were both scared to death of crashing, but he just left, snickering as he biked away.")                        
-                    }, null, this);
-                    this.time.delayedCall(36000, () => {
-                        this.rightBox.addText("Sally and I couldn't believe that this kid was being such a jerk,")                        
-                    }, null, this);
-                    this.time.delayedCall(42000, () => {
-                        this.rightBox.addText("But I probably wouldn't remember this so well if this wasn't the start of a pattern.")                        
-                    }, null, this);
-                    this.time.delayedCall(49000, () => {
-                        this.rightBox.addText("Every time Sally and I came biking back from downtown, your grandpa would come flying out from all different spots along the way and nearly make us crash every single time.")                        
-                    }, null, this);
-                    this.time.delayedCall(60000, () => {
-                        this.leftBox.show()
-                        this.leftBox.addText("Did he ever make you crash?")
-                        
-                        this.time.delayedCall(6000, () => {
-                            this.rightBox.addText("He did once actually.")                        
-                        }, null, this);
-                        this.time.delayedCall(10000, () => {
-                            this.rightBox.addText("We were on our way back from the movies, and he misjudged how close he was to my bike.")                        
-                        }, null, this);
-                        this.time.delayedCall(18000, () => {
-                            this.rightBox.addText("Sally saw him coming and was able to stop in time, but he turned too sharply and sent me flying over my handlebars.")                        
-                        }, null, this);
-                        this.time.delayedCall(26000, () => {
-                            this.rightBox.addText("I got all kinds of scrapes on my arms and knees.")                        
-                        }, null, this);
-                        this.time.delayedCall(31000, () => {
-                            this.leftBox.hide()
-                            this.rightBox.addText("Well, when my older brother saw me in that state, he demanded to know what had happened to me")                        
-                        }, null, this);
-                        this.time.delayedCall(39000, () => {
-                            this.rightBox.addText("And when I told him about your grandpa and what he had been doing,")                        
-                        }, null, this);
-                        this.time.delayedCall(45000, () => {
-                            this.rightBox.addText("He told me to tell him the next time Sally and I wanted to go biking and he would come with us.")                        
-                        }, null, this);
-                        this.time.delayedCall(53000, () => {
-                            this.rightBox.addText(" So we did, and when your grandpa tried to peel out in front of us again,")                        
-                        }, null, this);
-                        this.time.delayedCall(58000, () => {
-                            this.rightBox.addText("My brother got so mad at him.")                        
-                        }, null, this);
-                        this.time.delayedCall(62000, () => {
-                            this.rightBox.addText("He told your grandpa that if he ever tried to do that again, he would kick the shit out of him.")                        
-                        }, null, this);
-                        this.time.delayedCall(70000, () => {
-                            this.rightBox.addText("Your grandpa never tried it again.")                        
-                        }, null, this);
-                        this.time.delayedCall(75000, () => {
-                            this.leftBox.show()
-                            this.leftBox.addText("Haha! That's a great story Grandma, my class is going to think that's a funny story.")
-                            
-                            this.time.delayedCall(8000, () => {
-                                this.rightBox.addText("I'm glad you think so, and it looks like you got some inspiration for what to embroider.")  
-                                
-                                this.time.delayedCall(7000, () => {
-                                    this.leftBox.addText("I sure did!")    
-                                    
-                                    this.time.delayedCall(4000, () => {
-                                        this.rightBox.addText("Alright then, I'll be quiet and let you finish. Just let me know when you are done")
-                                        
-                                        this.time.delayedCall(7000, () => {
-                                            this.leftBox.addText("Will do.")      
-                                            
-                                            this.time.delayedCall(4000, () => {
-                                                this.leftBox.hide();
-                                                this.rightBox.hide();
-
-                                                this.finishedDialog = true;
-                
-                                            }, null, this);
-                                        }, null, this);
-                                    }, null, this);
-                                }, null, this);
-                            }, null, this);
-                        }, null, this);
-                    }, null, this);
-                }, null, this);
-
-            }, null, this);
-        }, null, this);
-    }
-
     create() {
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -319,13 +55,18 @@ class FirstMeeting extends Phaser.Scene {
 
 
         // create the dialog boxes
-        this.leftBox = new Dialog(this, 'left', '', true, 25);
-        this.rightBox = new Dialog(this, 'right', '', true, 40);
-        this.centerBox = new Dialog(this, 'center', '', true, 30);
-        this.centerBox.hide();
-        this.leftBox.hide();
-        this.rightBox.hide();
-        this.startDialog();
+        this.boxBundle = new dialogBoxBundle(this, [
+            ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
+            ['right', "It should all be in my sewing kit."],
+            ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
+            ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
+            ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
+            ['right', "Well, you're certainly not wrong there."],
+            ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
+            ['left', "I'll say."],
+            ['end', "Intro"]
+        ])
+        this.introTextComplete = false;
 
         this.placedPoints = false;
         this.placedImage = false;
@@ -345,6 +86,85 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     update() { 
+        // Dialog Box Update
+        this.boxBundle.update();
+        if (this.boxBundle.scriptFinished === "Intro") {
+            this.boxBundle.remove();
+            this.boxBundle = new dialogBoxBundle(this, [
+               ['right', "So, tell me a bit more about this project your teacher assigned you."],
+               ['left', "It's pretty simple actually."],
+               ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
+               ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
+               ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
+               ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
+               ['end', "Choice1"]
+            ])
+        } else if (this.boxBundle.scriptFinished === "Choice1") {
+            this.boxBundle.remove();
+            // INSERT TIMER SOUND EFFECT
+            this.boxBundle = new dialogBoxBundle(this, [
+                ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
+                ['hide', 'right'],
+                ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
+                ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
+                ['hide', 'left'],
+                ['pause', 3000],
+                ['right', "I don't see you sewing."],
+                ['left', "I just don't know what to make."],
+                ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
+                ['left', "But honestly, I'm a little stuck on what to do."],
+                ['right', "Lots of things have stories hon, you just gotta pick one that you like."],
+                ['left', "Yeah, but she said they have to be real stories, not made-up ones."],
+                ['right', "Well, you could make something for our family. That's a real story."],
+                ['left', "Yeah, you're right."],
+                ['left', "You know what I could do, I could make something that's about you!"],
+                ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
+                ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
+                ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
+                ['end', "Choice2"]
+            ])
+        } else if (this.boxBundle.scriptFinished === "Choice2") {
+            this.boxBundle.remove()
+            this.boxBundle = new dialogBoxBundle(this, [
+                ['right', "Hmm… now what would be a good one to tell. . ."],
+                ['right', "Oh, I know, I'll tell you about the time that we first met."],
+                ['left', "Didn't you guys grow up around the corner from each other?"],
+                ['right', "We were always right near each other since the school yard was across the street from my house."],
+                ['right', "And all the kids from the neighborhood would play games together over there."],
+                ['puzzle'],
+                ['center', "But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally."],
+                ['center', "She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do."],
+                ['center', "I distinctly remember that we were on our way back from downtown, and as we were biking, this kid that I'd never met before peeled out with his bike in front of us."],
+                ['center', "We had to brake as quick as we could, otherwise we would have gone barreling into him. We were both scared to death of crashing, but he just left, snickering as he biked away."],
+                ['center', "Sally and I couldn't believe that this kid was being such a jerk!"],
+                ['center', "But I probably wouldn't remember this so well if this wasn't the start of a pattern."],
+                ['center', "Every time Sally and I came biking back from downtown, your grandpa would come flying out from all different spots along the way and nearly make us crash every single time."],
+                ['left', "Did he ever make you crash?"],
+                ['hide', 'left'],
+                ['center', "He did once actually."],
+                ['center', "We were on our way back from the movies, and he misjudged how close he was to my bike."],
+                ['center', "Sally saw him coming and was able to stop in time, but he turned too sharply and sent me flying over my handlebars. I got all kinds of scrapes on my arms and knees."],
+                ['center', "Well, when my older brother saw me in that state, he demanded to know what had happened to me. And when I told him about your grandpa and what he had been doing, he told me to tell him the next time Sally and I wanted to go biking and he would come with us."],
+                ['center', "So we did, and when your grandpa tried to peel out in front of us again, my brother got so mad at him."],
+                ['center', "He told your grandpa that if he ever tried to do that again, he would kick the shit out of him."],
+                ['center', "Your grandpa never tried it again."],
+                ['hide', 'center'],
+                ['left', "Haha! That's a great story Grandma, my class is going to think that's a funny story."],
+                ['right', "I'm glad you think so, and it looks like you got some inspiration for what to embroider."],
+                ['left', "I sure did!"],
+                ['right', "Alright then, I'll be quiet and let you finish. Just let me know when you are done."],
+                ['left', "Will do."],
+                ['end', 'Storytime']
+            ])
+
+            console.log(this.boxBundle.script.length)
+        } else if (this.boxBundle.scriptFinished === 'Storytime') {
+            this.finishedDialog = true;
+            this.time.delayedCall(3000, () => {
+                this.boxBundle.remove()
+            }, null, this)
+        }
+
         // remove all points and lines, show bike when finished 
         if (!this.placedImage && this.finishedConnecting == true) {
             for (let i = 0; i < this.connections.length; ++i) {
@@ -406,6 +226,9 @@ function startDrag(pointer, gameObject) {
         return;
     }
 
+    // if pointer is in the dialog area, ignore it
+    if (pointer.y > 600) return 
+
     console.log('starting: ', this.scene.currDot);
     // don't connect anymore once connected all dots
     if (this.scene.finishedConnecting) {
@@ -443,6 +266,9 @@ function drag(pointer) {
         return;
     }
 
+    // if pointer is in the dialog area, ignore it
+    if (pointer.y > 600) return 
+
     // stop checking for mouse drag once done connecting
     if (this.scene.finishedConnecting) {
         return;
@@ -461,6 +287,9 @@ function endDrag(pointer, gameObject) {
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
     }
+
+    // if pointer is in the dialog area, ignore it
+    if (pointer.y > 600) return 
 
     console.log('ending: ', this.scene.currDot);
 
