@@ -1,7 +1,7 @@
 class Dialog extends Phaser.GameObjects.Sprite {
 
 
-    constructor(scene, side, bodyText = '', isSlowText = true, textSpeed = 30) {
+    constructor(scene, side, bodyText = '', textSpeed = 30) {
 
         let x, y;
         let textWidth = (side != 'center' ? 300 : game.config.width * 4/5)
@@ -24,6 +24,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         } else if (side == 'center'){
             x = game.config.width / 2 
             y = game.config.height * 5/6
+            bubbleType = 'largeGrandBubble'
 
         } else {
             console.log('Undifined Side on Dialog Box with :' + bodyText)
@@ -33,7 +34,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
 
         // if this is not a slow text box, display all text
-        this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", (isSlowText ? '' : bodyText)).setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
 
 
         this.x = x;
@@ -48,12 +49,8 @@ class Dialog extends Phaser.GameObjects.Sprite {
 
     }
 
-
-    changeText(newText) {
-        this.boxText.setText(newText)
-    }
-
     addText(body, speed = this.textSpeed) {
+        this.show()
         if (this.isWaiting || this.isTyping) {
             this.DialogToDisplayQ.enqueue(body)
         } else {
@@ -64,7 +61,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
     displaySlowText(fullText, textSpeeeeeed = this.textSpeed) {
         this.isTyping = true;
         this.displaySlowTextR(fullText, textSpeeeeeed, 0)
-        let timeToType = fullText.length * textSpeeeeeed * 1.18;
+        let timeToType = fullText.length * textSpeeeeeed * 1.3;
         this.typingTimer = this.scene.time.delayedCall(timeToType, () => {console.log('done writing'); this.isWaiting = true; this.isTyping = false}, null, this.scene)
         this.textdelay = this.scene.time.delayedCall(timeToType + 3000, () => {
             this.isWaiting = false
@@ -75,7 +72,7 @@ class Dialog extends Phaser.GameObjects.Sprite {
     displaySlowTextR(fullText, textSpeeeeeed, textIndex) {
 
         if (textIndex > fullText.length) return;
-        this.changeText(fullText.slice(0, textIndex))
+        this.boxText.setText(fullText.slice(0, textIndex))
 
         this.scene.time.delayedCall(textSpeeeeeed, () => {
             this.displaySlowTextR(fullText, textSpeeeeeed, textIndex+1)
@@ -97,7 +94,10 @@ class Dialog extends Phaser.GameObjects.Sprite {
     click() {
         if (!this.isTyping){
             if (this.DialogToDisplayQ.isEmpty) this.hide()
-            else this.displaySlowText(this.DialogToDisplayQ.dequeue())
+            else {
+                this.textdelay.destroy()
+                this.displaySlowText(this.DialogToDisplayQ.dequeue())
+            }
         }
     }
 

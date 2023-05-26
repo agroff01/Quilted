@@ -4,9 +4,7 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     startDialog() {
-        // CHECK WHICH BOX IS MOST RECENTLY ACTIVE AND CHECK WHEN IT IS FINISHED
-        // POSSIBLY IMPLIMENT STALLS TO PAUSE A QUEUE
-
+        
         this.boxBundle.leftBox.show()
         this.boxBundle.leftBox.addText("Okay, I think I got everything out of the closet. Is there anything else that you have?")
         this.time.delayedCall(8000, () => {
@@ -324,13 +322,13 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "It should all be in my sewing kit."],
             ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
             ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
-            ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
+            ['right', "She's not, but I figured you would have extra stuff that would make my project look good."],
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
-            ['left', "I'll say."]
+            ['left', "I'll say."],
+            ['end', "EndingText"]
         ]
         this.boxBundle = new dialogBoxBundle(this, this.scriptLines)
-        this.startDialog();
 
 
         this.placedPoints = false;
@@ -338,6 +336,8 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     update() { 
+        this.boxBundle.update();
+
         // remove all points and lines, show bike when finished 
         if (!this.placedImage && this.finishedConnecting == true) {
             for (let i = 0; i < this.connections.length; ++i) {
