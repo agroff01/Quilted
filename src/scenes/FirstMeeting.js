@@ -268,10 +268,10 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     create() {
-        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+
+        this.background = this.add.tileSprite(0, 0, 900, 1000, 'firstMeetingBackground').setOrigin(0);
+
+        
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;
@@ -330,8 +330,18 @@ class FirstMeeting extends Phaser.Scene {
         this.placedPoints = false;
         this.placedImage = false;
 
-        this.song = this.sound.add('firstMeetingBGMusic', {loop: true, volume: 0.0075});
-        this.song.play();
+        this.song = this.sound.add("firstMeetingBGMusic");
+        
+        var musicConfig = {
+            mute: false,
+            volume: 0.0075,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+         }
+
+        this.song.play(musicConfig);
     }
 
     update() { 
@@ -381,7 +391,7 @@ class FirstMeeting extends Phaser.Scene {
         if (this.placedImage && this.finishedDialog) {
             // check if song is playing to stop it
             if (this.song.isPlaying) {
-                console.log('song is plyaing');
+                console.log('song is playing');
                 this.song.stop();
                 console.log('stopped song');
             }
