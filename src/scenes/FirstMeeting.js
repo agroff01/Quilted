@@ -269,6 +269,9 @@ class FirstMeeting extends Phaser.Scene {
 
     create() {
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;
@@ -321,12 +324,14 @@ class FirstMeeting extends Phaser.Scene {
         this.centerBox.hide();
         this.leftBox.hide();
         this.rightBox.hide();
-        this.startDialog();
-
-
+        //this.startDialog();
+        this.dialogStory();
 
         this.placedPoints = false;
         this.placedImage = false;
+
+        this.song = this.sound.add('firstMeetingBGMusic', {loop: true, volume: 0.0075});
+        this.song.play();
     }
 
     update() { 
@@ -350,10 +355,10 @@ class FirstMeeting extends Phaser.Scene {
                 alpha: {from: 0, to: 1},
                 ease: 'Sine.InOut',
                 duration: 3000,
-
+                onComplete: () => {this.placedImage = true;},
             });
 
-            this.placedImage = true;
+            // this.placedImage = true;
         }
 
         // add points to scene
@@ -371,10 +376,26 @@ class FirstMeeting extends Phaser.Scene {
         }
 
         // TODO: check if finished connecting lines before dialog
+        // FIXME: song keeps playing even when stopping it, second if statement checking the song is playing is false, but song still plays
         // go to next scene once finished dialog and drawing 
-        if (this.finishedConnecting && this.finishedDialog) {
-            //this.input.on('pointerup', () => {this.scene.start('scene2')});
-            this.time.delayedCall(5000, () => {this.scene.start('scene2')})
+        if (this.placedImage && this.finishedDialog) {
+            // check if song is playing to stop it
+            if (this.song.isPlaying) {
+                console.log('song is plyaing');
+                this.song.stop();
+                console.log('stopped song');
+            }
+
+            //this.song.setVolume(0);
+            //this.sound.get('firstMeetingBGMusic').stop();
+            //this.song.setMute(true);
+            console.log('everything done');
+
+            if (this.song.isPlaying) {
+                console.log('song is still playing');
+            }
+
+            this.time.delayedCall(3000, () => {this.scene.start('scene2');})
         }
 
     }
