@@ -269,9 +269,10 @@ class FirstMeeting extends Phaser.Scene {
 
     create() {
 
-        this.background = this.add.tileSprite(0, 0, 900, 1000, 'firstMeetingBackground').setOrigin(0);
-
-        
+        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;

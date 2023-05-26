@@ -17,7 +17,7 @@ class Load extends Phaser.Scene {
         this.load.path = './assets/';
 
         // backgrounds
-        this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1_Resized.png');
+        this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1.png');
 
         // speech bubbles
         this.load.image('playerBubble', './Scene1/Textbox_Temp_Player_Smol.png');
