@@ -35,11 +35,15 @@ class Load extends Phaser.Scene {
         this.load.bitmapFont("CraftyGirls24", "./Fonts/dialog_26.png", "./Fonts/dialog_26.xml");
 
         // music
-        this.load.audio('firstMeetingBGMusic', './Music/Old-oak.mp3');
+        this.load.audio('firstMeetingBGMusic', ['./Music/Old-oak.ogg', './Music/Old-oak.wav', './Music/Old-oak.mp3']);
+        // this.sound.decodeAudio('backgroundDecoded', 'firstMeetingBGMusic');
+        // this.sound.decodeAudio('firstMeetingBGMusic', './Music/Old-oak.ogg');
+
+        this.load.audio('steps', ['./Music/steps.ogg', './Music/steps.wav', './Music/steps.mp3']);
     }
 
     create() {
-        this.scene.start('menuScene');
+            this.scene.start('menuScene');
     }
 
     

@@ -5,6 +5,20 @@ class FirstMeeting extends Phaser.Scene {
 
     create() {
 
+        var musicConfig = {
+            mute: false,
+            //volume: 0.0075,
+            volume: 0.025,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+
+        this.song = this.sound.add("firstMeetingBGMusic");
+        this.song.play(musicConfig);
+
+
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -71,59 +85,48 @@ class FirstMeeting extends Phaser.Scene {
         this.placedPoints = false;
         this.placedImage = false;
 
-        this.song = this.sound.add("firstMeetingBGMusic");
-        
-        var musicConfig = {
-            mute: false,
-            volume: 0.0075,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-         }
-
-        this.song.play(musicConfig);
-    }
+            
+}
 
     update() { 
         // Dialog Box Update
         this.boxBundle.update();
         if (this.boxBundle.scriptFinished === "Intro") {
-            this.boxBundle.remove();
-            this.boxBundle = new dialogBoxBundle(this, [
-               ['right', "So, tell me a bit more about this project your teacher assigned you."],
-               ['left', "It's pretty simple actually."],
-               ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
-               ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
-               ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
-               ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
-               ['end', "Choice1"]
-            ])
-        } else if (this.boxBundle.scriptFinished === "Choice1") {
-            this.boxBundle.remove();
-            // INSERT TIMER SOUND EFFECT
-            this.boxBundle = new dialogBoxBundle(this, [
-                ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
-                ['hide', 'right'],
-                ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
-                ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
-                ['hide', 'left'],
-                ['pause', 3000],
-                ['right', "I don't see you sewing."],
-                ['left', "I just don't know what to make."],
-                ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
-                ['left', "But honestly, I'm a little stuck on what to do."],
-                ['right', "Lots of things have stories hon, you just gotta pick one that you like."],
-                ['left', "Yeah, but she said they have to be real stories, not made-up ones."],
-                ['right', "Well, you could make something for our family. That's a real story."],
-                ['left', "Yeah, you're right."],
-                ['left', "You know what I could do, I could make something that's about you!"],
-                ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
-                ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
-                ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
-                ['end', "Choice2"]
-            ])
-        } else if (this.boxBundle.scriptFinished === "Choice2") {
+//            this.boxBundle.remove();
+//            this.boxBundle = new dialogBoxBundle(this, [
+//               ['right', "So, tell me a bit more about this project your teacher assigned you."],
+//               ['left', "It's pretty simple actually."],
+//               ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
+//               ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
+//               ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
+//               ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
+//               ['end', "Choice1"]
+//            ])
+//        } else if (this.boxBundle.scriptFinished === "Choice1") {
+//            this.boxBundle.remove();
+//            // INSERT TIMER SOUND EFFECT
+//            this.boxBundle = new dialogBoxBundle(this, [
+//                ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
+//                ['hide', 'right'],
+//                ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
+//                ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
+//                ['hide', 'left'],
+//                ['pause', 3000],
+//                ['right', "I don't see you sewing."],
+//                ['left', "I just don't know what to make."],
+//                ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
+//                ['left', "But honestly, I'm a little stuck on what to do."],
+//                ['right', "Lots of things have stories hon, you just gotta pick one that you like."],
+//                ['left', "Yeah, but she said they have to be real stories, not made-up ones."],
+//                ['right', "Well, you could make something for our family. That's a real story."],
+//                ['left', "Yeah, you're right."],
+//                ['left', "You know what I could do, I could make something that's about you!"],
+//                ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
+//                ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
+//                ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
+//                ['end', "Choice2"]
+//            ])
+//        } else if (this.boxBundle.scriptFinished === "Choice2") {
             this.boxBundle.remove()
             this.boxBundle = new dialogBoxBundle(this, [
                 ['right', "Hmm… now what would be a good one to tell. . ."],
@@ -187,8 +190,6 @@ class FirstMeeting extends Phaser.Scene {
                 duration: 3000,
                 onComplete: () => {this.placedImage = true;},
             });
-
-            // this.placedImage = true;
         }
 
         // add points to scene
