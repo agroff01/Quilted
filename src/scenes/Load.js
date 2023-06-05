@@ -36,6 +36,9 @@ class Load extends Phaser.Scene {
 
         // fonts
         this.load.bitmapFont("CraftyGirls24", "./Fonts/dialog_26.png", "./Fonts/dialog_26.xml");
+
+        // music
+        this.load.audio('firstMeetingBGMusic', './Music/Old-oak.mp3');
     }
 
     create() {
