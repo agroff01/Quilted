@@ -24,6 +24,8 @@ class dialogBoxBundle {
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
         
+        // Code for if we want a pointer click to also advance the dialog
+
         // this.scene.input.on('pointerup', () => {
         //     this.activeBox.waitArrow.removeFromDisplayList()
         //     if (this.scene.input.activePointer.upY > 600) 
@@ -84,7 +86,7 @@ class dialogBoxBundle {
                 this.activeBox.addText(this.script[i][1])
 
             } else if (this.nextInstruction === 'sound') { // make noise
-                // PLAY THE SOUND AT THE FILE PATH
+                this.scene.sound.add(this.script[i][1]).play();
 
             } else if (this.nextInstruction === 'hide') {  // hide a box
                 this.script[i][1] === 'left' ? this.leftBox.hide() : 

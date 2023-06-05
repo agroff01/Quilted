@@ -1,6 +1,5 @@
 class Dialog {
 
-
     constructor(scene, side, textSpeed = 30, inFocus = false, bodyText = '') {
 
         let x, y;
@@ -39,7 +38,7 @@ class Dialog {
         if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         else {
             this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
-            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setAlpha(.65);
+            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setAlpha(.45);
         }
 
         this.waitArrow = scene.add.sprite(x + arrowOffset.x, y + arrowOffset.y, bubbleType === 'playerBubble' ? 'playerTri' : (bubbleType === 'grandBubble' || bubbleType === 'largeGrandBubble') ? 'grandTri' : null).setOrigin(.5);
