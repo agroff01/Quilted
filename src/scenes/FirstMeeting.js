@@ -3,6 +3,7 @@ class FirstMeeting extends Phaser.Scene {
         super('firstMeeting')
     }
 
+
     create() {
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -54,6 +55,8 @@ class FirstMeeting extends Phaser.Scene {
         this.input.on('pointermove', drag);
 
 
+        this.cursors = this.input.keyboard.createCursorKeys();
+
         // create the dialog boxes
         this.boxBundle = new dialogBoxBundle(this, [
             ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
@@ -65,7 +68,8 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
             ['end', "Intro"]
-        ])
+        ], true)
+
         this.introTextComplete = false;
 
         this.placedPoints = false;
@@ -86,6 +90,10 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     update() { 
+        // console.log(this.boxBundle.scriptFinished)
+        // console.log("unusable : " + this.boxBundle.unusable)
+        // if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) this.boxBundle.shiftFocus(game.config.height * 5/6)
+        
         // Dialog Box Update
         this.boxBundle.update();
         if (this.boxBundle.scriptFinished === "Intro") {
@@ -98,7 +106,7 @@ class FirstMeeting extends Phaser.Scene {
                ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
                ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
                ['end', "Choice1"]
-            ])
+            ], true)
         } else if (this.boxBundle.scriptFinished === "Choice1") {
             this.boxBundle.remove();
             // INSERT TIMER SOUND EFFECT
@@ -122,15 +130,17 @@ class FirstMeeting extends Phaser.Scene {
                 ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
                 ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
                 ['end', "Choice2"]
-            ])
+            ], true)
         } else if (this.boxBundle.scriptFinished === "Choice2") {
             this.boxBundle.remove()
+            this.boxBundle.shiftFocus(game.config.height * 5/6);
             this.boxBundle = new dialogBoxBundle(this, [
                 ['right', "Hmm… now what would be a good one to tell. . ."],
                 ['right', "Oh, I know, I'll tell you about the time that we first met."],
                 ['left', "Didn't you guys grow up around the corner from each other?"],
                 ['right', "We were always right near each other since the school yard was across the street from my house."],
                 ['right', "And all the kids from the neighborhood would play games together over there."],
+                ['shift', game.config.height * 5/6],
                 ['puzzle'],
                 ['center', "But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally."],
                 ['center', "She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do."],
@@ -155,9 +165,8 @@ class FirstMeeting extends Phaser.Scene {
                 ['right', "Alright then, I'll be quiet and let you finish. Just let me know when you are done."],
                 ['left', "Will do."],
                 ['end', 'Storytime']
-            ])
+            ], true)
 
-            console.log(this.boxBundle.script.length)
         } else if (this.boxBundle.scriptFinished === 'Storytime') {
             this.finishedDialog = true;
             this.time.delayedCall(3000, () => {
