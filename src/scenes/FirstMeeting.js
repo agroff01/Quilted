@@ -19,8 +19,8 @@ class FirstMeeting extends Phaser.Scene {
         this.song.play(musicConfig);
 
 
-        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
 
@@ -178,18 +178,18 @@ class FirstMeeting extends Phaser.Scene {
                 this.points[i].destroy();
             }
 
-            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+            //this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
 
             // delay bike to initially show on screen
-            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
+            //this.time.delayedCall(1, () => {this.bike.setVisible(true)});
 
-            this.tween = this.tweens.add({
-                targets: this.bike,
-                alpha: {from: 0, to: 1},
-                ease: 'Sine.InOut',
-                duration: 3000,
-                onComplete: () => {this.placedImage = true;},
-            });
+            //this.tween = this.tweens.add({
+            //    targets: this.bike,
+            //    alpha: {from: 0, to: 1},
+            //    ease: 'Sine.InOut',
+            //    duration: 3000,
+            //    onComplete: () => {this.placedImage = true;},
+            //});
         }
 
         // add points to scene
@@ -253,7 +253,7 @@ function startDrag(pointer, gameObject) {
     this.scene.stitch.setTo(0, 0, 0, 0).setOrigin(0);
     this.scene.stitch.visible = true;
 
-    this.isDragging = true;
+    this.scene.isDragging = true;
 
     this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
 
@@ -262,29 +262,7 @@ function startDrag(pointer, gameObject) {
 }
 
 function drag(pointer) {
-    // return if puzzle isn't active
-    if (!this.scene.puzzleIsActive) {
-        return;
-    }
-
-    // if pointer is in the dialog area, ignore it
-    if (pointer.y > 600) return 
-
-    // stop checking for mouse drag once done connecting
-    if (this.scene.finishedConnecting) {
-        return;
-    }
-
-    console.log('dragging');
-
-    // move the line with the mouse
-    if (this.isDragging) {
-        this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
-    }
-}
-
-function endDrag(pointer, gameObject) {
-    // return if puzzle isn't active
+    // return if puzzle isn't active or if already finished connecting
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
     }
@@ -292,12 +270,34 @@ function endDrag(pointer, gameObject) {
     // if pointer is in the dialog area, ignore it
     if (pointer.y > 600) return 
 
-    console.log('ending: ', this.scene.currDot);
-
-    // return if already finished connection
-    if (this.scene.finishedConnecting) {
+    // return is user isn't dragging
+    if (!this.scene.isDragging) {
         return;
     }
+
+    console.log('dragging');
+
+    // move the line with the mouse
+    if (this.scene.isDragging) {
+        this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
+    }
+}
+
+function endDrag(pointer, gameObject) {
+    // return if puzzle isn't active, finished connecting, or isn't dragging
+    if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
+        return;
+    }
+
+    // return is user isn't dragging
+    if (!this.scene.isDragging) {
+        return;
+    }
+
+    // if pointer is in the dialog area, ignore it
+    if (pointer.y > 600) return 
+
+    console.log('ending: ', this.scene.currDot);
 
     // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
     if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
@@ -335,7 +335,7 @@ function endDrag(pointer, gameObject) {
 
     console.log('after setting line: stitch.x :', this.scene.stitch.x, 'stitch.y: ', this.scene.stitch.y);
 
-    this.isDragging = false;
+    this.scene.isDragging = false;
 
     this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
