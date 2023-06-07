@@ -85,6 +85,9 @@ class dialogBoxBundle {
 
             } else if (this.nextInstruction === 'sound') { // make noise
                 // PLAY THE SOUND AT THE FILE PATH
+                console.log('sfx: ', this.script[i][1]);
+                this.sfx = this.scene.sound.add(this.script[i][1])
+                this.sfx.play();;
 
             } else if (this.nextInstruction === 'hide') {  // hide a box
                 this.script[i][1] === 'left' ? this.leftBox.hide() : 
