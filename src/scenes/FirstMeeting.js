@@ -87,6 +87,8 @@ class FirstMeeting extends Phaser.Scene {
          }
 
         this.song.play(musicConfig);
+
+        this.fadeout = null;
     }
 
     update() { 
@@ -222,7 +224,12 @@ class FirstMeeting extends Phaser.Scene {
                 this.song.stop();
             }
 
-            this.time.delayedCall(3000, () => {this.scene.start('scene2');})
+            if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
+                this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
+                this.cam.on('camerafadeoutcomplete',  () => {
+                    this.scene.start('toBeContinued');
+                })
+            })
         }
 
     }

@@ -3,24 +3,26 @@ class Dialog {
     constructor(scene, side, textSpeed = 30, inFocus = false, bodyText = '') {
 
         let x, y;
-        let textWidth = (side != 'center' ? 300 : game.config.width * 4/5)
+        let textWidth = (side === 'center' ? game.config.width * 4/5 : 300)
         let bubbleType = '';
-        let textOffset = 0;
+        let textOffset = {x: 0, y: 0};
         let arrowOffset = {x: 0, y: 110};
 
 
         if (side == 'left') {
-            x = game.config.width / 5
-            y = inFocus ? game.config.width / 2 : game.config.height * 5/6
+            x = (game.config.width / 5) + 40
+            y = inFocus ? game.config.width / 2 : (game.config.height * 5/6) - 61
             bubbleType = 'playerBubble';
-            textOffset = 20
-            arrowOffset.x = 20
+            textOffset.x += 20
+            textOffset.y += 50
+            arrowOffset.x += 20
+            arrowOffset.y += 80
 
         } else if (side == 'right') {
             x = game.config.width * 3/4
             y = inFocus ? game.config.width / 2 : game.config.height * 5/6
             bubbleType = 'grandBubble'
-            textOffset = -10
+            textOffset.x = -10
             arrowOffset.x = -10
 
         } else if (side == 'center'){
@@ -34,8 +36,9 @@ class Dialog {
         }
         
         this.image = scene.add.sprite(x, y, bubbleType).setOrigin(.5);
+        this.image.setAlpha(1);
 
-        if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset,y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset.x, y + textOffset.y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
         else {
             this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
             this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setAlpha(.45);
@@ -99,7 +102,6 @@ class Dialog {
 
         this.scene.time.delayedCall(textSpeeeeeed, () => {
             this.displaySlowTextR(fullText, textSpeeeeeed, textIndex+1)
-            //this.side === 'center' ? this.boxText.setPosition(this.x, this.y + 65) : this.boxText.setPosition(this.x + this.textOffset, this.y) 
         }, null, this.scene);
     }
 
@@ -187,9 +189,16 @@ class Dialog {
             });
 
         } else {
-            if (target >= game.config.height * 5/6) target = game.config.height * 5/6;
+            if (target >= game.config.height * 5/6) target = (game.config.height * 5/6) - 61;
             this.scene.tweens.add({
-                targets: [this.boxText, this.image],
+                targets: [this.boxText],
+                y: (target + this.textOffset.y),
+                ease: 'Quad.InOut',
+                duration: 1500,
+            });
+
+            this.scene.tweens.add({
+                targets: [this.image],
                 y: target,
                 ease: 'Quad.InOut',
                 duration: 1500,
@@ -197,7 +206,7 @@ class Dialog {
 
             this.scene.tweens.add({
                 targets: this.waitArrow,
-                y: (target + 150),
+                y: (target + this.arrowOffset.y),
                 ease: 'Quad.InOut',
                 duration: 1500,
             });
