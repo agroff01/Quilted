@@ -22,7 +22,7 @@ class Load extends Phaser.Scene {
         this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1.png');
 
         // speech bubbles
-        this.load.image('playerBubble', './Scene1/Textbox_Temp_Player_Smol.png');
+        this.load.image('playerBubble', './Scene1/Me_Final_Speech_Bubble.png');
         this.load.image('grandBubble', './Scene1/Textbox_Temp_Grandma_Smol.png');
         this.load.image('largeGrandBubble', './Scene1/Large_Grandma_Textbox_Temp.png');
         this.load.image('grandTri', './Scene1/GrandmaTriangle.png');

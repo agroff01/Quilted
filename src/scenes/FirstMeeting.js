@@ -89,6 +89,8 @@ class FirstMeeting extends Phaser.Scene {
         this.placedImage = false;
 
         this.addedHelp = false;
+
+        this.fadeout = null;
 }
 
     update() { 
@@ -204,7 +206,7 @@ class FirstMeeting extends Phaser.Scene {
             this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
 
             // delay bike to initially show on screen
-            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
+            this.time.delayedCall(2, () => {this.bike.setVisible(true)});
 
             this.tween = this.tweens.add({
                 targets: this.bike,
@@ -240,7 +242,12 @@ class FirstMeeting extends Phaser.Scene {
             });
 //            this.sound.stopByKey('firstMeetingBGMusic');
 
-            this.time.delayedCall(3000, () => {this.scene.start('scene2');})
+            if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
+                this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
+                this.cam.on('camerafadeoutcomplete',  () => {
+                    this.scene.start('toBeContinued');
+                })
+            })
         }
 
     }
