@@ -39,6 +39,8 @@ class FirstMeeting extends Phaser.Scene {
         this.currDot = 0;
         this.points = [];
         this.connections = [];
+        this.numPointsRemoval = 2;
+        this.touchedNothing = false;
 
         this.finishedConnecting = false;
 
@@ -80,7 +82,8 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-            ['end', "Intro"]
+//            ['end', "Intro"]
+            ['end', "Choice2"]
         ], true)
 
         this.introTextComplete = false;
@@ -206,12 +209,13 @@ class FirstMeeting extends Phaser.Scene {
             this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
 
             // delay bike to initially show on screen
-            this.time.delayedCall(2, () => {this.bike.setVisible(true)});
+            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
 
             this.tween = this.tweens.add({
                 targets: this.bike,
                 alpha: {from: 0, to: 1},
-                ease: 'Sine.InOut',
+                //ease: 'Sine.InOut',
+                ease: 'Sine.easeIn',
                 duration: 3000,
                 onComplete: () => {this.placedImage = true;},
             });
@@ -225,7 +229,7 @@ class FirstMeeting extends Phaser.Scene {
                     continue;
                 }
 
-                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));
+                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025).setVisible(false));
             }
 
             this.placedPoints = true;
@@ -270,8 +274,9 @@ function startDrag(pointer, gameObject) {
     }
 
     // skip drag if clicking not on a point or not clicking on subsequent point
-    if (gameObject == 0 || gameObject[0] != this.scene.points[this.scene.currDot]) {
-        console.log('didn\'t start at point');
+    if (gameObject == 0 || !gameObject[0].visible || gameObject[0] != this.scene.points[this.scene.currDot]) {
+        console.log('didn\'t start at point (', this.scene.points[this.scene.currDot].x, ', ', this.scene.points[this.scene.currDot].y, ')');
+        this.scene.touchedNothing = true;
         return;
     }
 
@@ -290,7 +295,7 @@ function startDrag(pointer, gameObject) {
 
     this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
 
-    this.scene.points[this.scene.currDot].setFrame('hole 1');
+    this.scene.points[this.scene.currDot].setFrame('hole 1').setVisible(true);
     console.log('next dot: ', this.scene.points[this.scene.currDot].x, this.scene.points[this.scene.currDot].y);
 }
 
@@ -317,6 +322,8 @@ function drag(pointer) {
 }
 
 function endDrag(pointer, gameObject) {
+    console.log('pointter.x: ', pointer.x, ' pointer.y ', pointer.y);
+
     // return if puzzle isn't active, finished connecting, or isn't dragging
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
@@ -332,31 +339,209 @@ function endDrag(pointer, gameObject) {
 
     console.log('ending: ', this.scene.currDot);
 
-    // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
-    if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
-        console.log('not on point');
-        console.log('nextpoint.x: ', this.scene.points[this.scene.currDot].x, 'nextpoint.y: ', this.scene.points[this.scene.currDot].y);
-
-        for (let i = 1; i < this.scene.points.length; ++i) {
-            this.scene.points[i].setFrame('hole 0');
-        }
-
-        this.scene.points[0].setFrame('hole 1');
-
-        this.scene.currDot = 0;
-
-        this.scene.stitch.visible = false;
-
-        console.log(this.scene.currDot);
-
-        for (let i = 0; i < this.scene.connections.length; ++i) {
-            this.scene.connections[i].destroy();
-        }
-
-        this.scene.connections = [];
-
+    if (this.scene.touchedNothing) {
+        console.log('ended at clicking nothing');
+        this.scene.touchedNothing = false;
         return;
     }
+
+    if (gameObject != 0 && !gameObject[0].visible) {
+        console.log('game boejct visibility', gameObject[0].visible);
+        console.log('point isn\'t visible');
+        return;
+    }
+
+
+//    if (gameObject == 0) {
+//        this.scene.stitch.visible = false;
+////        this.scene.points[this.scene.currDot].setVisible(false);
+//        --this.scene.currDot;
+//        return;
+//    }
+
+//    if (this.scene.points[this.scene.currDot] != gameObject[0]) {
+//        for (let i = 0; i < this.scene.numPointsRemoval; ++i) {
+//            this.scene.points[this.scene.currDot].setVisible(false);
+//            this.scene.connections[this.scene.connections.length - (i + 1)].destroy();
+//            --this.scene.connections.length;
+//            --this.scene.currDot;
+//
+//            if (i == this.scene.numPointsRemoval - 1) {
+//                this.scene.points[this.scene.currDot].setVisible(false);
+//                --this.scene.currDot;
+//            }
+//        }
+//
+//        this.scene.stitch.visible = false;
+////
+////        for (let i = 0; i < this.scene.numPointsRemoval; ++i) {
+////            this.scene.points[this.scene.currDot].setVisible(false);
+////            this.scene.connections[this.scene.connections.length - (i + 1)].destroy();
+////            --this.scene.connections.length;
+////            console.log('connection at', this.scene.connections.length - (i + 1), ' was removed');
+////            --this.scene.currDot;
+////
+////            if (i == this.scene.numPointsRemoval - 1) {
+////                this.scene.points[this.scene.currDot].setVisible(false);
+////                --this.scene.currDot;
+////            }
+////        }
+////
+//////        --this.scene.connections.length;
+////        console.log('missed, next starting point: ', this.scene.currDot);
+//
+//        return;
+//    }
+
+    if (gameObject != 0) {
+        //console.log('points[', this.scene.currDot, ']: ', this.scene.points[this.scene.currDot].visible);
+        //console.log('points[', this.scene.currDot + 1, ']: ', this.scene.points[this.scene.currDot + 1].visible);
+//            console.log('game boejct visibility', gameObject[1].visible);
+//            console.log('gameObject.x: ', gameObject[1].x, ' gameObject.y: ', gameObject[1].y);
+    }
+
+    if (gameObject == 0 || (this.scene.points[this.scene.currDot] != gameObject[0] && !this.scene.points[this.scene.currDot + 1].visible)) {
+        this.scene.stitch.visible = false;
+
+        if (this.scene.currDot == 0) {
+            return;
+        }
+
+
+        if (this.scene.connections.length == 0) {
+            console.log('theres\'s no connections');
+            console.log('currDot: ', this.scene.currDot);
+            this.scene.points[this.scene.currDot].setVisible(false);
+            --this.scene.currDot;
+            return;
+        }
+
+
+        if (this.scene.connections.length <= this.scene.numPointsRemoval) {
+            console.log('less connections!');
+            console.log('connections length: ', this.scene.connections.length);
+            console.log('currdot: ', this.scene.currDot - 1);
+
+            let origConnLength = (this.scene.connections.length > this.scene.numPointsRemoval)? this.scene.numPointsRemoval : this.scene.connections.length;
+
+            for (let i = 0; i < origConnLength; ++i) {
+//                if (this.scene.points[this.scene.currDot] == this.scene.points[0]) {
+//                    return;
+//                }
+
+                console.log('i: ', i);
+                this.scene.points[this.scene.currDot].setVisible(false);
+                console.log('point ', this.scene.points[this.scene.currDot].x, ' , ', this.scene.points[this.scene.currDot].y, ' was removed');
+                this.scene.connections[this.scene.connections.length -  1].destroy();
+                --this.scene.connections.length;
+                console.log('connection at', this.scene.connections.length, ' was removed');
+                console.log('curr dot: ', this.scene.currDot);
+                --this.scene.currDot;
+                if (this.scene.points[this.scene.currDot] != this.scene.points[0]) {
+                    this.scene.points[this.scene.currDot].setVisible(false);
+                    --this.scene.currDot;
+                }
+                console.log('point ', this.scene.points[this.scene.currDot].x, ' , ', this.scene.points[this.scene.currDot].y, ' was removed');
+                console.log('curr dot after sub: ', this.scene.currDot);
+
+                if (gameObject != 0) {
+                console.log('game boejct visibility', gameObject[0].visible);
+                }
+
+//                if (i == this.scene.numPointsRemoval - 1) {
+//                    this.scene.points[this.scene.currDot].setVisible(false);
+//                    --this.scene.currDot;
+//                console.log('curr dot after sub again: ', this.scene.currDot);
+//                }
+            }
+            return;
+        }
+
+        if (gameObject != 0) {
+            console.log('game boejct visibility', gameObject[0].visible);
+        }
+//        for (let i = 1; i < this.scene.points.length; ++i) {
+//            this.scene.points[i].setFrame('hole 0');
+//        }
+
+//        this.scene.points[0].setFrame('hole 1');
+
+//        this.scene.currDot = 0;
+
+
+        for (let i = 0; i < this.scene.numPointsRemoval; ++i) {
+            this.scene.points[this.scene.currDot].setVisible(false);
+            this.scene.connections[this.scene.connections.length -  1].destroy();
+            --this.scene.connections.length;
+            console.log('connection at', this.scene.connections.length, ' was removed');
+            console.log('curr dot: ', this.scene.currDot);
+            --this.scene.currDot;
+            console.log('curr dot after sub: ', this.scene.currDot);
+
+            if (gameObject != 0) {
+            console.log('game boejct visibility', gameObject[0].visible);
+            }
+
+            if (i == this.scene.numPointsRemoval - 1) {
+                this.scene.points[this.scene.currDot].setVisible(false);
+                --this.scene.currDot;
+            console.log('curr dot after sub again: ', this.scene.currDot);
+            }
+        }
+
+        //this.scene.currDot -= 2;
+
+
+
+//        this.tempConn = [];
+//
+//        for (let i = 0; i < this.scene.connections.length - this.scene.numPointsRemoval; ++i) {
+//            this.tempConn.push(this.scene.connections[i]);
+//        }
+//
+////        this.scene.connections[this.scene.connections.length - 1].destroy();
+//
+//        this.connections = this.tempConn;
+
+        console.log('missed, next starting point: ', this.scene.currDot);
+
+        return;
+
+
+    }
+
+    // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
+//    if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
+//        console.log('not on point');
+//        console.log('nextpoint.x: ', this.scene.points[this.scene.currDot].x, 'nextpoint.y: ', this.scene.points[this.scene.currDot].y);
+//
+//       
+//
+//        this.scene.points[this.scene.currDot].setVisible(false);
+////        for (let i = 1; i < this.scene.points.length; ++i) {
+////            this.scene.points[i].setFrame('hole 0');
+////        }
+//
+////        this.scene.points[0].setFrame('hole 1');
+//
+////        this.scene.currDot = 0;
+//
+//
+//        this.scene.currDot -= 2;
+//
+//        this.scene.stitch.visible = false;
+//
+//        console.log(this.scene.currDot);
+//
+//    
+////        for (let i = 0; i < this.scene.connections.length; ++i) {
+////            this.scene.connections[i].destroy();
+////        }
+//
+////        this.scene.connections = [];
+//
+//        return;
+//    }
 
     this.scene.points[this.scene.currDot].setFrame('hole 2');
 
@@ -371,6 +556,7 @@ function endDrag(pointer, gameObject) {
     this.scene.isDragging = false;
 
     this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
+    // show line from previous point to current point
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
 
     console.log('pushed to connection, size: ', this.scene.connections.length);
