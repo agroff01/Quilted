@@ -10,7 +10,7 @@ class Scene2 extends Phaser.Scene {
         .setMaxWidth(game.config.width)
         .setTintFill();
 
-        this.add.text(game.config.width / 2, game.config.height / 1.5, 'credits:\nArt: Anna Schultz\nCode: Alex Groff & Marlene Inoue\nMusic: Old oak by Olexy | https://lesfm.net/\nMusic promoted by https://www.chosic.com/free-music/all/\nCreative Commons CC BY 3.0\nhttps://creativecommons.org/licenses/by/3.0/').setOrigin(0.5, 0.5).setAlign('center');
+        this.add.text(game.config.width / 2, game.config.height / 1.5, 'credits:\nArt and Narrative: Anna Schultz\nCode: Alex Groff & Marlene Inoue\nMusic: Old oak by Olexy | https://lesfm.net/\nMusic promoted by https://www.chosic.com/free-music/all/\nCreative Commons CC BY 3.0\nhttps://creativecommons.org/licenses/by/3.0/').setOrigin(0.5, 0.5).setAlign('center');
     }
 
     update() {
