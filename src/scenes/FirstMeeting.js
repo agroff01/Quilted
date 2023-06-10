@@ -89,6 +89,7 @@ class FirstMeeting extends Phaser.Scene {
         this.song.play(musicConfig);
 
         this.fadeout = null;
+        this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
     }
 
     update() { 
@@ -173,6 +174,9 @@ class FirstMeeting extends Phaser.Scene {
             this.finishedDialog = true;
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
+                this.time.delayedCall(1500, () => {
+                    this.directions.setAlpha(1);
+                });
             }, null, this)
         }
 
