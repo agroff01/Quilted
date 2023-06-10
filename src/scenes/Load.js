@@ -21,17 +21,17 @@ class Load extends Phaser.Scene {
 
         // speech bubbles
         this.load.image('playerBubble', './Scene1/Me_Final_Speech_Bubble.png');
-        this.load.image('grandBubble', './Scene1/Textbox_Temp_Grandma_Smol.png');
-        this.load.image('largeGrandBubble', './Scene1/Large_Grandma_Textbox_Temp.png');
-        this.load.image('grandTri', './Scene1/GrandmaTriangle.png');
-        this.load.image('playerTri', './Scene1/PlayerTriangle.png');
+        this.load.image('grandBubble', './Scene1/Grandma_Final_Speech_Bubble.png');
+        this.load.image('largeGrandBubble', './Scene1/Grandma_Final_Large_Box.png');
+        this.load.image('grandTri', './Scene1/Grandma_Final_Triangle.png');
+        this.load.image('playerTri', './Scene1/Player_Final_Triangle.png');
 
 
         // dialog choice images
-        this.load.image('bike', './Scene1/Bike_Temp.png');
+        this.load.image('bike', './Scene1/Bike_Final.png');
 
         // holes
-        this.load.atlas('circle', 'circle.png', 'circle.json');
+        //this.load.atlas('circle', 'circle.png', 'circle.json');
         this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
 
         // fonts
