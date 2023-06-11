@@ -5,10 +5,8 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
-
         // Set Custom Mouse Cursor
         this.input.setDefaultCursor('url(assets/Scene2/Scene2Cursor.cur), pointer');
-
 
         this.cam = this.cameras.main.fadeIn(1000, 0, 0, 0);
 
@@ -280,12 +278,12 @@ class SecondMeeting extends Phaser.Scene {
         // go to next scene once finished dialog and drawing 
         if (this.finishedPlacedImage && this.finishedDialog) {
             // check if song is playing to stop it
-            this.tweens.add({
-                targets: this.song,
-                volume: {from: this.song.volume, to: 0},
-                duration: 3000,
-                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
-            });
+//            this.tweens.add({
+//                targets: this.song,
+//                volume: {from: this.song.volume, to: 0},
+//                duration: 3000,
+//                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
+//            });
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
