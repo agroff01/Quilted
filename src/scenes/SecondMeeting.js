@@ -5,6 +5,18 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
+        var musicConfig = {
+            mute: false,
+            volume: 0.5,
+            //volume: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+
+        this.song = this.sound.add("firstMeetingBGMusic");
+        this.song.play(musicConfig);
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -16,7 +28,8 @@ class SecondMeeting extends Phaser.Scene {
 
         // line graphics from point to point
         this.isDragging = false;
-        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
+        this.stitchColor = 0x98b55a;
+        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, this.stitchColor).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
         this.linePosition = {x: 0, y:0};
@@ -250,7 +263,7 @@ class SecondMeeting extends Phaser.Scene {
             // check if song is playing to stop it
             this.tweens.add({
                 targets: this.song,
-                volume: {front: this.song.volume, to: 0},
+                volume: {from: this.song.volume, to: 0},
                 duration: 3000,
                 onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
             });

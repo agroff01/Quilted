@@ -5,7 +5,6 @@ class FirstMeeting extends Phaser.Scene {
 
 
     create() {
-
         var musicConfig = {
             mute: false,
             volume: 0.0075,
@@ -28,7 +27,8 @@ class FirstMeeting extends Phaser.Scene {
 
         // line graphics from point to point
         this.isDragging = false;
-        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
+        this.stitchColor = 0x70c2db;
+        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, this.stitchColor).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
         this.linePosition = {x: 0, y:0};
@@ -62,9 +62,8 @@ class FirstMeeting extends Phaser.Scene {
 
         // mouse input to make lines
         this.input.on('pointerdown', startDrag);
-        this.input.on('pointerup', endDrag);
         this.input.on('pointermove', drag);
-
+        this.input.on('pointerup', endDrag);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -459,7 +458,7 @@ function endDrag(pointer, gameObject) {
 
     this.scene.isDragging = false;
 
-    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
+    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, this.scene.stitchColor, 1).setOrigin(0));
     // show line from previous point to current point
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
 
