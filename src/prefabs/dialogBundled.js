@@ -17,6 +17,8 @@ class dialogBoxBundle {
         this.lastBoxClicked = false;
         this.paused = false;
         this.pauseTimer;
+
+        this.images = null;
     }
 
     update(){
@@ -42,7 +44,7 @@ class dialogBoxBundle {
         // Code for advancing the dialog boxes with SPACE
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-            console.log("space pressed")
+            //console.log("space pressed")              DEBUG COMMENT
             this.activeBox.waitArrow.removeFromDisplayList()
             if (this.activeBox.isTyping) this.activeBox.showTextFlag = true;
                 else if(this.activeBox.DialogToDisplayQ.isEmpty && this.nextInstruction !== 'end')this.cycleScript();
@@ -57,13 +59,15 @@ class dialogBoxBundle {
     }
 
     cycleScript(){
-        console.log(this.activeBox.isTyping + "   " + this.nextInstruction)
+        //console.log(this.activeBox.isTyping + "   " + this.nextInstruction)               DEBUG COMMENT
 
         // do nothing if text is not finished from current box or if we reached the end of the script   
         if (this.activeBox.isTyping || this.nextInstruction === 'end') return;
 
         let currentBox = '', boxChosen = false;
         for (let i = this.scriptIndex + 1; i < this.script.length-1; i++, this.scriptIndex++) {
+
+            if (this.paused) return; //if the pause command was just read, leave and cycleScript will automatically be called at the end of the pause duration
 
             if (currentBox != this.nextInstruction && boxChosen) return; // if the next script line is not about giving the current box dialog, then we will come back to it later
 
@@ -105,6 +109,19 @@ class dialogBoxBundle {
             } else if (this.nextInstruction === 'shift') { // start the scene's puzzle when this keyword is found
                 this.shiftFocus(this.script[i][1]);
 
+            } else if (this.nextInstruction === 'image') { // start the scene's puzzle when this keyword is found
+                this.images = this.scene.add.image(this.script[i][1], this.script[i][2], this.script[i][3]).setOrigin(.5).setScale(this.script[i][4]);
+                this.images.alpha = 0;
+                this.tweenImageAlpha(this.images, 1);
+
+            } else if (this.nextInstruction === 'pause') { // start the scene's puzzle when this keyword is found
+                this.paused = true;
+                //this.scriptIndex++;
+                this.scene.time.delayedCall(this.script[i][1], () => {
+                    this.paused = false;
+                    this.cycleScript();
+                })
+
             } else if (this.nextInstruction === 'end') {
                 return; // our script is DONE!
 
@@ -115,7 +132,7 @@ class dialogBoxBundle {
             try {
                 this.nextInstruction = this.script[i+1][0];
             } catch {
-                console.log("INCORRECT SCRIPT FORMATTING");
+                console.log("INCORRECT SCRIPT FORMATTING (check your commas!!)");
             }
         }
     }
@@ -136,10 +153,20 @@ class dialogBoxBundle {
 
     }
 
+    tweenImageAlpha(image, targetAlpha){
+        this.scene.tweens.add({
+            targets: image,
+            alpha: targetAlpha,
+            ease: 'Quad.InOut',
+            duration: 1500,
+        });
+    }
+
     remove() {
         this.leftBox.hide()
         this.rightBox.hide()
         this.centerBox.hide()
+        if (this.images) this.tweenImageAlpha(this.images,0)
         this.unusable = true;
     }
 

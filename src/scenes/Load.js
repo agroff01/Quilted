@@ -28,8 +28,12 @@ class Load extends Phaser.Scene {
         this.load.audio('grandma_chuckle', ['Music/grandma_chuckle.ogg', 'Music/grandma_chuckle.wav', 'Music/grandma_chuckle.mp3']);
 
         // backgrounds
+        this.load.atlas('menuBackground', './Title/Title_Screen_Anim.png', './Title/Title_Screen_Anim.json');
+        this.load.image('title', './Title/Quilted_Title.png');
         this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1.png');
         this.load.image('endCreditBack','./ToBeContinued/End_Credit_Scene_Fabric.png');
+        this.load.image('secondMeetingBackground', './Scene2/Fabric_Scene_2.png');
+        this.load.image('combinedQuilt', './ToBeContinued/To_Be_Continued_Pan_No_Text.png')
 
         // speech bubbles
         this.load.image('playerBubble', './Scene1/Me_Final_Speech_Bubble.png');
@@ -38,12 +42,20 @@ class Load extends Phaser.Scene {
         this.load.image('grandTri', './Scene1/Grandma_Final_Triangle.png');
         this.load.image('playerTri', './Scene1/Player_Final_Triangle.png');
 
+        // cursors
+        this.load.image('blueCursor', './Scene1/Scene1Cursor.png');
+        this.load.image('greenCursor', './Scene2/Scene2Cursor.png');
 
-        // dialog choice images
+        // fun little snacks
+        this.load.image('cookies', './Scene1/Cookie_Plate.png');
+        this.load.image('lemonade', './Scene2/Lemonade_Glass.png');
+
+
+        // dialog  images
         this.load.image('bike', './Scene1/Bike_Final.png');
+        this.load.image('fish', './Scene2/Fishing_Rod_Final.png');
 
         // holes
-        //this.load.atlas('circle', 'circle.png', 'circle.json');
         this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
 
         // fonts
