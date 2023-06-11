@@ -24,7 +24,7 @@ class dialogBoxBundle {
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
         
-        // Code for if we want a pointer click to also advance the dialog
+        // Code for if we want a pointer CLICK to also advance the dialog
 
         // this.scene.input.on('pointerup', () => {
         //     this.activeBox.waitArrow.removeFromDisplayList()
@@ -37,6 +37,9 @@ class dialogBoxBundle {
         //         }
         //         else this.activeBox.click()
         // });
+
+
+        // Code for advancing the dialog boxes with SPACE
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
             console.log("space pressed")

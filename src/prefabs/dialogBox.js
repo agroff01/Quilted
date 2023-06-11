@@ -11,7 +11,7 @@ class Dialog {
 
         if (side == 'left') {
             x = (game.config.width / 5) + 40
-            y = inFocus ? game.config.width / 2 : (game.config.height * 5/6) - 61
+            y = inFocus ? game.config.height / 2 : (game.config.height * 5/6) - 61
             bubbleType = 'playerBubble';
             textOffset.x += 20
             textOffset.y += 50
@@ -20,14 +20,14 @@ class Dialog {
 
         } else if (side == 'right') {
             x = game.config.width * 3/4
-            y = inFocus ? game.config.width / 2 : game.config.height * 5/6
+            y = inFocus ? game.config.height / 2 : game.config.height * 5/6
             bubbleType = 'grandBubble'
             textOffset.x = -10
             arrowOffset.x = -10
 
         } else if (side == 'center'){
             x = game.config.width / 2 
-            y = inFocus ? game.config.width / 2 : game.config.height * 4/5
+            y = inFocus ? game.config.height / 2 : game.config.height * 4/5
             bubbleType = 'largeGrandBubble'
             arrowOffset.y = 150;
 
@@ -139,7 +139,7 @@ class Dialog {
             ease: 'Quad.Out',
             duration: 1000,
             yoyo: true,
-            repeat: 10000000
+            repeat: -1
         });
     }
     
