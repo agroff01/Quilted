@@ -45,7 +45,7 @@ class Dialog {
         if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset.x, y + textOffset.y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50);
         else {
             this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50);
-            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50).setAlpha(.45);
+            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50).setAlpha(.5);
         }
 
         this.waitArrow = scene.add.sprite(x + arrowOffset.x, y + arrowOffset.y, bubbleType === 'playerBubble' ? 'playerTri' : (bubbleType === 'grandBubble' || bubbleType === 'largeGrandBubble') ? 'grandTri' : null).setOrigin(.5);
@@ -149,14 +149,21 @@ class Dialog {
             this.image.alpha = 1;
             this.boxText.alpha = 1;
             this.waitArrow.alpha = 1;
-            if (this.side == 'center') this.oldText.alpha = 1;
+            if (this.side == 'center') this.oldText.alpha = .5;
             return;
         }
 
         if (this.side == 'center'){
             this.scene.tweens.add({
-                targets: [this.image, this.oldText, this.boxText, this.waitArrow],
+                targets: [this.image, this.boxText, this.waitArrow],
                 alpha: 1,
+                ease: 'Quad.InOut',
+                duration: 500,
+            });
+
+            this.scene.tweens.add({
+                targets: this.oldText,
+                alpha: .5,
                 ease: 'Quad.InOut',
                 duration: 500,
             });
