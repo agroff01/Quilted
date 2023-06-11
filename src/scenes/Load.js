@@ -16,6 +16,21 @@ class Load extends Phaser.Scene {
 
         this.load.path = './assets/';
 
+        // music
+        this.load.audio('firstMeetingBGMusic', ['./Music/Old-oak.mp3', './Music/Old-oak.wav', './Music/Old-oak.ogg']);
+
+        // sfx
+        this.load.audio('open_kit', ['./Music/open_kit.ogg', './Music/open_kit.wav', './Music/open_kit.mp3']);
+        this.load.audio('steps', ['./Music/steps.ogg', './Music/steps.wav', './Music/steps.mp3']);
+        this.load.audio('sigh', ['./Music/sigh.ogg', './Music/sigh.wav', './Music/sigh.mp3']);
+        this.load.audio('thinking', ['./Music/thinking.ogg', './Music/thinking.wav', './Music/thinking.mp3']);
+        this.load.audio('ding', ['./Music/ding.ogg', './Music/ding.wav', './Music/ding.mp3']);
+        this.load.audio('grandma_chuckle', ['./Music/grandma_chuckle.ogg', './Music/grandma_chuckle.wav', './Music/grandma_chuckle.mp3']);
+        this.load.audio('fabric_swoosh', ['./Music/fabric_swoosh.ogg', './Music/fabric_swoosh.wav', './Music/fabric_swoosh.mp3']);
+        this.load.audio('glass_clink', ['./Music/glass_clink.ogg', './Music/glass_clink.wav', './Music/glass_clink.mp3']);
+        this.load.audio('glass_down', ['./Music/glass_down.ogg', './Music/glass_down.wav', './Music/glass_down.mp3']);
+        this.load.audio('door_close', ['./Music/door_close.ogg', './Music/door_close.wav', './Music/door_close.mp3']);
+
         // backgrounds
         this.load.atlas('menuBackground', './Title/Title_Screen_Anim.png', './Title/Title_Screen_Anim.json');
         this.load.image('title', './Title/Quilted_Title.png');
@@ -48,14 +63,12 @@ class Load extends Phaser.Scene {
         this.load.atlas('Scene_2_Hole', './Scene2/Fabric_Scene_2_Hole_Sheet.png', './Scene2/Fabric_Scene_2_Hole_Sheet.json');
 
         // fonts
-        this.load.bitmapFont("CraftyGirls24", "./Fonts/dialog_26.png", "./Fonts/dialog_26.xml");
+        this.load.bitmapFont("CraftyGirls24", "Fonts/dialog_26.png", "Fonts/dialog_26.xml");
 
-        // music
-        this.load.audio('firstMeetingBGMusic', './Music/Old-oak.mp3');
-    }
+   }
 
     create() {
-        this.scene.start('menuScene');
+            this.scene.start('menuScene');
     }
 
     
