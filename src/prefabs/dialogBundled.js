@@ -4,9 +4,9 @@ class dialogBoxBundle {
         this.leftBox = new Dialog(scene, 'left', 20, inFocus);
         this.rightBox = new Dialog(scene, 'right', 20, inFocus);
         this.centerBox = new Dialog(scene, 'center', 20, inFocus);
-        this.centerBox.hide();
-        this.leftBox.hide();
-        this.rightBox.hide();
+        this.centerBox.hide(true);
+        this.leftBox.hide(true);
+        this.rightBox.hide(true);
 
         
         this.script = script;
@@ -18,13 +18,15 @@ class dialogBoxBundle {
         this.paused = false;
         this.pauseTimer;
 
-        this.images = null;
+        if (scene.dialogImages === undefined) scene.dialogImages = [];
     }
 
     update(){
         if (this.unusable || this.paused) return;
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
+
+        console.log(this.centerBox.displayList);
         
         // Code for if we want a pointer CLICK to also advance the dialog
 
@@ -105,14 +107,15 @@ class dialogBoxBundle {
 
             } else if (this.nextInstruction === 'puzzle') { // start the scene's puzzle when this keyword is found
                 this.scene.puzzleIsActive = true;
-
+                this.removeAllDialogImages();
             } else if (this.nextInstruction === 'shift') { // start the scene's puzzle when this keyword is found
                 this.shiftFocus(this.script[i][1]);
 
             } else if (this.nextInstruction === 'image') { // start the scene's puzzle when this keyword is found
-                this.images = this.scene.add.image(this.script[i][1], this.script[i][2], this.script[i][3]).setOrigin(.5).setScale(this.script[i][4]);
-                this.images.alpha = 0;
-                this.tweenImageAlpha(this.images, 1);
+                let tempImage = this.scene.add.image(this.script[i][1], this.script[i][2], this.script[i][3]).setOrigin(.5).setScale(this.script[i][4])
+                this.scene.dialogImages.push(tempImage);
+                tempImage.alpha = 0;
+                this.tweenImageAlpha(tempImage, 1);
 
             } else if (this.nextInstruction === 'pause') { // start the scene's puzzle when this keyword is found
                 this.paused = true;
@@ -162,11 +165,17 @@ class dialogBoxBundle {
         });
     }
 
+    removeAllDialogImages() {
+        if (this.scene.dialogImages) {
+            this.scene.dialogImages.forEach(curr => this.tweenImageAlpha(curr, 0));
+        }
+    }
+
     remove() {
-        this.leftBox.hide()
-        this.rightBox.hide()
-        this.centerBox.hide()
-        if (this.images) this.tweenImageAlpha(this.images,0)
+        this.leftBox.hide(true)
+        this.rightBox.hide(true)
+        this.centerBox.hide(true)
+        
         this.unusable = true;
     }
 

@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
     } 
 
     update() {
-        this.input.on('pointerup', () => {this.scene.start('firstMeeting')});
+        this.input.on('pointerup', () => {this.scene.start('secondMeeting')});
     }
 
 }

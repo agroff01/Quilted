@@ -18,7 +18,7 @@ let config = {
             debug: true
         }
     },
-    scene: [ Load, Menu, FirstMeeting, Scene2, ToBeContinued ]
+    scene: [ Load, Menu, FirstMeeting, Scene2, ToBeContinued, SecondMeeting ]
 }
 
 let game = new Phaser.Game(config);
