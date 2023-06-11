@@ -1,14 +1,16 @@
-class FirstMeeting extends Phaser.Scene {
+class SecondMeeting extends Phaser.Scene {
     constructor(){
-        super('firstMeeting')
+        super('secondMeeting')
     }
 
 
     create() {
 
-        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        
+        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
+
         this.puzzleIsActive = false;
         this.finishedDialog = false;
 
@@ -119,7 +121,6 @@ class FirstMeeting extends Phaser.Scene {
                 ['hide', 'left'],
                 ['pause', 3000],
                 ['right', "I don't see you sewing."],
-                ['image', game.config.width/4, game.config.height/6, 'cookies', .2],
                 ['left', "I just don't know what to make."],
                 ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
                 ['left', "But honestly, I'm a little stuck on what to do."],
@@ -171,8 +172,6 @@ class FirstMeeting extends Phaser.Scene {
 
         } else if (this.boxBundle.scriptFinished === 'Storytime') {
             this.finishedDialog = true;
-            
-            if (!this.placedImage)
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
                 this.time.delayedCall(1500, () => {
