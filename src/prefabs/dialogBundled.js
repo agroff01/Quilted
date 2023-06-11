@@ -1,9 +1,9 @@
 class dialogBoxBundle {
     constructor(scene, script, inFocus = false){
         this.scene = scene;
-        this.leftBox = new Dialog(scene, 'left', 20, inFocus);
-        this.rightBox = new Dialog(scene, 'right', 20, inFocus);
         this.centerBox = new Dialog(scene, 'center', 20, inFocus);
+        this.rightBox = new Dialog(scene, 'right', 20, inFocus);
+        this.leftBox = new Dialog(scene, 'left', 20, inFocus);
         this.centerBox.hide(true);
         this.leftBox.hide(true);
         this.rightBox.hide(true);
@@ -172,9 +172,10 @@ class dialogBoxBundle {
     }
 
     remove(instantly = false) {
-        this.leftBox.hide(instantly)
-        this.rightBox.hide(instantly)
-        this.centerBox.hide(instantly)
+        
+        if (!(this.leftBox.isHidden === true || this.leftBox.alpha === 0)) this.leftBox.hide(instantly)
+        if (!(this.rightBox.isHidden === true || this.rightBox.alpha === 0))this.rightBox.hide(instantly)
+        if (!(this.centerBox.isHidden === true || this.centerBox.alpha === 0))this.centerBox.hide(instantly)
         
         this.unusable = true;
     }
