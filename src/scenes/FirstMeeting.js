@@ -23,7 +23,6 @@ class FirstMeeting extends Phaser.Scene {
         
         this.puzzleIsActive = false;
         this.finishedDialog = false;
-        this.random = false;
 
         this.graphics = this.add.graphics();
 
@@ -256,7 +255,7 @@ class FirstMeeting extends Phaser.Scene {
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
-                    this.scene.start('toBeContinued');
+                    this.scene.start('secondMeeting');
                 })
             })
         }
