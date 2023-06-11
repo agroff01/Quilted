@@ -61,7 +61,7 @@ class SecondMeeting extends Phaser.Scene {
             ['left', "Hey Grandma! It's great to see you."],
             ['right', "Well don't just stand out there in that heat, I've got the air on."],
             ['left', "Coming!"],
-            ['pause', 2500],
+            //['pause', 2500],
             ['right', "I'm guessing your school is finally out, since you made your way out here to see little old me?"],
             ['left', "Yeah, we just finished a week ago."],
             ['right', "I swear they keep you kids in school longer each year."],
@@ -72,7 +72,7 @@ class SecondMeeting extends Phaser.Scene {
             ['right', "I think you will have much more fun in high school."],
             ['hide', 'left'],
             ['hide', 'right'],
-            ['pause', 3000],
+            //['pause', 3000],
             ['end', "Intro"]
         ], true);
 
@@ -102,7 +102,7 @@ class SecondMeeting extends Phaser.Scene {
         // Dialog Box Update
         this.boxBundle.update();
         if (this.boxBundle.scriptFinished === "Intro") {
-            this.boxBundle.remove();
+            this.boxBundle.remove(true);
             this.boxBundle = new dialogBoxBundle(this, [
                ['right', "Would you like anything to drink dear? I've got fresh lemonade that I just made,"],
                ['right', "but I can also make iced tea, or cucumber water, or whatever you'd like."],
@@ -137,40 +137,48 @@ class SecondMeeting extends Phaser.Scene {
                ['end', "more stories!"]
             ], true)
         } else if (this.boxBundle.scriptFinished === "more stories!") {
-            this.boxBundle.remove();
+            this.boxBundle.remove(true);
             this.boxBundle = new dialogBoxBundle(this, [
-                ['left', "Didn’t you used to go hunting and stuff too?"],
                 ['puzzle'],
+                ['left', "Didn't you used to go hunting and stuff too?"],
                 ['right', "I did as a matter of fact. I used to hunt a lot of ducks,"],
                 ['right', "and I would go bass fishing in the summer, but your grandpa was an entirely different story."],
                 ['center', "He played all the sports in school, but he was totally clueless when it came to any outdoor sports like that. I distinctly remember there had been a lot of rain that spring, and the Sacramento River was swelling up real high."],
                 ['center', "When that happened, people usually parked their boats in the nearby channels, which were not too far from my house."],
-                ['center', "Now, I myself did not have a boat, but in those days, people wouldn’t actually lock their boats when they tied them to the docks, so all I had to do was unbolt the chain. And bam, I had a boat."],
+                ['center', "Now, I myself did not have a boat, but in those days, people wouldn't actually lock their boats when they tied them to the docks, so all I had to do was unbolt the chain. And bam, I had a boat."],
+                
+                ['shift', 'right', (game.config.height / 2) - 30],
+                ['shift', 'left', (game.config.height / 2) - 30],
                 ['left', "You would steal boats?"],
-                ['right', "No, not steal them. I just borrowed them when I knew people wouldn’t miss them."],
+                ['right', "No, not steal them. I just borrowed them when I knew people wouldn't miss them."],
                 ['left', "Haha, I never knew you were so crazy when you were young."],
-                ['right', "That’s not even half of it, hon. But, back to the story."],
+                ['right', "That's not even half of it, hon. But, back to the story."],
+                ['shift', game.config.height * 5/6],
                 ['hide', 'left'],
                 ['hide', 'right'],
+                ['shift', game.config.height * 5/6],
+
                 ['center', "Your grandpa and I had just started dating, so we were about your age, probably a few years older. I thought it might be a fun idea to take him one time, especially since he had never been fishing in his life. "],
                 ['center', "So, we snuck out about mid-afternoon and took the chain off of one of the boats and snagged the ores. I rowed us to one of the good spots I knew in the channel for fishing, and I started to set up my stuff."],
-                ['center', "Well, your grandpa didn’t even know the difference between a bobber and a jig, so I guess I set up all our stuff."],
+                ['center', "Well, your grandpa didn't even know the difference between a bobber and a jig, so I guess I set up all our stuff."],
                 ['center', "But once I had done that, your grandpa tried to make a really big cast."],
-                ['center', "I’m not sure if he was trying to impress me, or what was going through his mind, but he flung the rod back as far as he could, and launched the line so far he got it completely entangled in a tree."],
-                ['center', "But that’s not even the worse part."],
+                ['center', "I'm not sure if he was trying to impress me, or what was going through his mind, but he flung the rod back as far as he could, and launched the line so far he got it completely entangled in a tree."],
+                ['center', "But that's not even the worse part."],
                 ['center', "He got it entangled so badly that the bobber was wrapped around one of the main branches several times. "],
                 ['center', "That might not seem like a big deal, until you consider the fact that we were floating on probably 20-foot-deep water, and that branch was about 10 feet in the air above our heads."],
                 ['center', "But you know your grandpa, he was going to prove to me that he was going to get it down himself. So stubborn."],
                 ['left', "Well, did he?"],
                 ['center', "He did, but not without just about giving me a heart attack. At first, he thought it was a good idea at first to jump and try to reach it from the boat, which started shaking the rowboat so badly we nearly capsized."],
-                ['center', "But, when he realized that wasn’t going to work, he hopped out of the boat and swam to the bank. Once he got there, he climbed up the tree to reach the branch and untangled the rod while I held it."],
+                ['center', "But, when he realized that wasn't going to work, he hopped out of the boat and swam to the bank. Once he got there, he climbed up the tree to reach the branch and untangled the rod while I held it."],
                 ['center', "On his way back though, he jumped out of the tree into the water, and got me absolutely soaked."],
-                ['center', "He nearly tipped us over again trying to get back in the boat, and by that point I’m pretty sure he had scared all the bass away."],
+                ['center', "He nearly tipped us over again trying to get back in the boat, and by that point I'm pretty sure he had scared all the bass away."],
                 ['hide', 'center'],
+                ['shift', 'left', game.config.height * 5/6],
+                ['shift', 'right', game.config.height * 5/6],
                 ['right', "The whole time I just kept thinking to myself,"],
                 ['right', "\'We are definitely going to flip this boat and drown\'"],
                 ['right', "It's a miracle we didn't."],
-                ['left', "I think it’s safe to say Grandpa wasn’t much of a fisherman."],
+                ['left', "I think it's safe to say Grandpa wasn't much of a fisherman."],
                 ['right', "He was not a fisherman by any means. With all those shenanigans we were lucky we made it back by dark."],
                 ['right', "However, I think the icing on the cake for that trip was when yourgrandpa came over to my house the next day, with a horrible case of poison oak."],
                 ['right', "I think he got it trying to get the rod down, but he had rashes all over his arms and legs."],
@@ -179,7 +187,7 @@ class SecondMeeting extends Phaser.Scene {
                 ['right', "*She Chuckles*"],
                 ['right', "Certainly not for your grandfather."],
                 ['left', "This is great Grandma! I definitely got some inspiration for my next design."],
-                ['right', "Good, I’m glad. I’ll let you take your time with it now, just let me know when you are finished."],
+                ['right', "Good, I'm glad. I'll let you take your time with it now, just let me know when you are finished."],
                 ['end', 'storytime']
             ], false)
         } else if (this.boxBundle.scriptFinished === 'storytime') {
@@ -250,139 +258,4 @@ class SecondMeeting extends Phaser.Scene {
 
     }
 
-}
-
-function startDrag(pointer, gameObject) {
-    // return if puzzle isn't active
-    if (!this.scene.puzzleIsActive) {
-        return;
-    }
-
-    // if pointer is in the dialog area, ignore it
-    if (pointer.y > 600) return 
-
-    console.log('starting: ', this.scene.currDot);
-    // don't connect anymore once connected all dots
-    if (this.scene.finishedConnecting) {
-        return;
-    }
-
-    // skip drag if clicking not on a point or not clicking on subsequent point
-    if (gameObject == 0 || gameObject[0] != this.scene.points[this.scene.currDot]) {
-        console.log('didn\'t start at point');
-        return;
-    }
-
-    // set the starting of the line at the game object's x and y axis
-    this.scene.linePosition.x = gameObject[0].x;
-    this.scene.linePosition.y = gameObject[0].y;
-
-    console.log('line x pos: ', this.scene.linePosition.x, '\nline x pos: ', this.scene.linePosition.y);
-
-    this.scene.stitch.x = gameObject[0].x;
-    this.scene.stitch.y = gameObject[0].y;
-    this.scene.stitch.setTo(0, 0, 0, 0).setOrigin(0);
-    this.scene.stitch.visible = true;
-
-    this.isDragging = true;
-
-    this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
-
-    this.scene.points[this.scene.currDot].setFrame('hole 1');
-    console.log('next dot: ', this.scene.points[this.scene.currDot].x, this.scene.points[this.scene.currDot].y);
-}
-
-function drag(pointer) {
-    // return if puzzle isn't active
-    if (!this.scene.puzzleIsActive) {
-        return;
-    }
-
-    // if pointer is in the dialog area, ignore it
-    if (pointer.y > 600) return 
-
-    // stop checking for mouse drag once done connecting
-    if (this.scene.finishedConnecting) {
-        return;
-    }
-
-    console.log('dragging');
-
-    // move the line with the mouse
-    if (this.isDragging) {
-        this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
-    }
-}
-
-function endDrag(pointer, gameObject) {
-    // return if puzzle isn't active
-    if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
-        return;
-    }
-
-    // if pointer is in the dialog area, ignore it
-    if (pointer.y > 600) return 
-
-    console.log('ending: ', this.scene.currDot);
-
-    // return if already finished connection
-    if (this.scene.finishedConnecting) {
-        return;
-    }
-
-    // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
-    if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
-        console.log('not on point');
-        console.log('nextpoint.x: ', this.scene.points[this.scene.currDot].x, 'nextpoint.y: ', this.scene.points[this.scene.currDot].y);
-
-        for (let i = 1; i < this.scene.points.length; ++i) {
-            this.scene.points[i].setFrame('hole 0');
-        }
-
-        this.scene.points[0].setFrame('hole 1');
-
-        this.scene.currDot = 0;
-
-        this.scene.stitch.visible = false;
-
-        console.log(this.scene.currDot);
-
-        for (let i = 0; i < this.scene.connections.length; ++i) {
-            this.scene.connections[i].destroy();
-        }
-
-        this.scene.connections = [];
-
-        return;
-    }
-
-    this.scene.points[this.scene.currDot].setFrame('hole 2');
-
-    console.log('gameobject.x: ', gameObject[0].x, ' gameboejct.y: ', gameObject[0].y);
-    console.log('stitch.x: ', this.scene.stitch.x, ' stitch.y: ', this.scene.stitch.y);
-    console.log('linepos.x: ', this.scene.linePosition.x, ' linepos.y: ', this.scene.linePosition.y);
-
-    this.scene.stitch.setTo(0, 0, gameObject[0].x - this.scene.linePosition.x, gameObject[0].y - this.scene.linePosition.y);
-
-    console.log('after setting line: stitch.x :', this.scene.stitch.x, 'stitch.y: ', this.scene.stitch.y);
-
-    this.isDragging = false;
-
-    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
-    this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
-
-    // this also works
-    //let newline = this.scene.add.line(0, 0, linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y, 0x8bc34a, 1).setOrigin(0);
-    //this.scene.connections.push(newline);
-
-    console.log('pushed to connection, size: ', this.scene.connections.length);
-
-    // finished connecting when wrapped back to first point
-    if (this.scene.currDot == 0) {
-        this.scene.finishedConnecting = true;
-    }
-
-    this.scene.stitch.visible = false;
-
-    console.log('currDot loc: ', this.scene.currDot, 'finished connecting: ', this.scene.finishedConnecting);
 }
