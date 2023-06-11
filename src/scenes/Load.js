@@ -20,6 +20,7 @@ class Load extends Phaser.Scene {
         this.load.audio('firstMeetingBGMusic', ['Music/Old-oak.mp3', 'Music/Old-oak.wav', 'Music/Old-oak.ogg']);
 
         // sfx
+        this.load.audio('open_kit', ['Music/open_kit.ogg', 'Music/open_kit.wav', 'Music/open_kit.mp3']);
         this.load.audio('steps', ['Music/steps.ogg', 'Music/steps.wav', 'Music/steps.mp3']);
         this.load.audio('sigh', ['Music/sigh.ogg', 'Music/sigh.wav', 'Music/sigh.mp3']);
         this.load.audio('thinking', ['Music/thinking.ogg', 'Music/thinking.wav', 'Music/thinking.mp3']);

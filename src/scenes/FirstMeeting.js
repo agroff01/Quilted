@@ -76,7 +76,7 @@ class FirstMeeting extends Phaser.Scene {
         this.boxBundle = new dialogBoxBundle(this, [
             ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
             ['right', "It should all be in my sewing kit."],
-            // TODO: open kit sound
+            ['sound', 'open_kit'],
             ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
             ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
             ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
