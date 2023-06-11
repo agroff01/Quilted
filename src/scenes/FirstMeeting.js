@@ -27,6 +27,7 @@ class FirstMeeting extends Phaser.Scene {
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;
+        this.random = false;
 
         this.graphics = this.add.graphics();
 
@@ -90,8 +91,9 @@ class FirstMeeting extends Phaser.Scene {
         this.placedPoints = false;
         this.placedImage = false;
 
-            
-}
+        this.fadeout = null;
+        this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
+    }
 
     update() { 
         // console.log(this.boxBundle.scriptFinished)
@@ -164,10 +166,10 @@ class FirstMeeting extends Phaser.Scene {
                 ['center', "Sally saw him coming and was able to stop in time, but he turned too sharply and sent me flying over my handlebars. I got all kinds of scrapes on my arms and knees."],
                 ['center', "Well, when my older brother saw me in that state, he demanded to know what had happened to me. And when I told him about your grandpa and what he had been doing, he told me to tell him the next time Sally and I wanted to go biking and he would come with us."],
                 ['center', "So we did, and when your grandpa tried to peel out in front of us again, my brother got so mad at him."],
-                ['center', "He told your grandpa that if he ever tried to do that again, he would kick the shit out of him."],
+                ['center', "He told your grandpa that if he ever tried to do that again, he would kick the crap out of him."],
                 ['center', "Your grandpa never tried it again."],
                 ['hide', 'center'],
-                ['left', "Haha! That's a great story Grandma, my class is going to think that's a funny story."],
+                ['left', "Haha! That's a great story Grandma, my class is going to think that's hilarious."],
                 ['right', "I'm glad you think so, and it looks like you got some inspiration for what to embroider."],
                 ['left', "I sure did!"],
                 ['right', "Alright then, I'll be quiet and let you finish. Just let me know when you are done."],
@@ -179,6 +181,9 @@ class FirstMeeting extends Phaser.Scene {
             this.finishedDialog = true;
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
+                this.time.delayedCall(1500, () => {
+                    this.directions.setAlpha(1);
+                });
             }, null, this)
         }
 
@@ -231,7 +236,12 @@ class FirstMeeting extends Phaser.Scene {
             });
 //            this.sound.stopByKey('firstMeetingBGMusic');
 
-            this.time.delayedCall(3000, () => {this.scene.start('scene2');})
+            if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
+                this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
+                this.cam.on('camerafadeoutcomplete',  () => {
+                    this.scene.start('toBeContinued');
+                })
+            })
         }
 
     }

@@ -24,6 +24,8 @@ class dialogBoxBundle {
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
         
+        // Code for if we want a pointer CLICK to also advance the dialog
+
         // this.scene.input.on('pointerup', () => {
         //     this.activeBox.waitArrow.removeFromDisplayList()
         //     if (this.scene.input.activePointer.upY > 600) 
@@ -35,6 +37,9 @@ class dialogBoxBundle {
         //         }
         //         else this.activeBox.click()
         // });
+
+
+        // Code for advancing the dialog boxes with SPACE
 
         if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
             console.log("space pressed")
@@ -87,7 +92,7 @@ class dialogBoxBundle {
                 // PLAY THE SOUND AT THE FILE PATH
                 console.log('sfx: ', this.script[i][1]);
                 this.sfx = this.scene.sound.add(this.script[i][1])
-                this.sfx.play();;
+                this.sfx.play();
 
             } else if (this.nextInstruction === 'hide') {  // hide a box
                 this.script[i][1] === 'left' ? this.leftBox.hide() : 
