@@ -50,18 +50,17 @@ class FirstMeeting extends Phaser.Scene {
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
-            460, 50,
-            350, 60,
-            275, 245,
-            110, 275,
-            160, 465,
-            300, 385,
-            445, 350, 
-            555, 390,
-            695, 485,
-            795, 335,
-            660, 250,
-            585, 150
+            440, 50,
+            340, 100,
+            290, 225,
+            190, 210,
+            350, 350,
+            480, 285,
+            540, 350,
+            670, 345,
+            600, 260,
+            550, 215,
+            595, 145,
         ]
 
         // mouse input to make lines
@@ -328,7 +327,7 @@ function drag(pointer) {
 function endDrag(pointer, gameObject) {
     console.log('pointter.x: ', pointer.x, ' pointer.y ', pointer.y);
 
-    // return if puzzle isn't active, finished connecting, or isn't dragging
+    // return if puzzle isn't active, finished connecting
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
     }
@@ -343,13 +342,6 @@ function endDrag(pointer, gameObject) {
 
     console.log('ending: ', this.scene.currDot);
 
-    // if user initially didn't connect, ignore
-    if (this.scene.touchedNothing) {
-        console.log('ended at clicking nothing');
-        this.scene.touchedNothing = false;
-        return;
-    }
-
     // if didn't click on a game object or if the object clicked on isn't visible, return
     if (gameObject != 0 && !gameObject[0].visible) {
         console.log('game boejct visibility', gameObject[0].visible);
@@ -359,6 +351,10 @@ function endDrag(pointer, gameObject) {
 
     // remove num of connections if released mouse not on next dot
     if (gameObject == 0 || (this.scene.points[this.scene.currDot] != gameObject[0] && !this.scene.points[this.scene.currDot + 1].visible)) {
+        if (this.scene.touchedNothing) {
+            this.scene.touchedNothing = false
+        }
+
         this.scene.stitch.visible = false;
 
         // ignore if currently at first dot (forgot random reason for this to occur)
@@ -469,7 +465,7 @@ function endDrag(pointer, gameObject) {
     }
 
     // finished connecting when wrapped back to first point
-    if (this.scene.currDot == 0) {
+    if (this.scene.currDot == this.scene.points.length - 1) {
         this.scene.finishedConnecting = true;
     }
 
