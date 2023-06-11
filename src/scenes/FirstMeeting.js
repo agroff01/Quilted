@@ -13,6 +13,7 @@ class FirstMeeting extends Phaser.Scene {
 
         this.puzzleIsActive = false;
         this.finishedDialog = false;
+        this.random = false;
 
         this.graphics = this.add.graphics();
 
