@@ -17,6 +17,8 @@ class Load extends Phaser.Scene {
         this.load.path = './assets/';
 
         // backgrounds
+        this.load.atlas('menuBackground', './Title/Title_Screen_Anim.png', './Title/Title_Screen_Anim.json');
+        this.load.image('title', './Title/Quilted_Title.png');
         this.load.image('firstMeetingBackground', './Scene1/Fabric_Scene_1.png');
         this.load.image('endCreditBack','./ToBeContinued/End_Credit_Scene_Fabric.png');
         this.load.image('secondMeetingBackground', './Scene2/Fabric_Scene_2.png');
@@ -38,12 +40,11 @@ class Load extends Phaser.Scene {
         this.load.image('lemonade', './Scene2/Lemonade_Glass.png');
 
 
-        // dialog choice images
+        // dialog  images
         this.load.image('bike', './Scene1/Bike_Final.png');
         this.load.image('fish', './Scene2/Fishing_Rod_Final.png');
 
         // holes
-        //this.load.atlas('circle', 'circle.png', 'circle.json');
         this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
 
         // fonts

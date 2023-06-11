@@ -6,6 +6,18 @@ class FirstMeeting extends Phaser.Scene {
 
     create() {
 
+        var musicConfig = {
+            mute: false,
+            volume: 0.0075,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+
+        this.song = this.sound.add("firstMeetingBGMusic");
+        this.song.play(musicConfig);
+
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         
@@ -26,6 +38,8 @@ class FirstMeeting extends Phaser.Scene {
         this.currDot = 0;
         this.points = [];
         this.connections = [];
+        this.numPointsRemoval = 2;
+        this.touchedNothing = false;
 
         this.finishedConnecting = false;
 
@@ -34,18 +48,17 @@ class FirstMeeting extends Phaser.Scene {
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
-            460, 50,
-            350, 60,
-            275, 245,
-            110, 275,
-            160, 465,
-            300, 385,
-            445, 350, 
-            555, 390,
-            695, 485,
-            795, 335,
-            660, 250,
-            585, 150
+            440, 50,
+            340, 100,
+            290, 225,
+            190, 210,
+            350, 350,
+            480, 285,
+            540, 350,
+            670, 345,
+            600, 260,
+            550, 215,
+            595, 145,
         ]
 
         // mouse input to make lines
@@ -60,13 +73,15 @@ class FirstMeeting extends Phaser.Scene {
         this.boxBundle = new dialogBoxBundle(this, [
             ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
             ['right', "It should all be in my sewing kit."],
+            // TODO: open kit sound
             ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
             ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
             ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-            ['end', "Intro"]
+//            ['end', "Intro"]
+            ['end', "Choice2"]
         ], true)
 
         this.introTextComplete = false;
@@ -74,18 +89,7 @@ class FirstMeeting extends Phaser.Scene {
         this.placedPoints = false;
         this.placedImage = false;
 
-        this.song = this.sound.add("firstMeetingBGMusic");
-        
-        var musicConfig = {
-            mute: false,
-            volume: 0.0075,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-         }
-
-        this.song.play(musicConfig);
+        this.addedHelp = false;
 
         this.fadeout = null;
         this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
@@ -111,7 +115,6 @@ class FirstMeeting extends Phaser.Scene {
             ], true)
         } else if (this.boxBundle.scriptFinished === "Choice1") {
             this.boxBundle.remove();
-            // INSERT TIMER SOUND EFFECT
             this.boxBundle = new dialogBoxBundle(this, [
                 ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
                 ['hide', 'right'],
@@ -176,10 +179,27 @@ class FirstMeeting extends Phaser.Scene {
             if (!this.placedImage)
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
-                this.time.delayedCall(1500, () => {
-                    this.directions.setAlpha(1);
-                });
+                // had to comment out becuse the directions were showing before going to the next scene
+                //this.time.delayedCall(1500, () => {
+                //    this.directions.setAlpha(1);
+                //});
             }, null, this)
+        }
+
+        // show helper text once puzzle is active
+        if (!this.addedHelp && this.puzzleIsActive) {
+            this.helpText = this.add.bitmapText(game.config.width / 2, game.config.height / 1.85, "CraftyGirls24", "Click and drag from point to point").setOrigin(0.5, 0.5);
+            this.tweens.add({
+                targets: this.helpText,
+                alpha: {from: 0, to: 1},
+                ease: 'Sine.InOut',
+                duration: 2000,
+                yoyo: true,
+                loop: -1,
+
+            });
+
+            this.addedHelp = true;
         }
 
         // remove all points and lines, show bike when finished 
@@ -200,12 +220,10 @@ class FirstMeeting extends Phaser.Scene {
             this.tween = this.tweens.add({
                 targets: this.bike,
                 alpha: {from: 0, to: 1},
-                ease: 'Sine.InOut',
+                ease: 'Sine.easeIn',
                 duration: 3000,
                 onComplete: () => {this.placedImage = true;},
             });
-
-            // this.placedImage = true;
         }
 
         // add points to scene
@@ -216,19 +234,21 @@ class FirstMeeting extends Phaser.Scene {
                     continue;
                 }
 
-                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));
+                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025).setVisible(false));
             }
 
             this.placedPoints = true;
         }
 
-        // TODO: check if finished connecting lines before dialog
         // go to next scene once finished dialog and drawing 
         if (this.placedImage && this.finishedDialog) {
             // check if song is playing to stop it
-            if (this.song.isPlaying) {
-                this.song.stop();
-            }
+            this.tweens.add({
+                targets: this.song,
+                volume: {front: this.song.volume, to: 0},
+                duration: 3000,
+                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
+            });
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
@@ -258,8 +278,9 @@ function startDrag(pointer, gameObject) {
     }
 
     // skip drag if clicking not on a point or not clicking on subsequent point
-    if (gameObject == 0 || gameObject[0] != this.scene.points[this.scene.currDot]) {
-        console.log('didn\'t start at point');
+    if (gameObject == 0 || !gameObject[0].visible || gameObject[0] != this.scene.points[this.scene.currDot]) {
+        console.log('didn\'t start at point (', this.scene.points[this.scene.currDot].x, ', ', this.scene.points[this.scene.currDot].y, ')');
+        this.scene.touchedNothing = true;
         return;
     }
 
@@ -274,39 +295,46 @@ function startDrag(pointer, gameObject) {
     this.scene.stitch.setTo(0, 0, 0, 0).setOrigin(0);
     this.scene.stitch.visible = true;
 
-    this.isDragging = true;
+    this.scene.isDragging = true;
 
     this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
 
-    this.scene.points[this.scene.currDot].setFrame('hole 1');
+    this.scene.points[this.scene.currDot].setFrame('hole 1').setVisible(true);
     console.log('next dot: ', this.scene.points[this.scene.currDot].x, this.scene.points[this.scene.currDot].y);
 }
 
 function drag(pointer) {
-    // return if puzzle isn't active
-    if (!this.scene.puzzleIsActive) {
+    // return if puzzle isn't active or if already finished connecting
+    if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
     }
 
     // if pointer is in the dialog area, ignore it
     if (pointer.y > 600) return 
 
-    // stop checking for mouse drag once done connecting
-    if (this.scene.finishedConnecting) {
+    // return is user isn't dragging
+    if (!this.scene.isDragging) {
         return;
     }
 
     console.log('dragging');
 
     // move the line with the mouse
-    if (this.isDragging) {
+    if (this.scene.isDragging) {
         this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
     }
 }
 
 function endDrag(pointer, gameObject) {
-    // return if puzzle isn't active
+    console.log('pointter.x: ', pointer.x, ' pointer.y ', pointer.y);
+
+    // return if puzzle isn't active, finished connecting
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
+        return;
+    }
+
+    // return is user isn't dragging
+    if (!this.scene.isDragging) {
         return;
     }
 
@@ -315,35 +343,103 @@ function endDrag(pointer, gameObject) {
 
     console.log('ending: ', this.scene.currDot);
 
-    // return if already finished connection
-    if (this.scene.finishedConnecting) {
+    // if didn't click on a game object or if the object clicked on isn't visible, return
+    if (gameObject != 0 && !gameObject[0].visible) {
+        console.log('game boejct visibility', gameObject[0].visible);
+        console.log('point isn\'t visible');
         return;
     }
 
-    // remove line if lets go of mouse when not clicking on a point or if lets go on a non subsequent point, starts over
-    if (gameObject == 0 || this.scene.points[this.scene.currDot] != gameObject[0]) {
-        console.log('not on point');
-        console.log('nextpoint.x: ', this.scene.points[this.scene.currDot].x, 'nextpoint.y: ', this.scene.points[this.scene.currDot].y);
-
-        for (let i = 1; i < this.scene.points.length; ++i) {
-            this.scene.points[i].setFrame('hole 0');
+    // remove num of connections if released mouse not on next dot
+    if (gameObject == 0 || (this.scene.points[this.scene.currDot] != gameObject[0] && !this.scene.points[this.scene.currDot + 1].visible)) {
+        if (this.scene.touchedNothing) {
+            this.scene.touchedNothing = false
         }
-
-        this.scene.points[0].setFrame('hole 1');
-
-        this.scene.currDot = 0;
 
         this.scene.stitch.visible = false;
 
-        console.log(this.scene.currDot);
-
-        for (let i = 0; i < this.scene.connections.length; ++i) {
-            this.scene.connections[i].destroy();
+        // ignore if currently at first dot (forgot random reason for this to occur)
+        if (this.scene.currDot == 0) {
+            return;
         }
 
-        this.scene.connections = [];
+        // if didn't connect first point, go back to the first one
+        if (this.scene.connections.length == 0) {
+            console.log('theres\'s no connections');
+            console.log('currDot: ', this.scene.currDot);
+            this.scene.points[this.scene.currDot].setVisible(false);
+            --this.scene.currDot;
+            return;
+        }
+
+        // remove up to the number of lines in the connections list if the length is 
+        // less than or equal to the number of lines decided to remove
+        if (this.scene.connections.length <= this.scene.numPointsRemoval) {
+            console.log('less connections!');
+            console.log('connections length: ', this.scene.connections.length);
+            console.log('currdot: ', this.scene.currDot - 1);
+
+            let origConnLength = (this.scene.connections.length > this.scene.numPointsRemoval)? this.scene.numPointsRemoval : this.scene.connections.length;
+
+            for (let i = 0; i < origConnLength; ++i) {
+                // remove curr point
+                this.scene.points[this.scene.currDot].setVisible(false);
+                console.log('point ', this.scene.points[this.scene.currDot].x, ' , ', this.scene.points[this.scene.currDot].y, ' was removed');
+
+                // remove last connection
+                this.scene.connections[this.scene.connections.length -  1].destroy();
+                --this.scene.connections.length;
+
+                console.log('connection at', this.scene.connections.length, ' was removed');
+                console.log('curr dot: ', this.scene.currDot);
+                // go back one point
+                --this.scene.currDot;
+
+                // remove the point as long as if it's not the first one
+                if (this.scene.points[this.scene.currDot] != this.scene.points[0]) {
+                    this.scene.points[this.scene.currDot].setVisible(false);
+                    --this.scene.currDot;
+                }
+
+                console.log('point ', this.scene.points[this.scene.currDot].x, ' , ', this.scene.points[this.scene.currDot].y, ' was removed');
+                console.log('curr dot after sub: ', this.scene.currDot);
+
+            }
+            return;
+        }
+
+        console.log('AFTER FIRST FOR LOOP');
+
+        // there are more connected lines than the decided num of lines to remove
+        // remove all the num of lines decided
+        for (let i = 0; i < this.scene.numPointsRemoval; ++i) {
+            // remove the current point shown
+            this.scene.points[this.scene.currDot].setVisible(false);
+            // remove the most recent connection
+            this.scene.connections[this.scene.connections.length -  1].destroy();
+            --this.scene.connections.length;
+
+            console.log('connection at', this.scene.connections.length, ' was removed');
+            console.log('curr dot: ', this.scene.currDot);
+
+            --this.scene.currDot;
+            console.log('curr dot after sub: ', this.scene.currDot);
+
+            if (gameObject != 0) {
+            console.log('game boejct visibility', gameObject[0].visible);
+            }
+
+            // if at the last iteration, remove the current dot
+            if (i == this.scene.numPointsRemoval - 1) {
+                this.scene.points[this.scene.currDot].setVisible(false);
+                --this.scene.currDot;
+            console.log('curr dot after sub again: ', this.scene.currDot);
+            }
+        }
 
         return;
+
+
     }
 
     this.scene.points[this.scene.currDot].setFrame('hole 2');
@@ -356,19 +452,21 @@ function endDrag(pointer, gameObject) {
 
     console.log('after setting line: stitch.x :', this.scene.stitch.x, 'stitch.y: ', this.scene.stitch.y);
 
-    this.isDragging = false;
+    this.scene.isDragging = false;
 
     this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
+    // show line from previous point to current point
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
-
-    // this also works
-    //let newline = this.scene.add.line(0, 0, linePosition.x, linePosition.y, gameObject[0].x, gameObject[0].y, 0x8bc34a, 1).setOrigin(0);
-    //this.scene.connections.push(newline);
 
     console.log('pushed to connection, size: ', this.scene.connections.length);
 
+    // remove helper text once connected two points
+    if (this.scene.connections.length == 1) {
+        this.scene.helpText.removeFromDisplayList();
+    }
+
     // finished connecting when wrapped back to first point
-    if (this.scene.currDot == 0) {
+    if (this.scene.currDot == this.scene.points.length - 1) {
         this.scene.finishedConnecting = true;
     }
 
