@@ -225,6 +225,8 @@ class FirstMeeting extends Phaser.Scene {
                 duration: 3000,
                 onComplete: () => {this.finishedPlacedImage = true;},
             });
+
+            this.placedImage = true;
         }
 
         // add points to scene
@@ -255,7 +257,6 @@ class FirstMeeting extends Phaser.Scene {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
                     this.scene.start('toBeContinued');
-                    //this.scene.start('secondMeeting');
                 })
             })
         }
