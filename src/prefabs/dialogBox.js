@@ -40,12 +40,12 @@ class Dialog {
         }
         
         this.image = scene.add.sprite(x, y, bubbleType).setOrigin(.5);
-        this.image.setAlpha(1);
+        this.image.setAlpha(1).setDepth(50);
 
-        if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset.x, y + textOffset.y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
+        if (side !== 'center') this.boxText = scene.add.bitmapText(x + textOffset.x, y + textOffset.y, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50);
         else {
-            this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth);
-            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setAlpha(.45);
+            this.boxText = scene.add.bitmapText(x, y + 75, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50);
+            this.oldText = scene.add.bitmapText(x, y - 65, "CraftyGirls24", '').setOrigin(0.5).setCenterAlign().setMaxWidth(textWidth).setDepth(50).setAlpha(.45);
         }
 
         this.waitArrow = scene.add.sprite(x + arrowOffset.x, y + arrowOffset.y, bubbleType === 'playerBubble' ? 'playerTri' : (bubbleType === 'grandBubble' || bubbleType === 'largeGrandBubble') ? 'grandTri' : null).setOrigin(.5);
@@ -111,10 +111,10 @@ class Dialog {
 
     hide(instantly = false) {
         if (instantly) {
-            if (this.side === 'center') this.oldText.removeFromDisplayList().setText('')
-            this.image.removeFromDisplayList();
-            this.boxText.removeFromDisplayList().setText('');
-            this.waitArrow.removeFromDisplayList();
+            this.image.alpha = 0;
+            this.boxText.alpha = 0;
+            this.waitArrow.alpha = 0;
+            if (this.side == 'center') this.oldText.alpha = 0;
 
         } else if (this.side == 'center') {
             this.scene.tweens.add({
@@ -122,12 +122,6 @@ class Dialog {
                 alpha: 0,
                 ease: 'Quad.InOut',
                 duration: 500,
-                onComplete: () => {
-                    this.oldText.removeFromDisplayList().setText('')
-                    this.image.removeFromDisplayList();
-                    this.boxText.removeFromDisplayList().setText('');
-                    this.waitArrow.removeFromDisplayList();
-                }
             });
         } else {
             this.scene.tweens.add({
@@ -135,29 +129,21 @@ class Dialog {
                 alpha: 0,
                 ease: 'Quad.InOut',
                 duration: 500,
-                onComplete: () => {
-                    this.image.removeFromDisplayList();
-                    this.boxText.removeFromDisplayList().setText('');
-                    this.waitArrow.removeFromDisplayList();
-                }
             });
         }
+
+        this.isHidden = true;
          
     }
 
     show(instantly = false) {
 
-        if(this.image.displayList != undefined) return;
-
-        this.image.alpha = 0;
-        this.boxText.alpha = 0;
-        this.waitArrow.alpha = 0;
-        if (this.side == 'center') this.oldText.alpha = 0;
-
-        this.image.addToDisplayList();
-        this.boxText.addToDisplayList();
-        this.waitArrow.addToDisplayList();
-        if (this.side == 'center') this.oldText.addToDisplayList() 
+        if(this.isHidden === true) {
+            this.image.alpha = 0;
+            this.boxText.alpha = 0;
+            this.waitArrow.alpha = 0;
+            if (this.side == 'center') this.oldText.alpha = 0;
+        }
 
         if(instantly){
             this.image.alpha = 1;
@@ -182,6 +168,8 @@ class Dialog {
                 duration: 500,
             });
         }
+
+        this.isHidden = false
     }
 
     // when a box is clicked

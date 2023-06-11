@@ -26,7 +26,7 @@ class dialogBoxBundle {
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
 
-        console.log(this.centerBox.displayList);
+        console.log(this.leftBox.displayList);
         
         // Code for if we want a pointer CLICK to also advance the dialog
 
@@ -105,16 +105,19 @@ class dialogBoxBundle {
             } else if (this.nextInstruction === 'puzzle') { // start the scene's puzzle when this keyword is found
                 this.scene.puzzleIsActive = true;
                 this.removeAllDialogImages();
-            } else if (this.nextInstruction === 'shift') { // start the scene's puzzle when this keyword is found
-                this.shiftFocus(this.script[i][1]);
+            } else if (this.nextInstruction === 'shift') { // shift the boxes to a certain y position on the screen
+                if (this.script[i][1] === 'right') this.rightBox.shift(this.script[i][2]);
+                else if (this.script[i][1] === 'left') this.leftBox.shift(this.script[i][2]);
+                else if (this.script[i][1] === 'center') this.centerBox.shift(this.script[i][2]);
+                else this.shiftFocus(this.script[i][1]);
 
-            } else if (this.nextInstruction === 'image') { // start the scene's puzzle when this keyword is found
+            } else if (this.nextInstruction === 'image') { // load an image onto the screen with the given key
                 let tempImage = this.scene.add.image(this.script[i][1], this.script[i][2], this.script[i][3]).setOrigin(.5).setScale(this.script[i][4])
                 this.scene.dialogImages.push(tempImage);
                 tempImage.alpha = 0;
                 this.tweenImageAlpha(tempImage, 1);
 
-            } else if (this.nextInstruction === 'pause') { // start the scene's puzzle when this keyword is found
+            } else if (this.nextInstruction === 'pause') { // pause the dialog for a specified ammount of time
                 this.paused = true;
                 //this.scriptIndex++;
                 this.scene.time.delayedCall(this.script[i][1], () => {
@@ -168,10 +171,10 @@ class dialogBoxBundle {
         }
     }
 
-    remove() {
-        this.leftBox.hide(true)
-        this.rightBox.hide(true)
-        this.centerBox.hide(true)
+    remove(instantly = false) {
+        this.leftBox.hide(instantly)
+        this.rightBox.hide(instantly)
+        this.centerBox.hide(instantly)
         
         this.unusable = true;
     }
