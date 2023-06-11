@@ -27,6 +27,8 @@ class Load extends Phaser.Scene {
         this.load.audio('ding', ['Music/ding.ogg', 'Music/ding.wav', 'Music/ding.mp3']);
         this.load.audio('grandma_chuckle', ['Music/grandma_chuckle.ogg', 'Music/grandma_chuckle.wav', 'Music/grandma_chuckle.mp3']);
         this.load.audio('fabric_swoosh', ['Music/fabric_swoosh.ogg', 'Music/fabric_swoosh.wav', 'Music/fabric_swoosh.mp3']);
+        this.load.audio('cups_down', ['Music/cups_down.ogg', 'Music/cups_down.wav', 'Music/cups_down.mp3']);
+        this.load.audio('door_close', ['Music/door_close.ogg', 'Music/door_close.wav', 'Music/door_close.mp3']);
 
         // backgrounds
         this.load.atlas('menuBackground', './Title/Title_Screen_Anim.png', './Title/Title_Screen_Anim.json');
