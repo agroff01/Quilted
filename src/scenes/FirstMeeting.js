@@ -90,6 +90,7 @@ class FirstMeeting extends Phaser.Scene {
 
         this.placedPoints = false;
         this.placedImage = false;
+        this.placedImageFinished = false;
 
         this.fadeout = null;
         this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
@@ -198,6 +199,7 @@ class FirstMeeting extends Phaser.Scene {
             }
 
             this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+            this.placedImage = true;
 
             // delay bike to initially show on screen
             this.time.delayedCall(1, () => {this.bike.setVisible(true)});
@@ -207,7 +209,7 @@ class FirstMeeting extends Phaser.Scene {
                 alpha: {from: 0, to: 1},
                 ease: 'Sine.InOut',
                 duration: 3000,
-                onComplete: () => {this.placedImage = true;},
+                onComplete: () => {this.placedImageFinished = true;},
             });
         }
 
@@ -226,11 +228,12 @@ class FirstMeeting extends Phaser.Scene {
         }
 
         // go to next scene once finished dialog and drawing 
-        if (this.placedImage && this.finishedDialog) {
+        if (this.placedImageFinished && this.finishedDialog) {
             // check if song is playing to stop it
             this.tweens.add({
                 targets: this.song,
-                volume: {front: this.song.volume, to: 0},
+                //volume: {front: this.song.volume, to: 0},
+                volume: {from: this.song.volume, to: 0},
                 duration: 3000,
                 onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
             });
