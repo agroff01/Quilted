@@ -109,17 +109,79 @@ class Dialog {
         }, null, this.scene);
     }
 
-    hide() {
-        this.image.removeFromDisplayList();
-        this.boxText.removeFromDisplayList().setText('');
-        this.waitArrow.removeFromDisplayList();
-        if (this.side == 'center') this.oldText.removeFromDisplayList().setText('') 
+    hide(instantly = false) {
+        if (instantly) {
+            if (this.side === 'center') this.oldText.removeFromDisplayList().setText('')
+            this.image.removeFromDisplayList();
+            this.boxText.removeFromDisplayList().setText('');
+            this.waitArrow.removeFromDisplayList();
+
+        } else if (this.side == 'center') {
+            this.scene.tweens.add({
+                targets: [this.image, this.oldText, this.boxText, this.waitArrow],
+                alpha: 0,
+                ease: 'Quad.InOut',
+                duration: 500,
+                onComplete: () => {
+                    this.oldText.removeFromDisplayList().setText('')
+                    this.image.removeFromDisplayList();
+                    this.boxText.removeFromDisplayList().setText('');
+                    this.waitArrow.removeFromDisplayList();
+                }
+            });
+        } else {
+            this.scene.tweens.add({
+                targets: [this.image, this.boxText, this.waitArrow],
+                alpha: 0,
+                ease: 'Quad.InOut',
+                duration: 500,
+                onComplete: () => {
+                    this.image.removeFromDisplayList();
+                    this.boxText.removeFromDisplayList().setText('');
+                    this.waitArrow.removeFromDisplayList();
+                }
+            });
+        }
+         
     }
 
-    show() {
+    show(instantly = false) {
+
+        if(this.image.displayList != undefined) return;
+
+        this.image.alpha = 0;
+        this.boxText.alpha = 0;
+        this.waitArrow.alpha = 0;
+        if (this.side == 'center') this.oldText.alpha = 0;
+
         this.image.addToDisplayList();
         this.boxText.addToDisplayList();
+        this.waitArrow.addToDisplayList();
         if (this.side == 'center') this.oldText.addToDisplayList() 
+
+        if(instantly){
+            this.image.alpha = 1;
+            this.boxText.alpha = 1;
+            this.waitArrow.alpha = 1;
+            if (this.side == 'center') this.oldText.alpha = 1;
+            return;
+        }
+
+        if (this.side == 'center'){
+            this.scene.tweens.add({
+                targets: [this.image, this.oldText, this.boxText, this.waitArrow],
+                alpha: 1,
+                ease: 'Quad.InOut',
+                duration: 500,
+            });
+        } else {
+            this.scene.tweens.add({
+                targets: [this.image, this.boxText, this.waitArrow],
+                alpha: 1,
+                ease: 'Quad.InOut',
+                duration: 500,
+            });
+        }
     }
 
     // when a box is clicked
