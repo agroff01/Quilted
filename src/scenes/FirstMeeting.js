@@ -226,11 +226,11 @@ class FirstMeeting extends Phaser.Scene {
         if (!this.placedPoints && this.puzzleIsActive) {
             for (let i = 0; i < this.coords.length; i += 2) {
                 if (i == 0) {
-                    this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 1').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));//.setScale(0.025));
+                    this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'Scene_1_Hole', 'hole 1').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));//.setScale(0.025));
                     continue;
                 }
 
-                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025).setVisible(false));
+                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'Scene_1_Hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025).setVisible(false));
             }
 
             this.placedPoints = true;
