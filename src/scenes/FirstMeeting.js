@@ -79,7 +79,6 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-//            ['end', "Intro"]
             ['end', "Choice2"]
         ], true)
 
