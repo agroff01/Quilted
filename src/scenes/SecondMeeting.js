@@ -62,6 +62,7 @@ class SecondMeeting extends Phaser.Scene {
             ['right', "Well don't just stand out there in that heat, I've got the air on."],
             ['left', "Coming!"],
             //['pause', 2500],
+            ['sound', "door_close"],
             ['right', "I'm guessing your school is finally out, since you made your way out here to see little old me?"],
             ['left', "Yeah, we just finished a week ago."],
             ['right', "I swear they keep you kids in school longer each year."],
@@ -81,19 +82,6 @@ class SecondMeeting extends Phaser.Scene {
         this.placedPoints = false;
         this.placedImage = false;
 
-        this.song = this.sound.add("firstMeetingBGMusic");
-        
-        var musicConfig = {
-            mute: false,
-            volume: 0.0075,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-         }
-
-        this.song.play(musicConfig);
-
         this.fadeout = null;
         this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
     }
@@ -108,6 +96,7 @@ class SecondMeeting extends Phaser.Scene {
                ['right', "but I can also make iced tea, or cucumber water, or whatever you'd like."],
                ['left', "Ooo, lemonade sounds great!"],
                ['right', "You've got it!"],
+               ['sound', "cups_down"],
                ['pause', 1000],
                ['image', 0, 0, 'lemonade', .3],
                ['right', "So, when are you going to tell me about that bundle you are carrying around."],
@@ -115,6 +104,7 @@ class SecondMeeting extends Phaser.Scene {
                ['right', "Was that the one you were working on during winter break?"],
                ['left', "Sure was! Although, we kind of started working on other sewing techniques, so there's only one panel on here that's embroidered,"],
                ['left', "but at least the actual patches of the quilt are finished."],
+               ['sound', "fabric_swoosh"],
                ['right', "Wow, I see. That looks great, hon."],
                ['left', "Ehh, I feel like it looks kind of plain with just the one panel. Which is actually what I wanted to talk to you about."],
                ['right', "Oh?"],
