@@ -224,7 +224,7 @@ class SecondMeeting extends Phaser.Scene {
             this.helpText = this.add.bitmapText(game.config.width / 2, game.config.height / 1.85, "CraftyGirls24", "Click and drag from point to point").setOrigin(0.5, 0.5);
             this.tweens.add({
                 targets: this.helpText,
-                alpha: {from: 0, to: 1},
+                alpha: {from: 0.5, to: 1},
                 ease: 'Sine.InOut',
                 duration: 2000,
                 yoyo: true,
