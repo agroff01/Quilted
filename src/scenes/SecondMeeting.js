@@ -8,9 +8,7 @@ class SecondMeeting extends Phaser.Scene {
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        //this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-        //this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'firstMeetingBackground').setTilePosition(0, 0)//.setOrigin(0, 0).setScale(0.5);//.setScale(0.24);//(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
-
+        
         this.puzzleIsActive = false;
         this.finishedDialog = false;
 
@@ -59,16 +57,24 @@ class SecondMeeting extends Phaser.Scene {
 
         // create the dialog boxes
         this.boxBundle = new dialogBoxBundle(this, [
-            ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
-            ['right', "It should all be in my sewing kit."],
-            ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
-            ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
-            ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
-            ['right', "Well, you're certainly not wrong there."],
-            ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
-            ['left', "I'll say."],
+            ['right', "Ah, well look who it is!"],
+            ['left', "Hey Grandma! It's great to see you."],
+            ['right', "Well don't just stand out there in that heat, I've got the air on."],
+            ['left', "Coming!"],
+            ['pause', 2500],
+            ['right', "I'm guessing your school is finally out, since you made your way out here to see little old me?"],
+            ['left', "Yeah, we just finished a week ago."],
+            ['right', "I swear they keep you kids in school longer each year."],
+            ['right', "When I was young, we used to start clear at the end of September,"],
+            ['right', "but now it seems like these days they make you start in early August and don't let you out until late June."],
+            ['left', "I'm just glad I don't have to go back to middle school anymore. That place was awful."],
+            ['right', "Middle school can be tough, that's for sure."],
+            ['right', "I think you will have much more fun in high school."],
+            ['hide', 'left'],
+            ['hide', 'right'],
+            ['pause', 3000],
             ['end', "Intro"]
-        ], true)
+        ], true);
 
         this.introTextComplete = false;
 
@@ -93,84 +99,90 @@ class SecondMeeting extends Phaser.Scene {
     }
 
     update() { 
-        // console.log(this.boxBundle.scriptFinished)
-        // console.log("unusable : " + this.boxBundle.unusable)
-        // if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) this.boxBundle.shiftFocus(game.config.height * 5/6)
-        
         // Dialog Box Update
         this.boxBundle.update();
         if (this.boxBundle.scriptFinished === "Intro") {
             this.boxBundle.remove();
             this.boxBundle = new dialogBoxBundle(this, [
-               ['right', "So, tell me a bit more about this project your teacher assigned you."],
-               ['left', "It's pretty simple actually."],
-               ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
-               ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
-               ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
-               ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
-               ['end', "Choice1"]
+               ['right', "Would you like anything to drink dear? I've got fresh lemonade that I just made,"],
+               ['right', "but I can also make iced tea, or cucumber water, or whatever you'd like."],
+               ['left', "Ooo, lemonade sounds great!"],
+               ['right', "You've got it!"],
+               ['pause', 1000],
+               ['image', 0, 0, 'lemonade', .3],
+               ['right', "So, when are you going to tell me about that bundle you are carrying around."],
+               ['left', "Oh, I almost forgot! I brought back my embroidery project from my home economics class."],
+               ['right', "Was that the one you were working on during winter break?"],
+               ['left', "Sure was! Although, we kind of started working on other sewing techniques, so there's only one panel on here that's embroidered,"],
+               ['left', "but at least the actual patches of the quilt are finished."],
+               ['right', "Wow, I see. That looks great, hon."],
+               ['left', "Ehh, I feel like it looks kind of plain with just the one panel. Which is actually what I wanted to talk to you about."],
+               ['right', "Oh?"],
+               ['left', "See, when we were finishing up class, Ms. Curry told us that we should keep working on our projects over the summer if we want to improve our skills."],
+               ['left', "I know I'm already pretty good at embroidery, but after embroidering that bike… I don't know… "],
+               ['left', "I just had this thought. Like, what if I continue making panels, but in the same way as I made them before."],
+               ['right', "How do you mean?"],
+               ['left', "I don't know, but there was something really magical about sitting in this cabin and embroidering how you taught me when I was little."],
+               ['left', "I got to learn more about you and Grandpa, and I must say it's really sweet hearing about your love story. I guess I just want to do it again,"],
+               ['left', "but instead of just making one panel for a class project, I want to make lots of them."],
+               ['left', "And, I want them all to be from stories about you and Grandpa, just like my bike."],
+               ['right', "Oh! Well, that's sweet of you dear. Not many kids your age would think of doing anything sentimental like that, but I think it's a wonderful idea."],
+               ['left', "Really?"],
+               ['right', "Why certainly! If you want, we can start right now."],
+               ['left', "That would be great!"],
+               ['shift', game.config.height * 5/6],
+               ['right', "Alright then, let me think… what's a good story to tell..."],
+               ['left', "Got any summer ones?"],
+               ['right', "As a matter of a fact, I do. I can tell you about the time I took your grandpa fishing."],
+               ['end', "more stories!"]
             ], true)
-        } else if (this.boxBundle.scriptFinished === "Choice1") {
+        } else if (this.boxBundle.scriptFinished === "more stories!") {
             this.boxBundle.remove();
-            // INSERT TIMER SOUND EFFECT
             this.boxBundle = new dialogBoxBundle(this, [
-                ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
-                ['hide', 'right'],
-                ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
-                ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
-                ['hide', 'left'],
-                ['pause', 3000],
-                ['right', "I don't see you sewing."],
-                ['left', "I just don't know what to make."],
-                ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
-                ['left', "But honestly, I'm a little stuck on what to do."],
-                ['right', "Lots of things have stories hon, you just gotta pick one that you like."],
-                ['left', "Yeah, but she said they have to be real stories, not made-up ones."],
-                ['right', "Well, you could make something for our family. That's a real story."],
-                ['left', "Yeah, you're right."],
-                ['left', "You know what I could do, I could make something that's about you!"],
-                ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
-                ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
-                ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
-                ['end', "Choice2"]
-            ], true)
-        } else if (this.boxBundle.scriptFinished === "Choice2") {
-            this.boxBundle.remove()
-            this.boxBundle.shiftFocus(game.config.height * 5/6);
-            this.boxBundle = new dialogBoxBundle(this, [
-                ['right', "Hmm… now what would be a good one to tell. . ."],
-                ['right', "Oh, I know, I'll tell you about the time that we first met."],
-                ['left', "Didn't you guys grow up around the corner from each other?"],
-                ['right', "We were always right near each other since the school yard was across the street from my house."],
-                ['right', "And all the kids from the neighborhood would play games together over there."],
-                ['shift', game.config.height * 5/6],
+                ['left', "Didn’t you used to go hunting and stuff too?"],
                 ['puzzle'],
-                ['center', "But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally."],
-                ['center', "She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do."],
-                ['center', "I distinctly remember that we were on our way back from downtown, and as we were biking, this kid that I'd never met before peeled out with his bike in front of us."],
-                ['center', "We had to brake as quick as we could, otherwise we would have gone barreling into him. We were both scared to death of crashing, but he just left, snickering as he biked away."],
-                ['center', "Sally and I couldn't believe that this kid was being such a jerk!"],
-                ['center', "But I probably wouldn't remember this so well if this wasn't the start of a pattern."],
-                ['center', "Every time Sally and I came biking back from downtown, your grandpa would come flying out from all different spots along the way and nearly make us crash every single time."],
-                ['left', "Did he ever make you crash?"],
+                ['right', "I did as a matter of fact. I used to hunt a lot of ducks,"],
+                ['right', "and I would go bass fishing in the summer, but your grandpa was an entirely different story."],
+                ['center', "He played all the sports in school, but he was totally clueless when it came to any outdoor sports like that. I distinctly remember there had been a lot of rain that spring, and the Sacramento River was swelling up real high."],
+                ['center', "When that happened, people usually parked their boats in the nearby channels, which were not too far from my house."],
+                ['center', "Now, I myself did not have a boat, but in those days, people wouldn’t actually lock their boats when they tied them to the docks, so all I had to do was unbolt the chain. And bam, I had a boat."],
+                ['left', "You would steal boats?"],
+                ['right', "No, not steal them. I just borrowed them when I knew people wouldn’t miss them."],
+                ['left', "Haha, I never knew you were so crazy when you were young."],
+                ['right', "That’s not even half of it, hon. But, back to the story."],
                 ['hide', 'left'],
-                ['center', "He did once actually."],
-                ['center', "We were on our way back from the movies, and he misjudged how close he was to my bike."],
-                ['center', "Sally saw him coming and was able to stop in time, but he turned too sharply and sent me flying over my handlebars. I got all kinds of scrapes on my arms and knees."],
-                ['center', "Well, when my older brother saw me in that state, he demanded to know what had happened to me. And when I told him about your grandpa and what he had been doing, he told me to tell him the next time Sally and I wanted to go biking and he would come with us."],
-                ['center', "So we did, and when your grandpa tried to peel out in front of us again, my brother got so mad at him."],
-                ['center', "He told your grandpa that if he ever tried to do that again, he would kick the crap out of him."],
-                ['center', "Your grandpa never tried it again."],
+                ['hide', 'right'],
+                ['center', "Your grandpa and I had just started dating, so we were about your age, probably a few years older. I thought it might be a fun idea to take him one time, especially since he had never been fishing in his life. "],
+                ['center', "So, we snuck out about mid-afternoon and took the chain off of one of the boats and snagged the ores. I rowed us to one of the good spots I knew in the channel for fishing, and I started to set up my stuff."],
+                ['center', "Well, your grandpa didn’t even know the difference between a bobber and a jig, so I guess I set up all our stuff."],
+                ['center', "But once I had done that, your grandpa tried to make a really big cast."],
+                ['center', "I’m not sure if he was trying to impress me, or what was going through his mind, but he flung the rod back as far as he could, and launched the line so far he got it completely entangled in a tree."],
+                ['center', "But that’s not even the worse part."],
+                ['center', "He got it entangled so badly that the bobber was wrapped around one of the main branches several times. "],
+                ['center', "That might not seem like a big deal, until you consider the fact that we were floating on probably 20-foot-deep water, and that branch was about 10 feet in the air above our heads."],
+                ['center', "But you know your grandpa, he was going to prove to me that he was going to get it down himself. So stubborn."],
+                ['left', "Well, did he?"],
+                ['center', "He did, but not without just about giving me a heart attack. At first, he thought it was a good idea at first to jump and try to reach it from the boat, which started shaking the rowboat so badly we nearly capsized."],
+                ['center', "But, when he realized that wasn’t going to work, he hopped out of the boat and swam to the bank. Once he got there, he climbed up the tree to reach the branch and untangled the rod while I held it."],
+                ['center', "On his way back though, he jumped out of the tree into the water, and got me absolutely soaked."],
+                ['center', "He nearly tipped us over again trying to get back in the boat, and by that point I’m pretty sure he had scared all the bass away."],
                 ['hide', 'center'],
-                ['left', "Haha! That's a great story Grandma, my class is going to think that's hilarious."],
-                ['right', "I'm glad you think so, and it looks like you got some inspiration for what to embroider."],
-                ['left', "I sure did!"],
-                ['right', "Alright then, I'll be quiet and let you finish. Just let me know when you are done."],
-                ['left', "Will do."],
-                ['end', 'Storytime']
-            ], true)
-
-        } else if (this.boxBundle.scriptFinished === 'Storytime') {
+                ['right', "The whole time I just kept thinking to myself,"],
+                ['right', "\'We are definitely going to flip this boat and drown\'"],
+                ['right', "It's a miracle we didn't."],
+                ['left', "I think it’s safe to say Grandpa wasn’t much of a fisherman."],
+                ['right', "He was not a fisherman by any means. With all those shenanigans we were lucky we made it back by dark."],
+                ['right', "However, I think the icing on the cake for that trip was when yourgrandpa came over to my house the next day, with a horrible case of poison oak."],
+                ['right', "I think he got it trying to get the rod down, but he had rashes all over his arms and legs."],
+                ['right', "The whole thing was a laugh a minute."],
+                ['left', "Probably not for Grandpa though."],
+                ['right', "*She Chuckles*"],
+                ['right', "Certainly not for your grandfather."],
+                ['left', "This is great Grandma! I definitely got some inspiration for my next design."],
+                ['right', "Good, I’m glad. I’ll let you take your time with it now, just let me know when you are finished."],
+                ['end', 'storytime']
+            ], false)
+        } else if (this.boxBundle.scriptFinished === 'storytime') {
             this.finishedDialog = true;
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
