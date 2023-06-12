@@ -5,6 +5,10 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
+
+        // Set Custom Mouse Cursor
+        this.input.setDefaultCursor('url(assets/Scene2/Scene2Cursor.cur), pointer');
+
         var musicConfig = {
             mute: false,
             volume: 0.5,
@@ -114,7 +118,7 @@ class SecondMeeting extends Phaser.Scene {
                ['left', "Ooo, lemonade sounds great!"],
                ['right', "You've got it!"],
                ['pause', 1000],
-               ['image', 0, 0, 'lemonade', .3],
+               ['image', game.config.width * 2/5, game.config.height/6, 'lemonade', .2],
                ['right', "So, when are you going to tell me about that bundle you are carrying around."],
                ['left', "Oh, I almost forgot! I brought back my embroidery project from my home economics class."],
                ['right', "Was that the one you were working on during winter break?"],

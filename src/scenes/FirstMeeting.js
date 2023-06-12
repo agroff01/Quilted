@@ -5,6 +5,10 @@ class FirstMeeting extends Phaser.Scene {
 
 
     create() {
+
+        // Set Custom Mouse Cursor
+        this.input.setDefaultCursor('url(assets/Scene1/Scene1Cursor.cur), pointer');
+
         var musicConfig = {
             mute: false,
             volume: 0.0075,
@@ -78,7 +82,7 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-            ['end', "Choice2"]
+            ['end', "Intro"]
         ], true)
 
         this.introTextComplete = false;
@@ -118,7 +122,7 @@ class FirstMeeting extends Phaser.Scene {
                 ['hide', 'left'],
                 ['pause', 3000],
                 ['right', "I don't see you sewing."],
-                ['image', game.config.width/4, game.config.height/6, 'cookies', .2],
+                ['image', game.config.width/6, game.config.height/7, 'cookies', .275],
                 ['left', "I just don't know what to make."],
                 ['left', "My teacher told me we needed to embroider something that has meaning, so that we can share it with the other kids in class."],
                 ['left', "But honestly, I'm a little stuck on what to do."],
@@ -141,9 +145,9 @@ class FirstMeeting extends Phaser.Scene {
                 ['right', "We were always right near each other since the school yard was across the street from my house."],
                 ['right', "And all the kids from the neighborhood would play games together over there."],
                 ['shift', game.config.height * 5/6],
-                ['puzzle'],
                 ['center', "But, the first time I encountered your grandpa was when I was riding my bike with my friend Sally."],
                 ['center', "She was my neighbor, and back in those days you could just ride around everywhere all over town, so that's what we'd do."],
+                ['puzzle'],
                 ['center', "I distinctly remember that we were on our way back from downtown, and as we were biking, this kid that I'd never met before peeled out with his bike in front of us."],
                 ['center', "We had to brake as quick as we could, otherwise we would have gone barreling into him. We were both scared to death of crashing, but he just left, snickering as he biked away."],
                 ['center', "Sally and I couldn't believe that this kid was being such a jerk!"],
