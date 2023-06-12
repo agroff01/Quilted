@@ -5,6 +5,18 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
+        var musicConfig = {
+            mute: false,
+            volume: 0.5,
+            //volume: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+
+        this.song = this.sound.add("firstMeetingBGMusic");
+        this.song.play(musicConfig);
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -16,7 +28,8 @@ class SecondMeeting extends Phaser.Scene {
 
         // line graphics from point to point
         this.isDragging = false;
-        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
+        this.stitchColor = 0x98b55a;
+        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, this.stitchColor).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
         this.linePosition = {x: 0, y:0};
@@ -25,7 +38,9 @@ class SecondMeeting extends Phaser.Scene {
         this.currDot = 0;
         this.points = [];
         this.connections = [];
-
+        this.numPointsRemoval = 2;
+        this.touchedNothing = false;
+ 
         this.finishedConnecting = false;
 
         // image choices
@@ -80,19 +95,9 @@ class SecondMeeting extends Phaser.Scene {
 
         this.placedPoints = false;
         this.placedImage = false;
+        this.finishedPlacedImage = false;
 
-        this.song = this.sound.add("firstMeetingBGMusic");
-        
-        var musicConfig = {
-            mute: false,
-            volume: 0.0075,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-         }
-
-        this.song.play(musicConfig);
+        this.addedHelp = false;
 
         this.fadeout = null;
         this.directions = this.add.bitmapText(450, 800, "CraftyGirls24", "Click with the mouse to connect the pattern.").setOrigin(0.5).setAlpha(0);
@@ -200,6 +205,22 @@ class SecondMeeting extends Phaser.Scene {
             }, null, this)
         }
 
+        // show helper text once puzzle is active
+        if (!this.addedHelp && this.puzzleIsActive) {
+            this.helpText = this.add.bitmapText(game.config.width / 2, game.config.height / 1.85, "CraftyGirls24", "Click and drag from point to point").setOrigin(0.5, 0.5);
+            this.tweens.add({
+                targets: this.helpText,
+                alpha: {from: 0, to: 1},
+                ease: 'Sine.InOut',
+                duration: 2000,
+                yoyo: true,
+                loop: -1,
+
+            });
+
+            this.addedHelp = true;
+        }
+
         // remove all points and lines, show bike when finished 
         if (!this.placedImage && this.finishedConnecting == true) {
             for (let i = 0; i < this.connections.length; ++i) {
@@ -218,12 +239,12 @@ class SecondMeeting extends Phaser.Scene {
             this.tween = this.tweens.add({
                 targets: this.bike,
                 alpha: {from: 0, to: 1},
-                ease: 'Sine.InOut',
+                ease: 'Sine.easeIn',
                 duration: 3000,
-                onComplete: () => {this.placedImage = true;},
+                onComplete: () => {this.finishedPlacedImage = true;},
             });
 
-            // this.placedImage = true;
+             this.placedImage = true;
         }
 
         // add points to scene
@@ -240,22 +261,23 @@ class SecondMeeting extends Phaser.Scene {
             this.placedPoints = true;
         }
 
-        // TODO: check if finished connecting lines before dialog
         // go to next scene once finished dialog and drawing 
-        if (this.placedImage && this.finishedDialog) {
+        if (this.finishedPlacedImage && this.finishedDialog) {
             // check if song is playing to stop it
-            if (this.song.isPlaying) {
-                this.song.stop();
-            }
+            this.tweens.add({
+                targets: this.song,
+                volume: {from: this.song.volume, to: 0},
+                duration: 3000,
+                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
+            });
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
-                    this.scene.start('toBeContinued');
+                    this.scene.start('secondMeeting');
                 })
             })
         }
 
     }
-
 }

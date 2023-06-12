@@ -5,7 +5,6 @@ class FirstMeeting extends Phaser.Scene {
 
 
     create() {
-
         var musicConfig = {
             mute: false,
             volume: 0.0075,
@@ -23,13 +22,13 @@ class FirstMeeting extends Phaser.Scene {
         
         this.puzzleIsActive = false;
         this.finishedDialog = false;
-        this.random = false;
 
         this.graphics = this.add.graphics();
 
         // line graphics from point to point
         this.isDragging = false;
-        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, 0x8bc34a).setOrigin(0);
+        this.stitchColor = 0x70c2db;
+        this.stitch = this.add.line(0, 0, 0, 0, 0, 0, this.stitchColor).setOrigin(0);
         this.stitch.setLineWidth(2);
         this.stitch.visible = false;
         this.linePosition = {x: 0, y:0};
@@ -63,9 +62,8 @@ class FirstMeeting extends Phaser.Scene {
 
         // mouse input to make lines
         this.input.on('pointerdown', startDrag);
-        this.input.on('pointerup', endDrag);
         this.input.on('pointermove', drag);
-
+        this.input.on('pointerup', endDrag);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -80,7 +78,6 @@ class FirstMeeting extends Phaser.Scene {
             ['right', "Well, you're certainly not wrong there."],
             ['right', "I've got just about everything a seamstress could ever want or need crammed into that thing."],
             ['left', "I'll say."],
-//            ['end', "Intro"]
             ['end', "Choice2"]
         ], true)
 
@@ -88,6 +85,7 @@ class FirstMeeting extends Phaser.Scene {
 
         this.placedPoints = false;
         this.placedImage = false;
+        this.finishedPlacedImage = false;
 
         this.addedHelp = false;
 
@@ -218,8 +216,10 @@ class FirstMeeting extends Phaser.Scene {
                 alpha: {from: 0, to: 1},
                 ease: 'Sine.easeIn',
                 duration: 3000,
-                onComplete: () => {this.placedImage = true;},
+                onComplete: () => {this.finishedPlacedImage = true;},
             });
+
+            this.placedImage = true;
         }
 
         // add points to scene
@@ -237,7 +237,7 @@ class FirstMeeting extends Phaser.Scene {
         }
 
         // go to next scene once finished dialog and drawing 
-        if (this.placedImage && this.finishedDialog) {
+        if (this.finishedPlacedImage && this.finishedDialog) {
             // check if song is playing to stop it
             this.tweens.add({
                 targets: this.song,
@@ -267,7 +267,6 @@ function startDrag(pointer, gameObject) {
     // if pointer is in the dialog area, ignore it
     if (pointer.y > 600) return 
 
-    console.log('starting: ', this.scene.currDot);
     // don't connect anymore once connected all dots
     if (this.scene.finishedConnecting) {
         return;
@@ -279,6 +278,8 @@ function startDrag(pointer, gameObject) {
         this.scene.touchedNothing = true;
         return;
     }
+
+    console.log('starting: ', this.scene.currDot);
 
     // set the starting of the line at the game object's x and y axis
     this.scene.linePosition.x = gameObject[0].x;
@@ -296,6 +297,15 @@ function startDrag(pointer, gameObject) {
     this.scene.currDot = (this.scene.currDot + 1) % this.scene.points.length;
 
     this.scene.points[this.scene.currDot].setFrame('hole 1').setVisible(true);
+
+    if (this.scene.points[this.scene.currDot].visible) {
+        console.log('next dort is visisbl2');
+    } else if  (!this.scene.points[this.scene.currDot].visible) {
+        console.log('next dort is not visisbl2');
+
+    }
+    console.log('HELLO??');
+    console.log('next scene visibility: ', this.scene.points[this.scene.currDot].visible);
     console.log('next dot: ', this.scene.points[this.scene.currDot].x, this.scene.points[this.scene.currDot].y);
 }
 
@@ -316,9 +326,7 @@ function drag(pointer) {
     console.log('dragging');
 
     // move the line with the mouse
-    if (this.scene.isDragging) {
-        this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
-    }
+    this.scene.stitch.setTo(0, 0, pointer.x - this.scene.linePosition.x, pointer.y - this.scene.linePosition.y);
 }
 
 function endDrag(pointer, gameObject) {
@@ -450,7 +458,7 @@ function endDrag(pointer, gameObject) {
 
     this.scene.isDragging = false;
 
-    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, 0xe20177, 1).setOrigin(0));
+    this.scene.connections.push(new Phaser.GameObjects.Line(this.scene, 0, 0, this.scene.linePosition.x, this.scene.linePosition.y, gameObject[0].x, gameObject[0].y, this.scene.stitchColor, 1).setOrigin(0));
     // show line from previous point to current point
     this.scene.add.existing(this.scene.connections[this.scene.connections.length - 1]) 
 
