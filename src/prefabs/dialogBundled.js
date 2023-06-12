@@ -26,7 +26,6 @@ class dialogBoxBundle {
         if (this.scriptIndex == -1) this.cycleScript();
         if (this.activeBox.isWaiting && !this.activeBox.isTweening) this.activeBox.createArrowBounce();
 
-        console.log(this.leftBox.displayList);
         
         // Code for if we want a pointer CLICK to also advance the dialog
 
@@ -173,6 +172,21 @@ class dialogBoxBundle {
 
     remove(instantly = false) {
         
+        if(instantly) {
+            this.leftBox.image.removeFromDisplayList();
+            this.leftBox.boxText.removeFromDisplayList();
+            this.leftBox.waitArrow.removeFromDisplayList();
+
+            this.rightBox.image.removeFromDisplayList();
+            this.rightBox.boxText.removeFromDisplayList();
+            this.rightBox.waitArrow.removeFromDisplayList();
+
+            this.centerBox.image.removeFromDisplayList();
+            this.centerBox.boxText.removeFromDisplayList();
+            this.centerBox.waitArrow.removeFromDisplayList();
+            this.centerBox.oldText.removeFromDisplayList();
+        }
+
         if (!(this.leftBox.isHidden === true || this.leftBox.alpha === 0)) this.leftBox.hide(instantly)
         if (!(this.rightBox.isHidden === true || this.rightBox.alpha === 0))this.rightBox.hide(instantly)
         if (!(this.centerBox.isHidden === true || this.centerBox.alpha === 0))this.centerBox.hide(instantly)

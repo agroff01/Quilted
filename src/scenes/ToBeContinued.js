@@ -27,8 +27,8 @@ class ToBeContinued extends Phaser.Scene {
             this.time.delayedCall(9000, () => {
                 this.cam = this.cameras.main.fadeOut(4000, 0, 0, 0);
                 
-                this.cam.on('camerafadeoutcomplete', function () {
-                    this.start('scene2');
+                this.cam.on('camerafadeoutcomplete', () => {
+                    this.scene.start('scene2');
                 })
             })
             

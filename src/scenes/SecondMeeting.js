@@ -147,8 +147,8 @@ class SecondMeeting extends Phaser.Scene {
                 ['center', "When that happened, people usually parked their boats in the nearby channels, which were not too far from my house."],
                 ['center', "Now, I myself did not have a boat, but in those days, people wouldn't actually lock their boats when they tied them to the docks, so all I had to do was unbolt the chain. And bam, I had a boat."],
                 
-                ['shift', 'right', (game.config.height / 2) - 10],
-                ['shift', 'left', (game.config.height / 2) - 10],
+                ['shift', 'right', (game.config.height / 2) - 30],
+                ['shift', 'left', (game.config.height / 2) - 30],
                 ['left', "You would steal boats?"],
                 ['right', "No, not steal them. I just borrowed them when I knew people wouldn't miss them."],
                 ['left', "Haha, I never knew you were so crazy when you were young."],
@@ -156,6 +156,7 @@ class SecondMeeting extends Phaser.Scene {
                 ['shift', game.config.height * 5/6],
                 ['hide', 'left'],
                 ['hide', 'right'],
+                ['shift', game.config.height * 5/6],
 
                 ['center', "Your grandpa and I had just started dating, so we were about your age, probably a few years older. I thought it might be a fun idea to take him one time, especially since he had never been fishing in his life. "],
                 ['center', "So, we snuck out about mid-afternoon and took the chain off of one of the boats and snagged the ores. I rowed us to one of the good spots I knew in the channel for fishing, and I started to set up my stuff."],
@@ -172,6 +173,8 @@ class SecondMeeting extends Phaser.Scene {
                 ['center', "On his way back though, he jumped out of the tree into the water, and got me absolutely soaked."],
                 ['center', "He nearly tipped us over again trying to get back in the boat, and by that point I'm pretty sure he had scared all the bass away."],
                 ['hide', 'center'],
+                ['shift', 'left', game.config.height * 5/6],
+                ['shift', 'right', game.config.height * 5/6],
                 ['right', "The whole time I just kept thinking to myself,"],
                 ['right', "\'We are definitely going to flip this boat and drown\'"],
                 ['right', "It's a miracle we didn't."],
