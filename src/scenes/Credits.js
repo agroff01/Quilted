@@ -5,8 +5,9 @@ class Credits extends Phaser.Scene {
 
     create() {
 
-        this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'endCreditBack').setOrigin(0.5, 0.5).setScale(0.24);
-        this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'endCreditBack').setOrigin(0.5, 0.5).setScale(0.24);
+        this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'endCreditBack').setOrigin(0.5, 0.5).setScale(0.24);
+        //this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'endCreditBack').setOrigin(0.5, 0.5).setScale(0.24);
+        this.background.scaleY = .5
         
         this.add.bitmapText(game.config.width / 2, game.config.height / 3, "CraftyGirls24", 'Thank you for playing!\n\nClick on the screen again to restart')
         .setOrigin(0.5, 0.5)
