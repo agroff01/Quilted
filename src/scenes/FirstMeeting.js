@@ -185,7 +185,7 @@ class FirstMeeting extends Phaser.Scene {
             this.helpText = this.add.bitmapText(game.config.width / 2, game.config.height / 1.85, "CraftyGirls24", "Click and drag from point to point").setOrigin(0.5, 0.5);
             this.tweens.add({
                 targets: this.helpText,
-                alpha: {from: 0, to: 1},
+                alpha: {from: 0.5, to: 1},
                 ease: 'Sine.InOut',
                 duration: 2000,
                 yoyo: true,
@@ -243,13 +243,13 @@ class FirstMeeting extends Phaser.Scene {
                 targets: this.song,
                 volume: {front: this.song.volume, to: 0},
                 duration: 3000,
-                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
+                //onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
             });
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
-                    this.scene.start('secondMeeting');
+                    this.scene.start('inBetween');
                 })
             })
         }

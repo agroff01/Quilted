@@ -5,7 +5,10 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
-        var musicConfig = {
+
+        this.cam = this.cameras.main.fadeIn(1000, 0, 0, 0);
+
+        /*var musicConfig = {
             mute: false,
             volume: 0.5,
             //volume: 1,
@@ -16,7 +19,7 @@ class SecondMeeting extends Phaser.Scene {
         }
 
         this.song = this.sound.add("firstMeetingBGMusic");
-        this.song.play(musicConfig);
+        this.song.play(musicConfig);*/
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'secondMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -274,7 +277,7 @@ class SecondMeeting extends Phaser.Scene {
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
-                    this.scene.start('secondMeeting');
+                    this.scene.start('toBeContinued');
                 })
             })
         }
