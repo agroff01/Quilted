@@ -370,7 +370,10 @@ function endDrag(pointer, gameObject) {
     // remove num of connections if released mouse not on next dot
     if (gameObject == 0 || (this.scene.points[this.scene.currDot] != gameObject[0] && !this.scene.points[this.scene.currDot + 1].visible)) {
         if (this.scene.touchedNothing) {
-            this.scene.touchedNothing = false
+            this.scene.touchedNothing = false;
+            if (gameObject == 0) {
+                return;
+            }
         }
 
         this.scene.stitch.visible = false;
