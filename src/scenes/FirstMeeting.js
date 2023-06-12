@@ -12,14 +12,16 @@ class FirstMeeting extends Phaser.Scene {
         var musicConfig = {
             mute: false,
             volume: 0.0075,
+            //volume: 1,
             detune: 0,
             seek: 0,
             loop: true,
             delay: 0
         }
 
-        this.song = this.sound.add("firstMeetingBGMusic");
-        this.song.play(musicConfig);
+        this.song = this.sound.add("firstMeetingBGMusic", musicConfig);
+        this.song.play();
+
 
         this.background = this.add.image(game.config.width / 2, game.config.height / 3.9, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
         this.background = this.add.image(game.config.width / 2, game.config.height / 1.295, 'firstMeetingBackground').setOrigin(0.5, 0.5).setScale(0.24);
@@ -75,7 +77,7 @@ class FirstMeeting extends Phaser.Scene {
         this.boxBundle = new dialogBoxBundle(this, [
             ['left', "Okay, I think I got everything out of the closet. Is there anything else that you have?"],
             ['right', "It should all be in my sewing kit."],
-            // TODO: open kit sound
+            ['sound', 'open_kit'],
             ['left', "Wow, this is a lot of stuff. Ms. Curry usually only has just embroidery floss and needles."],
             ['right', "I can't believe your teacher is expecting everyone to go out and buy a complete set for your project."],
             ['left', "She's not, but I figured you would have extra stuff that would make my project look good."],
@@ -109,18 +111,23 @@ class FirstMeeting extends Phaser.Scene {
                ['left', "I just need to embroider some stuff onto this quilt I've been making in class."],
                ['right', "I see. It's nice that your teacher is having you kids practice sewing in class, it is kind of becoming a lost art."],
                ['left', "It is, unfortunately, but at least I had the best teacher in the whole world."],
+               ['sound', 'grandma_chuckle'],
                ['right', " ~ Your Grandmother chuckles at your praise. ~ "],
                ['end', "Choice1"]
             ], true)
         } else if (this.boxBundle.scriptFinished === "Choice1") {
             this.boxBundle.remove();
             this.boxBundle = new dialogBoxBundle(this, [
+                ['sound', 'ding'],
                 ['right', "Oh, now, give me just one second to get those cookies out of the oven. It'll let you get started on your project."],
                 ['hide', 'right'],
+                ['sound', 'thinking'],
                 ['left', "Now what am I going to put on this quilt? Hmmm… I could just embroider something random . . ."],
                 ['left', "But Ms. Curry said we needed to embroider something that has a story. How am I going to do that?"],
                 ['hide', 'left'],
+                ['sound', 'steps'],
                 ['pause', 3000],
+                ['sound', 'glass_down'],
                 ['right', "I don't see you sewing."],
                 ['image', game.config.width/6, game.config.height/7, 'cookies', .275],
                 ['left', "I just don't know what to make."],
@@ -133,6 +140,7 @@ class FirstMeeting extends Phaser.Scene {
                 ['left', "You know what I could do, I could make something that's about you!"],
                 ['right', "Well now that's sweet, are you sure you want to make it about me though?"],
                 ['left', "I'm certain of it. How about you tell me a story about you and Grandpa?"],
+                ['sound', 'grandma_chuckle'],
                 ['right', " *She Chuckles* I can most certainly do that. I have lots of those. Get your needle ready."],
                 ['end', "Choice2"]
             ], true)
@@ -211,6 +219,7 @@ class FirstMeeting extends Phaser.Scene {
             }
 
             this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+            this.placedImage = true;
 
             // delay bike to initially show on screen
             this.time.delayedCall(1, () => {this.bike.setVisible(true)});
@@ -245,10 +254,12 @@ class FirstMeeting extends Phaser.Scene {
             // check if song is playing to stop it
             this.tweens.add({
                 targets: this.song,
-                volume: {front: this.song.volume, to: 0},
+                //volume: {front: this.song.volume, to: 0},
+                volume: {from: this.song.volume, to: 0},
                 duration: 3000,
                 onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
             });
+//            this.sound.stopByKey('firstMeetingBGMusic');
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
@@ -334,8 +345,6 @@ function drag(pointer) {
 }
 
 function endDrag(pointer, gameObject) {
-    console.log('pointter.x: ', pointer.x, ' pointer.y ', pointer.y);
-
     // return if puzzle isn't active, finished connecting
     if (!this.scene.puzzleIsActive || this.scene.finishedConnecting) {
         return;
