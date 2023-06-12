@@ -96,9 +96,6 @@ class FirstMeeting extends Phaser.Scene {
     }
 
     update() { 
-        // console.log(this.boxBundle.scriptFinished)
-        // console.log("unusable : " + this.boxBundle.unusable)
-        // if (Phaser.Input.Keyboard.JustDown(this.cursors.right)) this.boxBundle.shiftFocus(game.config.height * 5/6)
         
         // Dialog Box Update
         this.boxBundle.update();
@@ -139,7 +136,6 @@ class FirstMeeting extends Phaser.Scene {
             ], true)
         } else if (this.boxBundle.scriptFinished === "Choice2") {
             this.boxBundle.remove()
-            this.boxBundle.shiftFocus(game.config.height * 5/6);
             this.boxBundle = new dialogBoxBundle(this, [
                 ['right', "Hmm… now what would be a good one to tell. . ."],
                 ['right', "Oh, I know, I'll tell you about the time that we first met."],
@@ -253,7 +249,7 @@ class FirstMeeting extends Phaser.Scene {
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
                 this.cam.on('camerafadeoutcomplete',  () => {
-                    this.scene.start('toBeContinued');
+                    this.scene.start('secondMeeting');
                 })
             })
         }
