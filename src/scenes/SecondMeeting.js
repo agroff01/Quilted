@@ -5,16 +5,14 @@ class SecondMeeting extends Phaser.Scene {
 
 
     create() {
-
         // Set Custom Mouse Cursor
         this.input.setDefaultCursor('url(assets/Scene2/Scene2Cursor.cur), pointer');
-
 
         this.cam = this.cameras.main.fadeIn(1000, 0, 0, 0);
 
         /*var musicConfig = {
             mute: false,
-            volume: 0.5,
+            volume: 0.0075,
             //volume: 1,
             detune: 0,
             seek: 0,
@@ -51,22 +49,26 @@ class SecondMeeting extends Phaser.Scene {
         this.finishedConnecting = false;
 
         // image choices
-        this.bike;
+        this.fish;
 
         // point coords, even index: x coordinate, odd index: y coordinate
         this.coords = [
-            460, 50,
-            350, 60,
-            275, 245,
-            110, 275,
-            160, 465,
-            300, 385,
-            445, 350, 
-            555, 390,
-            695, 485,
-            795, 335,
-            660, 250,
-            585, 150
+            220, 470,
+            215, 380,
+            330, 385,
+            340, 320,
+            230, 295,
+            260, 170,
+            345, 65,
+            445, 30,
+            645, 60,
+            415, 125,
+            345, 170,
+            475, 155,
+            550, 203,
+            615, 290,
+            610, 380,
+            515, 410,
         ]
 
         // mouse input to make lines
@@ -210,9 +212,10 @@ class SecondMeeting extends Phaser.Scene {
             this.finishedDialog = true;
             this.time.delayedCall(3000, () => {
                 this.boxBundle.remove()
-                this.time.delayedCall(1500, () => {
-                    this.directions.setAlpha(1);
-                });
+                // had to comment out becuse the directions were showing before going to the next scene
+                //this.time.delayedCall(1500, () => {
+                //    this.directions.setAlpha(1);
+                //});
             }, null, this)
         }
 
@@ -242,13 +245,13 @@ class SecondMeeting extends Phaser.Scene {
                 this.points[i].destroy();
             }
 
-            this.bike = this.add.image(game.config.width / 2, game.config.height / 3.75, 'bike').setVisible(false).setOrigin(0.5, 0.5).setScale(0.45);
+            this.fish = this.add.image(game.config.width / 2, game.config.height / 3.75, 'fish').setVisible(false).setOrigin(0.5, 0.5).setScale(0.35);
 
             // delay bike to initially show on screen
-            this.time.delayedCall(1, () => {this.bike.setVisible(true)});
+            this.time.delayedCall(1, () => {this.fish.setVisible(true)});
 
             this.tween = this.tweens.add({
-                targets: this.bike,
+                targets: this.fish,
                 alpha: {from: 0, to: 1},
                 ease: 'Sine.easeIn',
                 duration: 3000,
@@ -262,11 +265,11 @@ class SecondMeeting extends Phaser.Scene {
         if (!this.placedPoints && this.puzzleIsActive) {
             for (let i = 0; i < this.coords.length; i += 2) {
                 if (i == 0) {
-                    this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 1').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));//.setScale(0.025));
+                    this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'Scene_2_Hole', 'hole 1').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));//.setScale(0.025));
                     continue;
                 }
 
-                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025));
+                this.points.push(this.add.sprite(this.coords[i], this.coords[i + 1], 'Scene_2_Hole', 'hole 0').setOrigin(0.5, 0.5).setInteractive().setScale(0.025).setVisible(false));
             }
 
             this.placedPoints = true;
@@ -275,12 +278,12 @@ class SecondMeeting extends Phaser.Scene {
         // go to next scene once finished dialog and drawing 
         if (this.finishedPlacedImage && this.finishedDialog) {
             // check if song is playing to stop it
-            this.tweens.add({
-                targets: this.song,
-                volume: {from: this.song.volume, to: 0},
-                duration: 3000,
-                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
-            });
+//            this.tweens.add({
+//                targets: this.song,
+//                volume: {from: this.song.volume, to: 0},
+//                duration: 3000,
+//                onComplete: () => {this.sound.stopByKey('firstMeetingBGMusic');},
+//            });
 
             if (!this.fadeout) this.fadeout = this.time.delayedCall(3000, () => {
                 this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);

@@ -54,13 +54,13 @@ class Load extends Phaser.Scene {
         this.load.image('cookies', './Scene1/Cookie_Plate.png');
         this.load.image('lemonade', './Scene2/Lemonade_Glass.png');
 
-
         // dialog  images
         this.load.image('bike', './Scene1/Bike_Final.png');
         this.load.image('fish', './Scene2/Fishing_Rod_Final.png');
 
         // holes
-        this.load.atlas('hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
+        this.load.atlas('Scene_1_Hole', './Scene1/Fabric_Scene_1_Hole_Sheet.png', './Scene1/Fabric_Scene_1_Hole_Sheet.json');
+        this.load.atlas('Scene_2_Hole', './Scene2/Fabric_Scene_2_Hole_Sheet.png', './Scene2/Fabric_Scene_2_Hole_Sheet.json');
 
         // fonts
         this.load.bitmapFont("CraftyGirls24", "Fonts/dialog_26.png", "Fonts/dialog_26.xml");
